@@ -63,7 +63,7 @@ Zephyr.addKeysToBeMonitored("MyFirstKey", "MySecondKey", ...)
 
 Similarly, to remove monitoring for certain keys, simply pass the keys you want to this variadic function:
 ```Swift
-Zephyr.removeKeysToBeMonitored("MyFirstKey", "MySecondKey", ...)
+Zephyr.removeKeysFromBeingMonitored("MyFirstKey", "MySecondKey", ...)
 ```
 
 ### Created and maintained by
