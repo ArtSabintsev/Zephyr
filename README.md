@@ -41,7 +41,7 @@ In Xcode, open your project:
 - Turn on iCloud Syncing
 - Under Services, make sure to check `Key-value storage`
 
-![How to turn on iCloud Key Value Store Syncing](https://github.com/ArtSabintsev/Harpy/blob/master/screenshot.png?raw=true "How to turn on iCloud Key Value Store Syncing")
+![How to turn on iCloud Key Value Store Syncing](https://github.com/ArtSabintsev/Zephyr/blob/master/screenshot.png?raw=true "How to turn on iCloud Key Value Store Syncing")
 
 Before performing each sync, Zephyr automatically checks to see if the data in NSUserDefaults or NSUbiquitousKeyValueStore is newer.
 
