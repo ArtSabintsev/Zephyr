@@ -25,7 +25,7 @@ Zephyr also has built in monitoring, so it can sync those keys you want monitore
 ```ruby
 pod 'Zephyr'
 ```
-- Add `import Zephyr` to any `.Swift` file that references FontBlaster via a CocoaPods installation.
+- Add `import Zephyr` to any `.Swift` file that references Zephyr via a CocoaPods installation.
 
 #### Manual Installation
 
