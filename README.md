@@ -17,7 +17,7 @@ Zephyr also has built in monitoring, so it can magically sync certain keys in th
 - [x] CocoaPods Support
 - [x] Syncs all your NSUserDefaults (if you wish)
 - [x] Syncs only specific keys in NSUserDefaults
-- [x] Monitors changes to existing keys and synchronizes them between NSUserDefaults and NSUbiquitousKeyValueStore
+- [x] Background monitoring and synchronizes between NSUserDefaults and NSUbiquitousKeyValueStore
 
 ### Installation Instructions
 
