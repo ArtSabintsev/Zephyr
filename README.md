@@ -32,7 +32,7 @@ pod 'Zephyr'
 1. [Download Zephyr](http://github.com/ArtSabintsev/Zephyr/archive/master.zip).
 2. Copy the `Zephyr.swift` into your project.
 
-### Setup Instructions
+### Setup Xcode
 
 In Xcode, open your project:
 - Click on your project
@@ -42,6 +42,8 @@ In Xcode, open your project:
 - Under Services, make sure to check `Key-value storage`
 
 ![How to turn on iCloud Key Value Store Syncing](https://github.com/ArtSabintsev/Zephyr/blob/master/screenshot.png?raw=true "How to turn on iCloud Key Value Store Syncing")
+
+### Integrate into your App
 
 Before performing each sync, Zephyr automatically checks to see if the data in NSUserDefaults or NSUbiquitousKeyValueStore is newer.
 
