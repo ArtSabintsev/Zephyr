@@ -10,14 +10,18 @@ Zephyr syncs all of your [NSUserDefaults](https://developer.apple.com/library/io
 Zephyr also has built in monitoring, so it can magically sync certain keys in the background as they change.
 
 ### Changelog
-#### 1.0.0
-- Initial Release, which means, there might be bugs! =p
+#### 1.1.0
+- `sync()` now takes a variadic parameter of type String. If you don't need to use it, just call `Zephyr.sync()`
+- Non-nil values for specific key synchronizations are now synced to/from iCloud
+- Added a lot more documentation
+- Cleaned up code
+- Updated README
 
 ### Features
 - [x] CocoaPods Support
 - [x] Syncs all your NSUserDefaults (if you wish)
 - [x] Syncs only specific keys in NSUserDefaults
-- [x] Background monitoring and synchronizes between NSUserDefaults and NSUbiquitousKeyValueStore
+- [x] Background monitoring and synchronization between NSUserDefaults and NSUbiquitousKeyValueStore
 
 ### Installation Instructions
 
@@ -35,12 +39,13 @@ pod 'Zephyr'
 ### Setup
 
 #### Turn on iCloud Sync in Xcode
-In Xcode, open your project:
-- Click on your project
+In Xcode, open your app's project/workspace file:
+- Click on your Project
 - Click on one of your Targets
 - Click on Capabilities
-- Turn on iCloud Syncing
+- Turn on iCloud syncing
 - Under Services, make sure to check `Key-value storage`
+- Repeat for all Targets (if necessary)
 
 ![How to turn on iCloud Key Value Store Syncing](https://github.com/ArtSabintsev/Zephyr/blob/master/screenshot.png?raw=true "How to turn on iCloud Key Value Store Syncing")
 
@@ -53,12 +58,12 @@ To sync all NSUserDefaults:
 Zephyr.sync()
 ```
 
-To sync a specific key:
+To sync a specific key or keys, simply pass those key/keys to the variadic function:
 ```Swift
-Zephyr.sync("MyKey")
+Zephyr.sync(MyFirstKey", "MySecondKey", ...)
 ```
 
-To monitor changes to specific keys in the background, simply pass the keys you want to this variadic function:
+To monitor changes to specific keys in the background, simply pass the keys you want to the variadic function:
 
 ```Swift
 Zephyr.addKeysToBeMonitored("MyFirstKey", "MySecondKey", ...)

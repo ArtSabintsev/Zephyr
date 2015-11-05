@@ -74,6 +74,7 @@ public class Zephyr: NSObject {
      Zephyr's initialization method.
 
      Do not call this method directly. Instead, call Zephyr.sync() to initialize synchronization.
+
      */
     override init() {
         super.init()
@@ -82,16 +83,16 @@ public class Zephyr: NSObject {
 
     /**
 
-     Zephyr's main method.
+     Zephyr's main synchronization method.
      
      Zephyr will synchronize all NSUserDefaults with NSUbiquitousKeyValueStore, depdending on what data is newer.
      
-     If a key is passed, only that key will be synchronized.
+     If one or more keys are passed, only those keys will be synchronized.
 
-     - parameter key: If you pass a key, only that key will be synchronized. If no key is passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.
+     - parameter keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.
 
      */
-    static func sync(key: String? = nil) {
+    static func sync(keys: String...) {
 
         defer {
             sharedInstance.addObservers()
@@ -99,31 +100,37 @@ public class Zephyr: NSObject {
 
         sharedInstance.removeObservers()
 
-        switch sharedInstance.newestDataByComparingLastSyncDates() {
+        switch sharedInstance.dataStoreWithLatestData() {
             
         case .Local:
 
-            guard let key = key else {
+            if keys.count > 0 {
+                sharedInstance.syncSpecificKeys(keys, dataStore: .Local)
+            } else {
                 sharedInstance.syncToCloud()
-                return
             }
-
-            let value = sharedInstance.ZephyrLocalStoreDictionary[key]
-            sharedInstance.syncToCloud(key: key, value: value)
 
         case .Remote:
 
-            guard let key = key else {
+            if keys.count > 0 {
+                sharedInstance.syncSpecificKeys(keys, dataStore: .Remote)
+            } else {
                 sharedInstance.syncFromCloud()
-                return
             }
 
-            let value = sharedInstance.ZephyrRemoteStoreDictionary[key]
-            sharedInstance.syncFromCloud(key: key, value: value)
         }
 
     }
 
+
+    /**
+
+     Add specific keys to be monitored in the background. Monitored keys will automatically
+     be synchronized between both data stores whenever a change is detected
+
+     - parameter keys: Pass one or more keys that you would like to begin monitoring.
+
+     */
     static func addKeysToBeMonitored(keys: String...) {
 
         for key in keys {
@@ -136,6 +143,13 @@ public class Zephyr: NSObject {
         }
     }
 
+    /**
+
+     Remove specific keys from being monitored in the background.
+
+     - parameter keys: Pass one or more keys that you would like to stop monitoring.
+
+     */
     static func removeKeysFromBeingMonitored(keys: String...) {
 
         for (index, key) in keys.enumerate() {
@@ -150,8 +164,32 @@ public class Zephyr: NSObject {
 
 }
 
-// MARK: Sync
+// MARK: Synchronizers
+
 private extension Zephyr {
+
+    /**
+
+     Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
+
+     - parameter keys: Array of leys to synchronize.
+     - parameter dataStore: Signifies if keys should be synchronized to/from iCloud.
+     
+     */
+    func syncSpecificKeys(keys: [String], dataStore: ZephyrDataStore) {
+
+        for key in keys {
+            switch dataStore {
+            case .Local:
+                let value = ZephyrLocalStoreDictionary[key]
+                syncToCloud(key: key, value: value)
+            case .Remote:
+                let value = ZephyrRemoteStoreDictionary[key]
+                syncFromCloud(key: key, value: value)
+            }
+        }
+
+    }
 
     /**
 
@@ -171,7 +209,7 @@ private extension Zephyr {
         // Sync all defaults to iCloud if key is nil, otherwise sync only the specific key/value pair.
         guard let key = key else {
             for (key, value) in ZephyrLocalStoreDictionary {
-                Zephyr.printStatus("Syncing Key '\(key)' with value '\(value)' TO iCloud.")
+                Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' TO iCloud.")
                 ubiquitousStore.setObject(value, forKey: key)
             }
 
@@ -181,10 +219,15 @@ private extension Zephyr {
         }
 
         if let value = value {
-            Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' TO iCloud.")
             ubiquitousStore.setObject(value, forKey: key)
-            ubiquitousStore.synchronize()
+            Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' TO iCloud.")
+        } else {
+            ubiquitousStore.setObject(nil, forKey: key)
+            Zephyr.printStatus("Synchronizing Key '\(key)' with value 'nil' TO iCloud.")
         }
+
+        ubiquitousStore.synchronize()
+
     }
 
     /**
@@ -215,51 +258,14 @@ private extension Zephyr {
         }
 
         if let value = value {
-            Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' FROM iCloud.")
             defaults.setObject(value, forKey: key)
-            defaults.synchronize()
-        }
-    }
-
-}
-
-
-// MARK: Helpers
-private extension Zephyr {
-
-    /**
-
-     Compares the last sync date between NSUbiquitousKeyValueStore and NSUserDefaults.
-     
-     If no data exists in NSUbiquitousKeyValueStore, then NSUbiquitousKeyValueStore will synchronize NSUserDefaults.
-     If no data exists in NSUserDefaults, then NSUserDefaults will synchronize NSUbiquitousKeyValueStore.
-
-     */
-
-    func newestDataByComparingLastSyncDates() -> ZephyrDataStore {
-
-        if let remoteDate = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate,
-            localDate = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate {
-
-                // If both localDate and remoteDate exist, compare the two, and the synchronize the data stores.
-                return localDate.timeIntervalSince1970 > remoteDate.timeIntervalSince1970 ? .Local : .Remote
-
+            Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' FROM iCloud.")
         } else {
-
-            // If remoteDate doesn't exist, then assume local data is newer.
-            guard let _ = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate else {
-                return .Local
-            }
-
-            // If localDate doesn't exist, then assume that remote data is newer.
-            guard let _ = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate else {
-                return .Remote
-            }
-
-            // If neither exist, synchronize local data store to iCloud.
-            return .Local
+            defaults.setObject(nil, forKey: key)
+            Zephyr.printStatus("Synchronizing Key '\(key)' with value 'nil' FROM iCloud.")
         }
 
+        defaults.synchronize()
     }
 
 }
@@ -346,12 +352,49 @@ extension Zephyr {
 
 }
 
-// MARK: Logging
+// MARK: Helpers
+
 private extension Zephyr {
 
     /**
 
-     Prints a status to the console if ```debugEnabled == true```
+     Compares the last sync date between NSUbiquitousKeyValueStore and NSUserDefaults.
+
+     If no data exists in NSUbiquitousKeyValueStore, then NSUbiquitousKeyValueStore will synchronize NSUserDefaults.
+     If no data exists in NSUserDefaults, then NSUserDefaults will synchronize NSUbiquitousKeyValueStore.
+
+     */
+    func dataStoreWithLatestData() -> ZephyrDataStore {
+
+        if let remoteDate = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate,
+            localDate = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate {
+
+                // If both localDate and remoteDate exist, compare the two, and the synchronize the data stores.
+                return localDate.timeIntervalSince1970 > remoteDate.timeIntervalSince1970 ? .Local : .Remote
+
+        } else {
+
+            // If remoteDate doesn't exist, then assume local data is newer.
+            guard let _ = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate else {
+                return .Local
+            }
+
+            // If localDate doesn't exist, then assume that remote data is newer.
+            guard let _ = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate else {
+                return .Remote
+            }
+
+            // If neither exist, synchronize local data store to iCloud.
+            return .Local
+        }
+        
+    }
+
+    /**
+
+     Prints a status to the console if 
+         
+         debugEnabled == true
 
      - parameter status: The string that should be printed to the console.
 
