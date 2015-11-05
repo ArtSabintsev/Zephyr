@@ -22,8 +22,8 @@ public class Zephyr: NSObject {
 
     /**
 
-     A debug flag. 
-     
+     A debug flag.
+
      If **true**, then this will enable console  log statements.
 
      By default, this flag is set to **false**.
@@ -34,12 +34,12 @@ public class Zephyr: NSObject {
     /**
 
      The singleton for Zephyr.
-     
+
      */
     private static let sharedInstance = Zephyr()
 
     /**
-    
+
      A shared key that stores the last synchronization date between NSUserDefaults and NSUbiquitousKeyValueStore
 
      */
@@ -84,9 +84,9 @@ public class Zephyr: NSObject {
     /**
 
      Zephyr's main synchronization method.
-     
+
      Zephyr will synchronize all NSUserDefaults with NSUbiquitousKeyValueStore, depdending on what data is newer.
-     
+
      If one or more keys are passed, only those keys will be synchronized.
 
      - parameter keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.
@@ -101,7 +101,7 @@ public class Zephyr: NSObject {
         sharedInstance.removeObservers()
 
         switch sharedInstance.dataStoreWithLatestData() {
-            
+
         case .Local:
 
             if keys.count > 0 {
@@ -158,7 +158,7 @@ public class Zephyr: NSObject {
                 sharedInstance.monitoredKeys.removeAtIndex(index)
                 sharedInstance.removeObservers(key)
             }
-            
+
         }
     }
 
@@ -174,7 +174,7 @@ private extension Zephyr {
 
      - parameter keys: Array of leys to synchronize.
      - parameter dataStore: Signifies if keys should be synchronized to/from iCloud.
-     
+
      */
     func syncSpecificKeys(keys: [String], dataStore: ZephyrDataStore) {
 
@@ -290,18 +290,18 @@ extension Zephyr {
                     return
 
                 }
-                Zephyr.printStatus("Subscribed \(key) for observation.")
+
                 NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
                 NSUbiquitousKeyValueStore.defaultStore().addObserver(self, forKeyPath: key, options: .New, context: nil)
+                Zephyr.printStatus("Subscribed \(key) for observation.")
             }
 
             return
         }
 
-        Zephyr.printStatus("Subscribed \(key) for observation.")
         NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
         NSUbiquitousKeyValueStore.defaultStore().addObserver(self, forKeyPath: key, options: .New, context: nil)
-
+        Zephyr.printStatus("Subscribed \(key) for observation.")
     }
 
     /**
@@ -387,13 +387,13 @@ private extension Zephyr {
             // If neither exist, synchronize local data store to iCloud.
             return .Local
         }
-        
+
     }
 
     /**
 
-     Prints a status to the console if 
-         
+     Prints a status to the console if
+
          debugEnabled == true
 
      - parameter status: The string that should be printed to the console.
