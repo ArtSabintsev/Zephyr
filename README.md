@@ -74,5 +74,11 @@ Similarly, to remove background monitoring, simply pass the keys you want to thi
 Zephyr.removeKeysFromBeingMonitored("MyFirstKey", "MySecondKey", ...)
 ```
 
+To see log statements in your console, you can set `debugEnabled = true` before calling `sync()`:
+```Swift
+Zephyr.debuEnabled = true
+Zephyr.sync()
+```
+
 ### Created and maintained by
 [Arthur Ariel Sabintsev](http://www.sabintsev.com/)
