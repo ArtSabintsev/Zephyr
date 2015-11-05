@@ -10,12 +10,8 @@ Zephyr synchronizes specific keys and/or all of your [NSUserDefaults](https://de
 Zephyr also has built in monitoring, allowing it to magically sync specific keys in the background as they change.
 
 ### Changelog
-#### 1.1.0
-- `sync()` now takes a variadic parameter of type `String`. If you don't need to use it, just call `Zephyr.sync()`
-- Non-`nil` values for specific key synchronizations are now synced to/from iCloud
-- Added a lot more documentation
-- Cleaned up code
-- Updated README
+#### 1.1.1
+- Added `public` access modifier to those methods variables that were missing it. 
 
 ### Features
 - [x] CocoaPods Support

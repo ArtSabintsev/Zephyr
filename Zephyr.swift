@@ -29,7 +29,7 @@ public class Zephyr: NSObject {
      By default, this flag is set to **false**.
 
      */
-    static var debugEnabled = false
+    public static var debugEnabled = false
 
     /**
 
@@ -92,7 +92,7 @@ public class Zephyr: NSObject {
      - parameter keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.
 
      */
-    static func sync(keys: String...) {
+    public static func sync(keys: String...) {
 
         defer {
             sharedInstance.addObservers()
@@ -131,7 +131,7 @@ public class Zephyr: NSObject {
      - parameter keys: Pass one or more keys that you would like to begin monitoring.
 
      */
-    static func addKeysToBeMonitored(keys: String...) {
+    public static func addKeysToBeMonitored(keys: String...) {
 
         for key in keys {
 
@@ -150,7 +150,7 @@ public class Zephyr: NSObject {
      - parameter keys: Pass one or more keys that you would like to stop monitoring.
 
      */
-    static func removeKeysFromBeingMonitored(keys: String...) {
+    public static func removeKeysFromBeingMonitored(keys: String...) {
 
         for (index, key) in keys.enumerate() {
 
