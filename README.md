@@ -60,7 +60,7 @@ Zephyr.sync()
 
 To sync a specific key or keys, simply pass those key/keys to the variadic function:
 ```Swift
-Zephyr.sync(MyFirstKey", "MySecondKey", ...)
+Zephyr.sync("MyFirstKey", "MySecondKey", ...)
 ```
 
 For background monitoring of specific keys, simply pass the keys you want to the variadic function:
