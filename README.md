@@ -33,7 +33,7 @@ pod 'Zephyr'
 
 #### Manual Installation
 
-1. [Download Zephyr](http://github.com/ArtSabintsev/Zephyr/archive/master.zip).
+1. [Download Zephyr](http://github.com/ArtSabintsev/Zephyr/archive/master.zip)
 2. Copy the `Zephyr.swift` into your project.
 
 ### Setup
