@@ -63,13 +63,13 @@ To sync a specific key or keys, simply pass those key/keys to the variadic funct
 Zephyr.sync(MyFirstKey", "MySecondKey", ...)
 ```
 
-To monitor changes to specific keys in the background, simply pass the keys you want to the variadic function:
+For background monitoring of specific keys, simply pass the keys you want to the variadic function:
 
 ```Swift
 Zephyr.addKeysToBeMonitored("MyFirstKey", "MySecondKey", ...)
 ```
 
-Similarly, to remove monitoring for certain keys, simply pass the keys you want to this variadic function:
+Similarly, to remove background monitoring, simply pass the keys you want to this variadic function:
 ```Swift
 Zephyr.removeKeysFromBeingMonitored("MyFirstKey", "MySecondKey", ...)
 ```
