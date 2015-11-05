@@ -1,6 +1,6 @@
 # Zephyr
 
-### Effortlessly sync your NSUserDefaults over iCloud
+### Effortlessly sync NSUserDefaults over iCloud
 
 ---
 ### About
