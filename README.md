@@ -76,7 +76,7 @@ Zephyr.removeKeysFromBeingMonitored("MyFirstKey", "MySecondKey", ...)
 
 To see log statements in your console, you can set `debugEnabled = true` before calling `sync()`:
 ```Swift
-Zephyr.debuEnabled = true
+Zephyr.debugEnabled = true
 Zephyr.sync()
 ```
 
