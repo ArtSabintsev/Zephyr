@@ -56,30 +56,37 @@ In Xcode, open your app's project/workspace file:
 
 Before performing each sync, Zephyr automatically checks to see if the data in NSUserDefaults or NSUbiquitousKeyValueStore is newer.
 
-To sync all NSUserDefaults:
+**Sync all NSUserDefaults**
 ```Swift
 Zephyr.sync()
 ```
 
-To sync a specific key or keys, simply pass those key/keys to the variadic function:
+**Sync a specific key or keys (Variadic Option)**
 ```Swift
 Zephyr.sync("MyFirstKey", "MySecondKey", ...)
 ```
 
-For background monitoring of specific keys, simply pass the keys you want to the variadic function:
+**Sync a specific key or keys (Array Option)**
+```Swift
+Zephyr.sync(["MyFirstKey", "MySecondKey"])
+```
+
+**Add/Remove Keys for Background Monitoring (Variadic Option)**
 
 ```Swift
 Zephyr.addKeysToBeMonitored("MyFirstKey", "MySecondKey", ...)
-```
-
-Similarly, to remove background monitoring, simply pass the keys you want to this variadic function:
-```Swift
 Zephyr.removeKeysFromBeingMonitored("MyFirstKey", "MySecondKey", ...)
 ```
 
-To see log statements in your console, you can set `debugEnabled = true` before calling `sync()`:
+**Add/Remove Keys for Background Monitoring (Array Option)**
 ```Swift
-Zephyr.debugEnabled = true
+Zephyr.addKeysToBeMonitored(["MyFirstKey", "MySecondKey"])
+Zephyr.removeKeysFromBeingMonitored(["MyFirstKey", "MySecondKey"])
+```
+
+**Debug Logging**
+```Swift
+Zephyr.debugEnabled = true // Must be called before sync(_:)
 Zephyr.sync()
 ```
 
