@@ -468,9 +468,9 @@ private extension Zephyr {
         if debugEnabled == true {
             let destination = dataStore == .Local ? "FROM iCloud" : "TO iCloud."
 
-            var message = "Finished synchronization \(destination)"
+            var message = "Started synchronization \(destination)"
             if finished == true {
-                message = "Started synchronization \(destination)"
+                message = "Finished synchronization \(destination)"
             }
 
             printStatus(message)
