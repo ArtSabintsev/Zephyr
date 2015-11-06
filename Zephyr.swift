@@ -78,6 +78,7 @@ public class Zephyr: NSObject {
      */
     override init() {
         super.init()
+        Zephyr.printStatus("Initialized.")
         addObservers()
     }
 
@@ -104,19 +105,27 @@ public class Zephyr: NSObject {
 
         case .Local:
 
+            Zephyr.printStatus("Beginning synchronization TO iCloud.")
+
             if keys.count > 0 {
                 sharedInstance.syncSpecificKeys(keys, dataStore: .Local)
             } else {
                 sharedInstance.syncToCloud()
             }
 
+            Zephyr.printStatus("Finished synchronization TO iCloud.")
+
         case .Remote:
+
+            Zephyr.printStatus("Beginning synchronization FROM iCloud.")
 
             if keys.count > 0 {
                 sharedInstance.syncSpecificKeys(keys, dataStore: .Remote)
             } else {
                 sharedInstance.syncFromCloud()
             }
+
+            Zephyr.printStatus("Finished synchronization FROM iCloud.")
 
         }
 
@@ -209,8 +218,8 @@ private extension Zephyr {
         // Sync all defaults to iCloud if key is nil, otherwise sync only the specific key/value pair.
         guard let key = key else {
             for (key, value) in ZephyrLocalStoreDictionary {
-                Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' TO iCloud.")
                 ubiquitousStore.setObject(value, forKey: key)
+                Zephyr.printSyncStatus(key, value: value, destination: .Remote)
             }
 
             ubiquitousStore.synchronize()
@@ -220,10 +229,10 @@ private extension Zephyr {
 
         if let value = value {
             ubiquitousStore.setObject(value, forKey: key)
-            Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' TO iCloud.")
+            Zephyr.printSyncStatus(key, value: value, destination: .Remote)
         } else {
             ubiquitousStore.setObject(nil, forKey: key)
-            Zephyr.printStatus("Synchronizing Key '\(key)' with value 'nil' TO iCloud.")
+            Zephyr.printSyncStatus(key, value: value, destination: .Remote)
         }
 
         ubiquitousStore.synchronize()
@@ -248,8 +257,8 @@ private extension Zephyr {
         // Sync all defaults from iCloud if key is nil, otherwise sync only the specific key/value pair.
         guard let key = key else {
             for (key, value) in ZephyrRemoteStoreDictionary {
-                Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' FROM iCloud.")
                 defaults.setObject(value, forKey: key)
+                Zephyr.printSyncStatus(key, value: value, destination: .Local)
             }
 
             defaults.synchronize()
@@ -259,10 +268,10 @@ private extension Zephyr {
 
         if let value = value {
             defaults.setObject(value, forKey: key)
-            Zephyr.printStatus("Synchronizing Key '\(key)' with value '\(value)' FROM iCloud.")
+            Zephyr.printSyncStatus(key, value: value, destination: .Local)
         } else {
             defaults.setObject(nil, forKey: key)
-            Zephyr.printStatus("Synchronizing Key '\(key)' with value 'nil' FROM iCloud.")
+            Zephyr.printSyncStatus(key, value: nil, destination: .Local)
         }
 
         defaults.synchronize()
@@ -293,7 +302,7 @@ extension Zephyr {
 
                 NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
                 NSUbiquitousKeyValueStore.defaultStore().addObserver(self, forKeyPath: key, options: .New, context: nil)
-                Zephyr.printStatus("Subscribed \(key) for observation.")
+                Zephyr.printObservationStatus(key, subscribed: true)
             }
 
             return
@@ -301,7 +310,7 @@ extension Zephyr {
 
         NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
         NSUbiquitousKeyValueStore.defaultStore().addObserver(self, forKeyPath: key, options: .New, context: nil)
-        Zephyr.printStatus("Subscribed \(key) for observation.")
+        Zephyr.printObservationStatus(key, subscribed: true)
     }
 
     /**
@@ -324,7 +333,7 @@ extension Zephyr {
 
                 NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
                 NSUbiquitousKeyValueStore.defaultStore().removeObserver(self, forKeyPath: key, context: nil)
-                Zephyr.printStatus("Unsubscribed \(key) from observation.")
+                Zephyr.printObservationStatus(key, subscribed: false)
             }
 
             return
@@ -332,7 +341,7 @@ extension Zephyr {
 
         NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
         NSUbiquitousKeyValueStore.defaultStore().removeObserver(self, forKeyPath: key, context: nil)
-        Zephyr.printStatus("Unsubscribed \(key) from observation.")
+        Zephyr.printObservationStatus(key, subscribed: false)
     }
 
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -392,12 +401,46 @@ private extension Zephyr {
 
     /**
 
+     Prints the key, value, and destination of the synchronized information
+
+     debugEnabled == true
+
+     - parameter key: The key being synchronized.
+     - parameter value: The value being synchronized.
+     - parameter destination: The data store that is receiving the updated key-value pair.
+     
+     */
+    static func printSyncStatus(key: String, value: AnyObject?, destination dataStore: ZephyrDataStore) {
+        let destination = dataStore == .Local ? "FROM iCloud" : "TO iCloud."
+
+        if debugEnabled == true {
+
+            guard let value = value else {
+                print("[Zephyr] Synchronized key '\(key)' with value 'nil' \(destination)")
+                return
+            }
+
+            print("[Zephyr] Synchronized key '\(key)' with value '\(value)' \(destination)")
+        }
+    }
+
+    static func printObservationStatus(key: String, subscribed: Bool) {
+        let subscriptionState = subscribed == true ? "Subscribed" : "Unsubscribed"
+        let preposition = subscribed == true ? "for" : "from"
+
+        if debugEnabled == true {
+            print("\(subscriptionState) '\(key)' \(preposition) observation.")
+        }
+    }
+
+    /**
+
      Prints a status to the console if
 
-         debugEnabled == true
+     debugEnabled == true
 
      - parameter status: The string that should be printed to the console.
-
+     
      */
     static func printStatus(status: String) {
         if debugEnabled == true {

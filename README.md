@@ -10,14 +10,15 @@ Zephyr synchronizes specific keys and/or all of your [NSUserDefaults](https://de
 Zephyr also has built in monitoring, allowing it to magically sync specific keys in the background as they change.
 
 ### Changelog
-#### 1.1.1
-- Added `public` access modifier to those methods variables that were missing it. 
+#### 1.1.2
+- Improved logging (must set `debugEnabled = true`)
 
 ### Features
 - [x] CocoaPods Support
 - [x] Syncs all your NSUserDefaults (if you wish)
 - [x] Syncs only specific keys in NSUserDefaults
 - [x] Background monitoring and synchronization between NSUserDefaults and NSUbiquitousKeyValueStore
+- [x] Detailed Logging
 
 ### Installation Instructions
 
@@ -30,7 +31,7 @@ pod 'Zephyr'
 #### Manual Installation
 
 1. [Download Zephyr](http://github.com/ArtSabintsev/Zephyr/archive/master.zip)
-2. Copy the `Zephyr.swift` into your project.
+2. Copy `Zephyr.swift` into your project.
 
 ### Setup
 
