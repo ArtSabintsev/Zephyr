@@ -24,7 +24,7 @@ public class Zephyr: NSObject {
 
      A debug flag.
 
-     If **true**, then this will enable console  log statements.
+     If **true**, then this will enable console log statements.
 
      By default, this flag is set to **false**.
 
@@ -45,7 +45,20 @@ public class Zephyr: NSObject {
      */
     private let ZephyrSyncKey = "ZephyrSyncKey"
 
+
+    /**
+
+     An array of keys that should be actively monitored for changes
+
+     */
     private var monitoredKeys = [String]()
+
+    /**
+
+     An array of keys that are currently registered for observation
+
+     */
+    private var registeredObservationKeys = [String]()
 
     /**
 
@@ -71,22 +84,9 @@ public class Zephyr: NSObject {
 
     /**
 
-     Zephyr's initialization method.
+     Zephyr's synchronization method.
 
-     Do not call this method directly. Instead, call Zephyr.sync() to initialize synchronization.
-
-     */
-    override init() {
-        super.init()
-        Zephyr.printStatus("Initialized.")
-        addObservers()
-    }
-
-    /**
-
-     Zephyr's main synchronization method.
-
-     Zephyr will synchronize all NSUserDefaults with NSUbiquitousKeyValueStore, depdending on what data is newer.
+     Zephyr will synchronize all NSUserDefaults with NSUbiquitousKeyValueStore.
 
      If one or more keys are passed, only those keys will be synchronized.
 
@@ -95,42 +95,60 @@ public class Zephyr: NSObject {
      */
     public static func sync(keys: String...) {
 
-        defer {
-            sharedInstance.addObservers()
-        }
-
-        sharedInstance.removeObservers()
-
         switch sharedInstance.dataStoreWithLatestData() {
 
         case .Local:
 
-            Zephyr.printStatus("Beginning synchronization TO iCloud.")
-
             if keys.count > 0 {
-                sharedInstance.syncSpecificKeys(keys, dataStore: .Local)
+                sync(keys)
             } else {
+                printGeneralSyncStatus(false, destination: .Remote)
                 sharedInstance.syncToCloud()
+                printGeneralSyncStatus(true, destination: .Remote)
             }
-
-            Zephyr.printStatus("Finished synchronization TO iCloud.")
 
         case .Remote:
 
-            Zephyr.printStatus("Beginning synchronization FROM iCloud.")
-
             if keys.count > 0 {
-                sharedInstance.syncSpecificKeys(keys, dataStore: .Remote)
+                sync(keys)
             } else {
+                printGeneralSyncStatus(false, destination: .Local)
                 sharedInstance.syncFromCloud()
+                printGeneralSyncStatus(true, destination: .Local)
             }
-
-            Zephyr.printStatus("Finished synchronization FROM iCloud.")
 
         }
 
     }
 
+    /**
+
+     Overloaded version of Zephyr's synchronization method, **sync(_:)**.
+
+     This method will synchronize an array of keys between NSUserDefaults and NSUbiquitousKeyValueStore.
+
+     - parameter keys: An array of keys that should be synchronized between NSUserDefaults and NSUbiquitousKeyValueStore.
+     
+     */
+    public static func sync(keys: [String]) {
+
+        switch sharedInstance.dataStoreWithLatestData() {
+
+        case .Local:
+
+            printGeneralSyncStatus(false, destination: .Remote)
+            sharedInstance.syncSpecificKeys(keys, dataStore: .Local)
+            printGeneralSyncStatus(true, destination: .Remote)
+
+        case .Remote:
+
+            printGeneralSyncStatus(false, destination: .Local)
+            sharedInstance.syncSpecificKeys(keys, dataStore: .Remote)
+            printGeneralSyncStatus(true, destination: .Local)
+
+        }
+
+    }
 
     /**
 
@@ -140,16 +158,32 @@ public class Zephyr: NSObject {
      - parameter keys: Pass one or more keys that you would like to begin monitoring.
 
      */
-    public static func addKeysToBeMonitored(keys: String...) {
+    public static func addKeysToBeMonitored(keys: [String]) {
 
         for key in keys {
 
             if sharedInstance.monitoredKeys.contains(key) == false {
                 sharedInstance.monitoredKeys.append(key)
-                sharedInstance.addObservers(key)
+                sharedInstance.registerObserver(key)
             }
-
+            
         }
+    }
+
+    /**
+
+     Overloaded version of the **addKeysToBeMonitored(_:)** method.
+
+     Add specific keys to be monitored in the background. Monitored keys will automatically
+     be synchronized between both data stores whenever a change is detected
+
+     - parameter keys: Pass one or more keys that you would like to begin monitoring.
+
+     */
+    public static func addKeysToBeMonitored(keys: String...) {
+
+        addKeysToBeMonitored(keys)
+
     }
 
     /**
@@ -159,204 +193,30 @@ public class Zephyr: NSObject {
      - parameter keys: Pass one or more keys that you would like to stop monitoring.
 
      */
-    public static func removeKeysFromBeingMonitored(keys: String...) {
-
-        for (index, key) in keys.enumerate() {
-
-            if sharedInstance.monitoredKeys.contains(key) == false {
-                sharedInstance.monitoredKeys.removeAtIndex(index)
-                sharedInstance.removeObservers(key)
-            }
-
-        }
-    }
-
-}
-
-// MARK: Synchronizers
-
-private extension Zephyr {
-
-    /**
-
-     Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
-
-     - parameter keys: Array of leys to synchronize.
-     - parameter dataStore: Signifies if keys should be synchronized to/from iCloud.
-
-     */
-    func syncSpecificKeys(keys: [String], dataStore: ZephyrDataStore) {
+    public static func removeKeysFromBeingMonitored(keys: [String]) {
 
         for key in keys {
-            switch dataStore {
-            case .Local:
-                let value = ZephyrLocalStoreDictionary[key]
-                syncToCloud(key: key, value: value)
-            case .Remote:
-                let value = ZephyrRemoteStoreDictionary[key]
-                syncFromCloud(key: key, value: value)
+            if sharedInstance.monitoredKeys.contains(key) == true {
+                sharedInstance.monitoredKeys = sharedInstance.monitoredKeys.filter({$0 != key })
+                sharedInstance.unregisterObserver(key)
             }
+            
         }
-
     }
 
     /**
 
-     Synchronizes all NSUserDefaults to NSUbiquitousKeyValueStore.
+     Overloaded version of the **removeKeysFromBeingMonitored(_:)** method.
 
-     If a key is passed, only that key will be synchronized.
+     Remove specific keys from being monitored in the background.
 
-     - parameter key: If you pass a key, only that key will updated in NSUbiquitousKeyValueStore.
-     - parameter value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
-
-     */
-    func syncToCloud(key key: String? = nil, value: AnyObject? = nil) {
-
-        let ubiquitousStore = NSUbiquitousKeyValueStore.defaultStore()
-        ubiquitousStore.setObject(NSDate(), forKey: ZephyrSyncKey)
-
-        // Sync all defaults to iCloud if key is nil, otherwise sync only the specific key/value pair.
-        guard let key = key else {
-            for (key, value) in ZephyrLocalStoreDictionary {
-                ubiquitousStore.setObject(value, forKey: key)
-                Zephyr.printSyncStatus(key, value: value, destination: .Remote)
-            }
-
-            ubiquitousStore.synchronize()
-
-            return
-        }
-
-        if let value = value {
-            ubiquitousStore.setObject(value, forKey: key)
-            Zephyr.printSyncStatus(key, value: value, destination: .Remote)
-        } else {
-            ubiquitousStore.setObject(nil, forKey: key)
-            Zephyr.printSyncStatus(key, value: value, destination: .Remote)
-        }
-
-        ubiquitousStore.synchronize()
-
-    }
-
-    /**
-
-     Synchronizes all NSUbiquitousKeyValueStore to NSUserDefaults.
-
-     If a key is passed, only that key will be synchronized.
-
-     - parameter key: If you pass a key, only that key will updated in NSUserDefaults.
-     - parameter value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
+     - parameter keys: Pass one or more keys that you would like to stop monitoring.
 
      */
-    func syncFromCloud(key key: String? = nil, value: AnyObject? = nil) {
+    public static func removeKeysFromBeingMonitored(keys: String...) {
 
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(NSDate(), forKey: ZephyrSyncKey)
+        removeKeysFromBeingMonitored(keys)
 
-        // Sync all defaults from iCloud if key is nil, otherwise sync only the specific key/value pair.
-        guard let key = key else {
-            for (key, value) in ZephyrRemoteStoreDictionary {
-                defaults.setObject(value, forKey: key)
-                Zephyr.printSyncStatus(key, value: value, destination: .Local)
-            }
-
-            defaults.synchronize()
-
-            return
-        }
-
-        if let value = value {
-            defaults.setObject(value, forKey: key)
-            Zephyr.printSyncStatus(key, value: value, destination: .Local)
-        } else {
-            defaults.setObject(nil, forKey: key)
-            Zephyr.printSyncStatus(key, value: nil, destination: .Local)
-        }
-
-        defaults.synchronize()
-    }
-
-}
-
-// MARK: Observers
-extension Zephyr {
-
-    /**
-
-     Adds NSUserDefaultsDidChangeNotification and NSUbiquitousKeyValueStoreDidChangeExternallyNotification to NSNotificationCenter after synchronization.
-
-     - parameter dataStore: The data store
-
-     */
-    private func addObservers(key: String? = nil) {
-
-        guard let key = key else {
-
-            for key in monitoredKeys {
-
-                if key == ZephyrSyncKey {
-                    return
-
-                }
-
-                NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
-                NSUbiquitousKeyValueStore.defaultStore().addObserver(self, forKeyPath: key, options: .New, context: nil)
-                Zephyr.printObservationStatus(key, subscribed: true)
-            }
-
-            return
-        }
-
-        NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
-        NSUbiquitousKeyValueStore.defaultStore().addObserver(self, forKeyPath: key, options: .New, context: nil)
-        Zephyr.printObservationStatus(key, subscribed: true)
-    }
-
-    /**
-
-     Removes NSUserDefaultsDidChangeNotification and NSUbiquitousKeyValueStoreDidChangeExternallyNotification from NSNotificationCenter before synchronization.
-
-     - parameter dataStore: The data store
-
-     */
-    private func removeObservers(key: String? = nil) {
-
-        guard let key = key else {
-
-            for key in monitoredKeys {
-
-                if key == ZephyrSyncKey {
-                    return
-                }
-
-
-                NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
-                NSUbiquitousKeyValueStore.defaultStore().removeObserver(self, forKeyPath: key, context: nil)
-                Zephyr.printObservationStatus(key, subscribed: false)
-            }
-
-            return
-        }
-
-        NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
-        NSUbiquitousKeyValueStore.defaultStore().removeObserver(self, forKeyPath: key, context: nil)
-        Zephyr.printObservationStatus(key, subscribed: false)
-    }
-
-    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-
-        guard let keyPath = keyPath, object = object else {
-            return
-        }
-
-        if object is NSUserDefaults {
-            NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: ZephyrSyncKey)
-        } else if object is NSUbiquitousKeyValueStore {
-            NSUbiquitousKeyValueStore.defaultStore().setObject(NSDate(), forKey: ZephyrSyncKey)
-        }
-
-        Zephyr.sync(keyPath)
     }
 
 }
@@ -396,7 +256,225 @@ private extension Zephyr {
             // If neither exist, synchronize local data store to iCloud.
             return .Local
         }
+        
+    }
+    
+}
 
+// MARK: Synchronizers
+
+private extension Zephyr {
+
+    /**
+
+     Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
+
+     - parameter keys: Array of leys to synchronize.
+     - parameter dataStore: Signifies if keys should be synchronized to/from iCloud.
+
+     */
+    func syncSpecificKeys(keys: [String], dataStore: ZephyrDataStore) {
+
+        for key in keys {
+
+            switch dataStore {
+            case .Local:
+                let value = ZephyrLocalStoreDictionary[key]
+                syncToCloud(key: key, value: value)
+            case .Remote:
+                let value = ZephyrRemoteStoreDictionary[key]
+                syncFromCloud(key: key, value: value)
+            }
+
+        }
+
+    }
+
+    /**
+
+     Synchronizes all NSUserDefaults to NSUbiquitousKeyValueStore.
+
+     If a key is passed, only that key will be synchronized.
+
+     - parameter key: If you pass a key, only that key will updated in NSUbiquitousKeyValueStore.
+     - parameter value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
+
+     */
+    func syncToCloud(key key: String? = nil, value: AnyObject? = nil) {
+
+        let ubiquitousStore = NSUbiquitousKeyValueStore.defaultStore()
+        ubiquitousStore.setObject(NSDate(), forKey: ZephyrSyncKey)
+
+        // Sync all defaults to iCloud if key is nil, otherwise sync only the specific key/value pair.
+        guard let key = key else {
+            for (key, value) in ZephyrLocalStoreDictionary {
+                unregisterObserver(key)
+                ubiquitousStore.setObject(value, forKey: key)
+                Zephyr.printKeySyncStatus(key, value: value, destination: .Remote)
+                ubiquitousStore.synchronize()
+                registerObserver(key)
+            }
+
+            return
+        }
+
+        unregisterObserver(key)
+
+        if let value = value {
+            ubiquitousStore.setObject(value, forKey: key)
+            Zephyr.printKeySyncStatus(key, value: value, destination: .Remote)
+        } else {
+            ubiquitousStore.setObject(nil, forKey: key)
+            Zephyr.printKeySyncStatus(key, value: value, destination: .Remote)
+        }
+
+        ubiquitousStore.synchronize()
+
+        registerObserver(key)
+    }
+
+    /**
+
+     Synchronizes all NSUbiquitousKeyValueStore to NSUserDefaults.
+
+     If a key is passed, only that key will be synchronized.
+
+     - parameter key: If you pass a key, only that key will updated in NSUserDefaults.
+     - parameter value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
+
+     */
+    func syncFromCloud(key key: String? = nil, value: AnyObject? = nil) {
+
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(NSDate(), forKey: ZephyrSyncKey)
+
+        // Sync all defaults from iCloud if key is nil, otherwise sync only the specific key/value pair.
+        guard let key = key else {
+            for (key, value) in ZephyrRemoteStoreDictionary {
+                unregisterObserver(key)
+                defaults.setObject(value, forKey: key)
+                Zephyr.printKeySyncStatus(key, value: value, destination: .Local)
+                registerObserver(key)
+            }
+
+            return
+        }
+
+        unregisterObserver(key)
+
+        if let value = value {
+            defaults.setObject(value, forKey: key)
+            Zephyr.printKeySyncStatus(key, value: value, destination: .Local)
+        } else {
+            defaults.setObject(nil, forKey: key)
+            Zephyr.printKeySyncStatus(key, value: nil, destination: .Local)
+        }
+
+        registerObserver(key)
+    }
+
+}
+
+// MARK: Observers
+
+extension Zephyr {
+
+    /**
+
+     Adds NSUserDefaultsDidChangeNotification and NSUbiquitousKeyValueStoreDidChangeExternallyNotification to NSNotificationCenter after synchronization of a specific key.
+
+     - parameter key: The key that should be added and monitored for local/remote changes.
+
+     */
+    private func registerObserver(key: String) {
+
+        if key == ZephyrSyncKey {
+            return
+        }
+
+        if !registeredObservationKeys.contains(key) {
+
+            NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
+            NSUbiquitousKeyValueStore.defaultStore().addObserver(self, forKeyPath: key, options: .New, context: nil)
+            registeredObservationKeys.append(key)
+
+        }
+
+        Zephyr.printObservationStatus(key, subscribed: true)
+    }
+
+    /**
+
+     Removes NSUserDefaultsDidChangeNotification and NSUbiquitousKeyValueStoreDidChangeExternallyNotification from NSNotificationCenter before synchronization of a specific key.
+
+     - parameter key: The key that should be removed from being monitored of local/remote changes.
+
+     */
+    private func unregisterObserver(key: String) {
+
+        if key == ZephyrSyncKey {
+            return
+        }
+
+        if registeredObservationKeys.contains(key) {
+
+            NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
+            NSUbiquitousKeyValueStore.defaultStore().removeObserver(self, forKeyPath: key, context: nil)
+            registeredObservationKeys = registeredObservationKeys.filter({$0 != key })
+
+        }
+
+        Zephyr.printObservationStatus(key, subscribed: false)
+    }
+
+    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+
+        guard let keyPath = keyPath, object = object else {
+            return
+        }
+
+        // Synchronize changes if key is monitored and if key is currently registered to respond to changes
+        if monitoredKeys.contains(keyPath) && registeredObservationKeys.contains(keyPath) {
+
+            if object is NSUserDefaults {
+                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: ZephyrSyncKey)
+            } else if object is NSUbiquitousKeyValueStore {
+                NSUbiquitousKeyValueStore.defaultStore().setObject(NSDate(), forKey: ZephyrSyncKey)
+            }
+
+            Zephyr.sync(keyPath)
+
+        }
+
+    }
+
+}
+
+// MARK: Loggers
+
+private extension Zephyr {
+
+    /**
+
+     Prints Zephyr's current sync status if
+
+         debugEnabled == true
+
+     - parameter finished: The current status of syncing
+
+     */
+    static func printGeneralSyncStatus(finished: Bool, destination dataStore: ZephyrDataStore) {
+
+        if debugEnabled == true {
+            let destination = dataStore == .Local ? "FROM iCloud" : "TO iCloud."
+
+            var message = "Finished synchronization \(destination)"
+            if finished == true {
+                message = "Started synchronization \(destination)"
+            }
+
+            printStatus(message)
+        }
     }
 
     /**
@@ -410,17 +488,19 @@ private extension Zephyr {
      - parameter destination: The data store that is receiving the updated key-value pair.
      
      */
-    static func printSyncStatus(key: String, value: AnyObject?, destination dataStore: ZephyrDataStore) {
-        let destination = dataStore == .Local ? "FROM iCloud" : "TO iCloud."
+    static func printKeySyncStatus(key: String, value: AnyObject?, destination dataStore: ZephyrDataStore) {
 
         if debugEnabled == true {
+            let destination = dataStore == .Local ? "FROM iCloud" : "TO iCloud."
 
             guard let value = value else {
-                print("[Zephyr] Synchronized key '\(key)' with value 'nil' \(destination)")
+                let message = "[Synchronized key '\(key)' with value 'nil' \(destination)"
+                printStatus(message)
                 return
             }
 
-            print("[Zephyr] Synchronized key '\(key)' with value '\(value)' \(destination)")
+            let message = "Synchronized key '\(key)' with value '\(value)' \(destination)"
+            printStatus(message)
         }
     }
 
@@ -435,11 +515,13 @@ private extension Zephyr {
 
      */
     static func printObservationStatus(key: String, subscribed: Bool) {
-        let subscriptionState = subscribed == true ? "Subscribed" : "Unsubscribed"
-        let preposition = subscribed == true ? "for" : "from"
 
         if debugEnabled == true {
-            print("\(subscriptionState) '\(key)' \(preposition) observation.")
+            let subscriptionState = subscribed == true ? "Subscribed" : "Unsubscribed"
+            let preposition = subscribed == true ? "for" : "from"
+
+            let message = "\(subscriptionState) '\(key)' \(preposition) observation."
+            printStatus(message)
         }
     }
 
