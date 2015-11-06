@@ -401,9 +401,9 @@ private extension Zephyr {
 
     /**
 
-     Prints the key, value, and destination of the synchronized information
+     Prints the key, value, and destination of the synchronized information if
 
-     debugEnabled == true
+         debugEnabled == true
 
      - parameter key: The key being synchronized.
      - parameter value: The value being synchronized.
@@ -424,6 +424,16 @@ private extension Zephyr {
         }
     }
 
+    /**
+
+     Prints the subscription state for a specific key if
+
+         debugEnabled == true
+
+     - parameter key: The key being synchronized.
+     - parameter subscribed: The subscription status of the key.
+
+     */
     static func printObservationStatus(key: String, subscribed: Bool) {
         let subscriptionState = subscribed == true ? "Subscribed" : "Unsubscribed"
         let preposition = subscribed == true ? "for" : "from"
@@ -437,7 +447,7 @@ private extension Zephyr {
 
      Prints a status to the console if
 
-     debugEnabled == true
+         debugEnabled == true
 
      - parameter status: The string that should be printed to the console.
      
