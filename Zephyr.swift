@@ -494,7 +494,7 @@ private extension Zephyr {
             let destination = dataStore == .Local ? "FROM iCloud" : "TO iCloud."
 
             guard let value = value else {
-                let message = "[Synchronized key '\(key)' with value 'nil' \(destination)"
+                let message = "Synchronized key '\(key)' with value 'nil' \(destination)"
                 printStatus(message)
                 return
             }
