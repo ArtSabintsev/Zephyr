@@ -3,7 +3,12 @@ Pod::Spec.new do |s|
   s.version      = "1.1.2"
   s.summary      = "Effortlessly synchronize NSUserDefaults over iCloud"
 
-  s.description  = <<-DESC Effortlessly synchronize NSUserDefaults over iCloud. DESC
+  s.description  = <<-DESC
+
+  Effortlessly synchronize NSUserDefaults over iCloud.
+
+  DESC
+
   s.homepage     = "https://github.com/ArtSabintsev/Zephyr"
   s.license      = "MIT"
   s.authors      = { "Arthur Ariel Sabintsev" => "arthur@sabintsev.com"}
