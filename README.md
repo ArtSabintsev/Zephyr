@@ -9,15 +9,7 @@ Zephyr synchronizes specific keys and/or all of your [NSUserDefaults](https://de
 
 Zephyr has built in monitoring, allowing it to sync specific keys in the background as they change.
 
-### Changelog
-#### 1.2.0
-- Overloaded variadic `sync(_:)` method with a method that takes an array of strings.
-- Overloaded variadic `addKeysToBeMonitored(_:)` method with a method that takes an array of strings.
-- Overloaded variadic `removeKeysFromBeingMonitored(_:)` method with a method that takes an array of strings.
-- Fixed bug with `removeKeysFromBeingMonitored(_:)`, as it was removing all keys.
-- Improved monitoring by creating a second, private array that keeps track of currently registered observers.
-- Greatly abstracted logging system.
-- Fixed documentation on certain comments.
+For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/Zephyr/releases) tab.
 
 ### Features
 - [x] CocoaPods Support
