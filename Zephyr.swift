@@ -84,6 +84,27 @@ public class Zephyr: NSObject {
 
     /**
 
+     Zephyr's initialization method
+     
+     Do not call it directly.
+     */
+    override init() {
+        super.init()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keysDidChangeOnCloud:", name: NSUbiquitousKeyValueStoreDidChangeExternallyNotification, object: nil)
+    }
+
+
+    /**
+
+     Zephyr's de-initialization method
+     
+     */
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(NSUbiquitousKeyValueStoreDidChangeExternallyNotification)
+    }
+
+    /**
+
      Zephyr's synchronization method.
 
      Zephyr will synchronize all NSUserDefaults with NSUbiquitousKeyValueStore.
@@ -381,9 +402,9 @@ extension Zephyr {
 
     /**
 
-     Adds NSUserDefaultsDidChangeNotification and NSUbiquitousKeyValueStoreDidChangeExternallyNotification to NSNotificationCenter after synchronization of a specific key.
+     Adds key-value observation after synchronization of a specific key.
 
-     - parameter key: The key that should be added and monitored for local/remote changes.
+     - parameter key: The key that should be added and monitored.
 
      */
     private func registerObserver(key: String) {
@@ -395,7 +416,6 @@ extension Zephyr {
         if !registeredObservationKeys.contains(key) {
 
             NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
-            NSUbiquitousKeyValueStore.defaultStore().addObserver(self, forKeyPath: key, options: .New, context: nil)
             registeredObservationKeys.append(key)
 
         }
@@ -405,9 +425,9 @@ extension Zephyr {
 
     /**
 
-     Removes NSUserDefaultsDidChangeNotification and NSUbiquitousKeyValueStoreDidChangeExternallyNotification from NSNotificationCenter before synchronization of a specific key.
+     Removes key-value observation before synchronization of a specific key.
 
-     - parameter key: The key that should be removed from being monitored of local/remote changes.
+     - parameter key: The key that should be removed from being monitored.
 
      */
     private func unregisterObserver(key: String) {
@@ -419,12 +439,33 @@ extension Zephyr {
         if registeredObservationKeys.contains(key) {
 
             NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
-            NSUbiquitousKeyValueStore.defaultStore().removeObserver(self, forKeyPath: key, context: nil)
             registeredObservationKeys = registeredObservationKeys.filter({$0 != key })
 
         }
 
         Zephyr.printObservationStatus(key, subscribed: false)
+    }
+
+
+    /**
+
+     Observation method for NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+
+     */
+    func keysDidChangeOnCloud(notificaiton: NSNotification) {
+        if notificaiton.name == NSUbiquitousKeyValueStoreDidChangeExternallyNotification {
+
+            guard let userInfo = notificaiton.userInfo,
+                cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
+                localStoredDate = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate,
+                remoteStoredDate = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate where remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
+                    return
+            }
+
+            for key in monitoredKeys where cloudKeys.contains(key) {
+                Zephyr.sync(key)
+            }
+        }
     }
 
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
