@@ -452,10 +452,10 @@ extension Zephyr {
      Observation method for NSUbiquitousKeyValueStoreDidChangeExternallyNotification
 
      */
-    func keysDidChangeOnCloud(notificaiton: NSNotification) {
-        if notificaiton.name == NSUbiquitousKeyValueStoreDidChangeExternallyNotification {
+    func keysDidChangeOnCloud(notification: NSNotification) {
+        if notification.name == NSUbiquitousKeyValueStoreDidChangeExternallyNotification {
 
-            guard let userInfo = notificaiton.userInfo,
+            guard let userInfo = notification.userInfo,
                 cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
                 localStoredDate = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate,
                 remoteStoredDate = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate where remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
