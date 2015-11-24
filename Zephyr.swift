@@ -36,7 +36,7 @@ public class Zephyr: NSObject {
      If **true**, then NSUbiquitousKeyValueStore.synchronize() will be called immediately after any change is made
 
      */
-    public static var syncUbiquityStoreOnChange = true
+    public static var syncUbiquitousStoreKeyValueStoreOnChange = true
 
     /**
 
@@ -101,8 +101,7 @@ public class Zephyr: NSObject {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:", name:
             UIApplicationWillEnterForegroundNotification, object: nil)
 
-        let ubiquitousStore = NSUbiquitousKeyValueStore.defaultStore()
-        ubiquitousStore.synchronize()
+        NSUbiquitousKeyValueStore.defaultStore().synchronize()
     }
 
 
@@ -345,7 +344,7 @@ private extension Zephyr {
                 unregisterObserver(key)
                 ubiquitousStore.setObject(value, forKey: key)
                 Zephyr.printKeySyncStatus(key, value: value, destination: .Remote)
-                if Zephyr.syncUbiquityStoreOnChange {
+                if Zephyr.syncUbiquitousStoreKeyValueStoreOnChange {
                     ubiquitousStore.synchronize()
                 }
                 registerObserver(key)
@@ -364,7 +363,7 @@ private extension Zephyr {
             Zephyr.printKeySyncStatus(key, value: value, destination: .Remote)
         }
 
-        if Zephyr.syncUbiquityStoreOnChange {
+        if Zephyr.syncUbiquitousStoreKeyValueStoreOnChange {
             ubiquitousStore.synchronize()
         }
 
@@ -470,8 +469,7 @@ extension Zephyr {
      */
 
     func willEnterForeground(notification: NSNotification) {
-        let ubiquitousStore = NSUbiquitousKeyValueStore.defaultStore()
-        ubiquitousStore.synchronize()
+        NSUbiquitousKeyValueStore.defaultStore().synchronize()
     }
 
     /**
