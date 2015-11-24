@@ -75,6 +75,11 @@ Zephyr.removeKeysFromBeingMonitored("MyFirstKey", "MySecondKey", ...)
 Zephyr.addKeysToBeMonitored(["MyFirstKey", "MySecondKey"])
 Zephyr.removeKeysFromBeingMonitored(["MyFirstKey", "MySecondKey"])
 ```
+**Toggle Automatic Calling of NSUbiquitousKeyValueStore's Synchronization method
+```
+Zephyr.syncUbiquitousStoreKeyValueStoreOnChange = true // Default
+Zephyr.syncUbiquitousStoreKeyValueStoreOnChange = false // Turns off instantaneous synchronization
+```
 
 **Debug Logging**
 ```Swift
