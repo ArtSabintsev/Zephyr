@@ -33,6 +33,13 @@ public class Zephyr: NSObject {
 
     /**
 
+     If **true**, then NSUbiquitousKeyValueStore.synchronize() will be called immediately after any change is made
+
+     */
+    public static var syncUbiquityStoreOnChange = true
+
+    /**
+
      The singleton for Zephyr.
 
      */
@@ -91,6 +98,11 @@ public class Zephyr: NSObject {
     override init() {
         super.init()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keysDidChangeOnCloud:", name: NSUbiquitousKeyValueStoreDidChangeExternallyNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:", name:
+            UIApplicationWillEnterForegroundNotification, object: nil)
+
+        let ubiquitousStore = NSUbiquitousKeyValueStore.defaultStore()
+        ubiquitousStore.synchronize()
     }
 
 
@@ -101,6 +113,7 @@ public class Zephyr: NSObject {
      */
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(NSUbiquitousKeyValueStoreDidChangeExternallyNotification)
+        NSNotificationCenter.defaultCenter().removeObserver(UIApplicationWillEnterForegroundNotification)
     }
 
     /**
@@ -332,7 +345,9 @@ private extension Zephyr {
                 unregisterObserver(key)
                 ubiquitousStore.setObject(value, forKey: key)
                 Zephyr.printKeySyncStatus(key, value: value, destination: .Remote)
-                ubiquitousStore.synchronize()
+                if Zephyr.syncUbiquityStoreOnChange {
+                    ubiquitousStore.synchronize()
+                }
                 registerObserver(key)
             }
 
@@ -349,7 +364,9 @@ private extension Zephyr {
             Zephyr.printKeySyncStatus(key, value: value, destination: .Remote)
         }
 
-        ubiquitousStore.synchronize()
+        if Zephyr.syncUbiquityStoreOnChange {
+            ubiquitousStore.synchronize()
+        }
 
         registerObserver(key)
     }
@@ -446,6 +463,16 @@ extension Zephyr {
         Zephyr.printObservationStatus(key, subscribed: false)
     }
 
+    /**
+
+     Observation method for UIApplicationWillEnterForegroundNotification
+
+     */
+
+    func willEnterForeground(notification: NSNotification) {
+        let ubiquitousStore = NSUbiquitousKeyValueStore.defaultStore()
+        ubiquitousStore.synchronize()
+    }
 
     /**
 
