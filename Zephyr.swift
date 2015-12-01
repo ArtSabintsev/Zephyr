@@ -504,11 +504,11 @@ extension Zephyr {
 
             if object is NSUserDefaults {
                 NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: ZephyrSyncKey)
-            } else if object is NSUbiquitousKeyValueStore {
-                NSUbiquitousKeyValueStore.defaultStore().setObject(NSDate(), forKey: ZephyrSyncKey)
             }
 
-            Zephyr.sync(keyPath)
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                Zephyr.sync(keyPath)
+            })
 
         }
 
