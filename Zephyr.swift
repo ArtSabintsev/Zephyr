@@ -69,10 +69,18 @@ public class Zephyr: NSObject {
 
     /**
 
+     A queue used to serialize synchronization on monitored keys
+
+     */
+    private let zephyrQueue = dispatch_queue_create("com.zephyr.queue", DISPATCH_QUEUE_SERIAL);
+
+
+    /**
+
      A session-persisted variable to directly access all of the NSUserDefaults elements
 
      */
-    private var ZephyrLocalStoreDictionary: [String: AnyObject] {
+    private var zephyrLocalStoreDictionary: [String: AnyObject] {
         get {
             return NSUserDefaults.standardUserDefaults().dictionaryRepresentation()
         }
@@ -83,7 +91,7 @@ public class Zephyr: NSObject {
      A session-persisted variable to directly access all of the NSUbiquitousKeyValueStore elements
 
      */
-    private var ZephyrRemoteStoreDictionary: [String: AnyObject]  {
+    private var zephyrRemoteStoreDictionary: [String: AnyObject]  {
         get {
             return NSUbiquitousKeyValueStore.defaultStore().dictionaryRepresentation
         }
@@ -92,7 +100,7 @@ public class Zephyr: NSObject {
     /**
 
      Zephyr's initialization method
-     
+
      Do not call it directly.
      */
     override init() {
@@ -108,11 +116,14 @@ public class Zephyr: NSObject {
     /**
 
      Zephyr's de-initialization method
-     
+
      */
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(NSUbiquitousKeyValueStoreDidChangeExternallyNotification)
-        NSNotificationCenter.defaultCenter().removeObserver(UIApplicationWillEnterForegroundNotification)
+        dispatch_sync(zephyrQueue, {
+            for key in self.registeredObservationKeys {
+                NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key)
+            }
+        })
     }
 
     /**
@@ -161,7 +172,7 @@ public class Zephyr: NSObject {
      This method will synchronize an array of keys between NSUserDefaults and NSUbiquitousKeyValueStore.
 
      - parameter keys: An array of keys that should be synchronized between NSUserDefaults and NSUbiquitousKeyValueStore.
-     
+
      */
     public static func sync(keys: [String]) {
 
@@ -199,7 +210,7 @@ public class Zephyr: NSObject {
                 sharedInstance.monitoredKeys.append(key)
                 sharedInstance.registerObserver(key)
             }
-            
+
         }
     }
 
@@ -233,7 +244,7 @@ public class Zephyr: NSObject {
                 sharedInstance.monitoredKeys = sharedInstance.monitoredKeys.filter({$0 != key })
                 sharedInstance.unregisterObserver(key)
             }
-            
+
         }
     }
 
@@ -268,8 +279,8 @@ private extension Zephyr {
      */
     func dataStoreWithLatestData() -> ZephyrDataStore {
 
-        if let remoteDate = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate,
-            localDate = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate {
+        if let remoteDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate,
+            localDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate {
 
                 // If both localDate and remoteDate exist, compare the two, and the synchronize the data stores.
                 return localDate.timeIntervalSince1970 > remoteDate.timeIntervalSince1970 ? .Local : .Remote
@@ -277,21 +288,21 @@ private extension Zephyr {
         } else {
 
             // If remoteDate doesn't exist, then assume local data is newer.
-            guard let _ = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate else {
+            guard let _ = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate else {
                 return .Local
             }
 
             // If localDate doesn't exist, then assume that remote data is newer.
-            guard let _ = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate else {
+            guard let _ = zephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate else {
                 return .Remote
             }
 
             // If neither exist, synchronize local data store to iCloud.
             return .Local
         }
-        
+
     }
-    
+
 }
 
 // MARK: Synchronizers
@@ -312,10 +323,10 @@ private extension Zephyr {
 
             switch dataStore {
             case .Local:
-                let value = ZephyrLocalStoreDictionary[key]
+                let value = zephyrLocalStoreDictionary[key]
                 syncToCloud(key: key, value: value)
             case .Remote:
-                let value = ZephyrRemoteStoreDictionary[key]
+                let value = zephyrRemoteStoreDictionary[key]
                 syncFromCloud(key: key, value: value)
             }
 
@@ -340,7 +351,7 @@ private extension Zephyr {
 
         // Sync all defaults to iCloud if key is nil, otherwise sync only the specific key/value pair.
         guard let key = key else {
-            for (key, value) in ZephyrLocalStoreDictionary {
+            for (key, value) in zephyrLocalStoreDictionary {
                 unregisterObserver(key)
                 ubiquitousStore.setObject(value, forKey: key)
                 Zephyr.printKeySyncStatus(key, value: value, destination: .Remote)
@@ -387,7 +398,7 @@ private extension Zephyr {
 
         // Sync all defaults from iCloud if key is nil, otherwise sync only the specific key/value pair.
         guard let key = key else {
-            for (key, value) in ZephyrRemoteStoreDictionary {
+            for (key, value) in zephyrRemoteStoreDictionary {
                 unregisterObserver(key)
                 defaults.setObject(value, forKey: key)
                 Zephyr.printKeySyncStatus(key, value: value, destination: .Local)
@@ -429,14 +440,17 @@ extension Zephyr {
             return
         }
 
-        if !registeredObservationKeys.contains(key) {
+        dispatch_sync(zephyrQueue) {
 
-            NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
-            registeredObservationKeys.append(key)
+            if !self.registeredObservationKeys.contains(key) {
 
+                NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
+                self.registeredObservationKeys.append(key)
+
+            }
+
+            Zephyr.printObservationStatus(key, subscribed: true)
         }
-
-        Zephyr.printObservationStatus(key, subscribed: true)
     }
 
     /**
@@ -452,14 +466,17 @@ extension Zephyr {
             return
         }
 
-        if registeredObservationKeys.contains(key) {
+        dispatch_sync(zephyrQueue) {
 
-            NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
-            registeredObservationKeys = registeredObservationKeys.filter({$0 != key })
+            if let index = self.registeredObservationKeys.indexOf(key) {
 
+                NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
+                self.registeredObservationKeys.removeAtIndex(index)
+
+            }
+
+            Zephyr.printObservationStatus(key, subscribed: false)
         }
-
-        Zephyr.printObservationStatus(key, subscribed: false)
     }
 
     /**
@@ -482,8 +499,8 @@ extension Zephyr {
 
             guard let userInfo = notification.userInfo,
                 cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
-                localStoredDate = ZephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate,
-                remoteStoredDate = ZephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate where remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
+                localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate,
+                remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate where remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
                     return
             }
 
@@ -500,14 +517,16 @@ extension Zephyr {
         }
 
         // Synchronize changes if key is monitored and if key is currently registered to respond to changes
-        if monitoredKeys.contains(keyPath) && registeredObservationKeys.contains(keyPath) {
+        if monitoredKeys.contains(keyPath) {
 
-            if object is NSUserDefaults {
-                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: ZephyrSyncKey)
-            }
+            dispatch_async(zephyrQueue, {
+                if self.registeredObservationKeys.contains(keyPath) {
+                    if object is NSUserDefaults {
+                        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: self.ZephyrSyncKey)
+                    }
 
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-                Zephyr.sync(keyPath)
+                    Zephyr.sync(keyPath)
+                }
             })
 
         }
@@ -524,7 +543,7 @@ private extension Zephyr {
 
      Prints Zephyr's current sync status if
 
-         debugEnabled == true
+     debugEnabled == true
 
      - parameter finished: The current status of syncing
 
@@ -547,12 +566,12 @@ private extension Zephyr {
 
      Prints the key, value, and destination of the synchronized information if
 
-         debugEnabled == true
+     debugEnabled == true
 
      - parameter key: The key being synchronized.
      - parameter value: The value being synchronized.
      - parameter destination: The data store that is receiving the updated key-value pair.
-     
+
      */
     static func printKeySyncStatus(key: String, value: AnyObject?, destination dataStore: ZephyrDataStore) {
 
@@ -564,39 +583,39 @@ private extension Zephyr {
                 printStatus(message)
                 return
             }
-
+            
             let message = "Synchronized key '\(key)' with value '\(value)' \(destination)"
             printStatus(message)
         }
     }
-
+    
     /**
-
+     
      Prints the subscription state for a specific key if
-
-         debugEnabled == true
-
+     
+     debugEnabled == true
+     
      - parameter key: The key being synchronized.
      - parameter subscribed: The subscription status of the key.
-
+     
      */
     static func printObservationStatus(key: String, subscribed: Bool) {
-
+        
         if debugEnabled == true {
             let subscriptionState = subscribed == true ? "Subscribed" : "Unsubscribed"
             let preposition = subscribed == true ? "for" : "from"
-
+            
             let message = "\(subscriptionState) '\(key)' \(preposition) observation."
             printStatus(message)
         }
     }
-
+    
     /**
-
+     
      Prints a status to the console if
-
-         debugEnabled == true
-
+     
+     debugEnabled == true
+     
      - parameter status: The string that should be printed to the console.
      
      */
@@ -605,5 +624,5 @@ private extension Zephyr {
             print("[Zephyr] \(status)")
         }
     }
-
+    
 }
