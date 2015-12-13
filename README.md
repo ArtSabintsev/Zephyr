@@ -48,6 +48,11 @@ In Xcode, open your app's project/workspace file:
 
 Before performing each sync, Zephyr automatically checks to see if the data in NSUserDefaults or NSUbiquitousKeyValueStore is newer. To make sure there's no overwriting going on in a fresh installation of your app on a new device that's connected to the same iCloud account, make sure that your NSUserDefaults are registered ***BEFORE*** calling any of the Zephyr methods.
 
+***
+#####Choose to Sync All Keys or Select Keys
+
+Syncing ***ALL*** NSUserDefaults will sync every key, including those that aren't related to your application. This can cause issues so unless you have a reason to sync every key, you should choose to sync only those keys requiring iCloud sync for your app.
+
 **Sync all NSUserDefaults**
 ```Swift
 Zephyr.sync()
@@ -63,6 +68,11 @@ Zephyr.sync("MyFirstKey", "MySecondKey", ...)
 Zephyr.sync(["MyFirstKey", "MySecondKey"])
 ```
 
+***
+#####Enable Background Monitoring of Key Changes (Optional)
+
+If you want your application to synchronize keys while the app is running and not just once when the Zephyr.sync() method is called, then add background monitoring.
+
 **Add/Remove Keys for Background Monitoring (Variadic Option)**
 
 ```Swift
@@ -75,13 +85,20 @@ Zephyr.removeKeysFromBeingMonitored("MyFirstKey", "MySecondKey", ...)
 Zephyr.addKeysToBeMonitored(["MyFirstKey", "MySecondKey"])
 Zephyr.removeKeysFromBeingMonitored(["MyFirstKey", "MySecondKey"])
 ```
-**Toggle Automatic Calling of NSUbiquitousKeyValueStore's Synchronization method**
+
+***
+#####Toggle Automatic Calling of NSUbiquitousKeyValueStore's Synchronization method (Optional)
+
 ```
 Zephyr.syncUbiquitousStoreKeyValueStoreOnChange = true // Default
 Zephyr.syncUbiquitousStoreKeyValueStoreOnChange = false // Turns off instantaneous synchronization
 ```
 
-**Debug Logging**
+***
+#####Debug Logging (Optional)
+
+All changes that Zephyr processes will print to the console. Use this to see the key/value pairs being read FROM and TO iCloud by Zephyr.
+
 ```Swift
 Zephyr.debugEnabled = true // Must be called before sync(_:)
 Zephyr.sync()
