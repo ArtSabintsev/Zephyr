@@ -10,15 +10,22 @@ import Foundation
 
 /**
  
- Delegate to notify when Zephyr has updated a local NSUserDefaults key.
- 
- This enables the class that implements this delegate to do something with the updated key,
- 
- such as read in the updated NSUserDefaults data to a variable in memory.
+ Delegate to notify another class when Zephyr has processed data.
  
  */
 
 protocol ZephyrDelegate: class {
+    
+    /**
+     
+     Notifies when Zephyr has synced a key/value from iCloud to the Local data store.
+     
+     You can then do something such as read in the updated local NSUserDefaults data to a variable in memory to refresh the UI.
+     
+     - parameter key: The key that has been updated in NSUserDefaults.
+     - parameter value: The value that has been synchronized.
+     
+     */
     func zephyrDidSyncFromCloudToLocal(value: AnyObject?, forKey key: String?)
 }
 
