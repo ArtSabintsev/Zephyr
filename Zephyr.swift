@@ -69,10 +69,17 @@ public class Zephyr: NSObject {
 
     /**
 
-     A queue used to serialize synchronization on monitored keys
+     A queue used to serialize observation keys
 
      */
-    private let zephyrQueue = dispatch_queue_create("com.zephyr.queue", DISPATCH_QUEUE_SERIAL);
+    private let zephyrKeyQueue = dispatch_queue_create("com.zephyr.keyQueue", DISPATCH_QUEUE_SERIAL);
+
+    /**
+
+     A queue used to serialize synchronization of monitored keys
+
+     */
+    private let zephyrSyncQueue = dispatch_queue_create("com.zephyr.syncQueue", DISPATCH_QUEUE_SERIAL);
 
 
     /**
@@ -119,7 +126,7 @@ public class Zephyr: NSObject {
 
      */
     deinit {
-        dispatch_sync(zephyrQueue, {
+        dispatch_sync(zephyrKeyQueue, {
             for key in self.registeredObservationKeys {
                 NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key)
             }
@@ -440,7 +447,7 @@ extension Zephyr {
             return
         }
 
-        dispatch_sync(zephyrQueue) {
+        dispatch_sync(zephyrKeyQueue) {
 
             if !self.registeredObservationKeys.contains(key) {
 
@@ -466,7 +473,7 @@ extension Zephyr {
             return
         }
 
-        dispatch_sync(zephyrQueue) {
+        dispatch_sync(zephyrKeyQueue) {
 
             if let index = self.registeredObservationKeys.indexOf(key) {
 
@@ -519,7 +526,7 @@ extension Zephyr {
         // Synchronize changes if key is monitored and if key is currently registered to respond to changes
         if monitoredKeys.contains(keyPath) {
 
-            dispatch_async(zephyrQueue, {
+            dispatch_async(zephyrSyncQueue, {
                 if self.registeredObservationKeys.contains(keyPath) {
                     if object is NSUserDefaults {
                         NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: self.ZephyrSyncKey)
