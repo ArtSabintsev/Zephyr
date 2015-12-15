@@ -138,28 +138,28 @@ public class Zephyr: NSObject {
 
      */
     public static func sync(keys: String...) {
+        if keys.count > 0 {
+            sync(keys)
+            return
+        }
 
         switch sharedInstance.dataStoreWithLatestData() {
 
         case .Local:
 
-            if keys.count > 0 {
-                sync(keys)
-            } else {
-                printGeneralSyncStatus(false, destination: .Remote)
+            printGeneralSyncStatus(false, destination: .Remote)
+            dispatch_sync(sharedInstance.zephyrQueue) {
                 sharedInstance.syncToCloud()
-                printGeneralSyncStatus(true, destination: .Remote)
             }
+            printGeneralSyncStatus(true, destination: .Remote)
 
         case .Remote:
 
-            if keys.count > 0 {
-                sync(keys)
-            } else {
-                printGeneralSyncStatus(false, destination: .Local)
+            printGeneralSyncStatus(false, destination: .Local)
+            dispatch_sync(sharedInstance.zephyrQueue) {
                 sharedInstance.syncFromCloud()
-                printGeneralSyncStatus(true, destination: .Local)
             }
+            printGeneralSyncStatus(true, destination: .Local)
 
         }
 
@@ -181,13 +181,17 @@ public class Zephyr: NSObject {
         case .Local:
 
             printGeneralSyncStatus(false, destination: .Remote)
-            sharedInstance.syncSpecificKeys(keys, dataStore: .Local)
+            dispatch_sync(sharedInstance.zephyrQueue) {
+                sharedInstance.syncSpecificKeys(keys, dataStore: .Local)
+            }
             printGeneralSyncStatus(true, destination: .Remote)
 
         case .Remote:
 
             printGeneralSyncStatus(false, destination: .Local)
-            sharedInstance.syncSpecificKeys(keys, dataStore: .Remote)
+            dispatch_sync(sharedInstance.zephyrQueue) {
+                sharedInstance.syncSpecificKeys(keys, dataStore: .Remote)
+            }
             printGeneralSyncStatus(true, destination: .Local)
 
         }
@@ -208,7 +212,10 @@ public class Zephyr: NSObject {
 
             if sharedInstance.monitoredKeys.contains(key) == false {
                 sharedInstance.monitoredKeys.append(key)
-                sharedInstance.registerObserver(key)
+
+                dispatch_sync(sharedInstance.zephyrQueue) {
+                    sharedInstance.registerObserver(key)
+                }
             }
 
         }
@@ -242,9 +249,11 @@ public class Zephyr: NSObject {
         for key in keys {
             if sharedInstance.monitoredKeys.contains(key) == true {
                 sharedInstance.monitoredKeys = sharedInstance.monitoredKeys.filter({$0 != key })
-                sharedInstance.unregisterObserver(key)
-            }
 
+                dispatch_sync(sharedInstance.zephyrQueue) {
+                    sharedInstance.unregisterObserver(key)
+                }
+            }
         }
     }
 
@@ -440,17 +449,14 @@ extension Zephyr {
             return
         }
 
-        dispatch_sync(zephyrQueue) {
+        if !self.registeredObservationKeys.contains(key) {
 
-            if !self.registeredObservationKeys.contains(key) {
+            NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
+            self.registeredObservationKeys.append(key)
 
-                NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: key, options: .New, context: nil)
-                self.registeredObservationKeys.append(key)
-
-            }
-
-            Zephyr.printObservationStatus(key, subscribed: true)
         }
+
+        Zephyr.printObservationStatus(key, subscribed: true)
     }
 
     /**
@@ -466,17 +472,14 @@ extension Zephyr {
             return
         }
 
-        dispatch_sync(zephyrQueue) {
+        if let index = self.registeredObservationKeys.indexOf(key) {
 
-            if let index = self.registeredObservationKeys.indexOf(key) {
+            NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
+            self.registeredObservationKeys.removeAtIndex(index)
 
-                NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: key, context: nil)
-                self.registeredObservationKeys.removeAtIndex(index)
-
-            }
-
-            Zephyr.printObservationStatus(key, subscribed: false)
         }
+
+        Zephyr.printObservationStatus(key, subscribed: false)
     }
 
     /**
@@ -505,7 +508,7 @@ extension Zephyr {
             }
 
             for key in monitoredKeys where cloudKeys.contains(key) {
-                Zephyr.sync(key)
+                self.syncSpecificKeys([key], dataStore: .Remote)
             }
         }
     }
@@ -525,7 +528,7 @@ extension Zephyr {
                         NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: self.ZephyrSyncKey)
                     }
 
-                    Zephyr.sync(keyPath)
+                    self.syncSpecificKeys([keyPath], dataStore: .Local)
                 }
             })
 
