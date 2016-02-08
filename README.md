@@ -94,5 +94,9 @@ Zephyr.debugEnabled = true // Must be called before sync(_:)
 Zephyr.sync()
 ```
 
+### Sample App
+
+Please ignore the Sample App as I did not add any demo code in the Sample App. It's only in this repo to add support for Carthage. 
+
 ### Created and maintained by
 [Arthur Ariel Sabintsev](http://www.sabintsev.com/)
