@@ -20,13 +20,20 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 
 ### Installation Instructions
 
-#### CocoaPods Installation
+#### CocoaPods
 ```ruby
 pod 'Zephyr'
 ```
 - Add `import Zephyr` to any `.Swift` file that references Zephyr via a CocoaPods installation.
 
-#### Manual Installation
+### Carthage
+``` swift
+github "ArtSabintsev/Zephyr"
+```
+
+Add `import Zephyr` to any `.Swift` file that references Zephyr via a Carthage installation.
+
+#### Manual
 
 1. [Download Zephyr](http://github.com/ArtSabintsev/Zephyr/archive/master.zip)
 2. Copy `Zephyr.swift` into your project.
