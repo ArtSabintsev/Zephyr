@@ -84,7 +84,7 @@ public class Zephyr: NSObject {
         super.init()
         NotificationCenter.default().addObserver(self, selector: #selector(keysDidChangeOnCloud(_:)), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: nil)
         NotificationCenter.default().addObserver(self, selector: #selector(willEnterForeground(_:)), name:
-            NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+            Notification.Name.UIApplicationWillEnterForeground, object: nil)
         
         NSUbiquitousKeyValueStore.default().synchronize()
     }
@@ -214,9 +214,9 @@ public class Zephyr: NSObject {
     }
 }
 
-// MARK: - Helpers
+// MARK: Helpers
 private extension Zephyr {
-
+    
     /**
      Compares the last sync date between NSUbiquitousKeyValueStore and NSUserDefaults.
      
@@ -246,7 +246,7 @@ private extension Zephyr {
     }
 }
 
-// MARK: - Synchronizers
+// MARK: Synchronizers
 private extension Zephyr {
     
     /**
@@ -350,7 +350,7 @@ private extension Zephyr {
     }
 }
 
-// MARK: - Observers
+// MARK: Observers
 extension Zephyr {
     
     /**
@@ -402,7 +402,7 @@ extension Zephyr {
      */
     func keysDidChangeOnCloud(_ notification: Notification) {
         if notification.name == NSUbiquitousKeyValueStore.didChangeExternallyNotification {
-            guard let userInfo = (notification as NSNotification).userInfo,
+            guard let userInfo = (notification as Notification).userInfo,
                 cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
                 localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date,
                 remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? Date where remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
@@ -435,7 +435,7 @@ extension Zephyr {
     }
 }
 
-// MARK: - Loggers
+// MARK: Loggers
 private extension Zephyr {
     
     /**
