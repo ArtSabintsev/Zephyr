@@ -9,9 +9,8 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
+    
     @IBOutlet weak var detailDescriptionLabel: UILabel!
-
 
     var detailItem: AnyObject? {
         didSet {
@@ -39,7 +38,4 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
-
