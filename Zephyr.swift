@@ -379,7 +379,7 @@ private extension Zephyr {
             ubiquitousStore.set(value, forKey: key)
             Zephyr.printKeySyncStatus(key, value: value, destination: .remote)
         } else {
-            ubiquitousStore.set(nil, forKey: key)
+            ubiquitousStore.removeObject(forKey: key)
             Zephyr.printKeySyncStatus(key, value: value, destination: .remote)
         }
         
@@ -423,7 +423,7 @@ private extension Zephyr {
             defaults.set(value, forKey: key)
             Zephyr.printKeySyncStatus(key, value: value, destination: .local)
         } else {
-            defaults.set(nil, forKey: key)
+            defaults.removeObject(forKey: key)
             Zephyr.printKeySyncStatus(key, value: nil, destination: .local)
         }
         
