@@ -2,6 +2,7 @@
 
 ### Effortlessly sync NSUserDefaults over iCloud
 
+ ![Cocoapods](https://img.shields.io/cocoapods/v/Zephyr.svg) ![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat) ![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)
 ---
 ### About
 
