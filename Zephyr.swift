@@ -289,7 +289,7 @@ private extension Zephyr {
     func dataStoreWithLatestData() -> ZephyrDataStore {
 
         if let remoteDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? Date,
-            localDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date {
+            let localDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date {
 
                 // If both localDate and remoteDate exist, compare the two, and the synchronize the data stores.
                 return localDate.timeIntervalSince1970 > remoteDate.timeIntervalSince1970 ? .local : .remote
@@ -379,7 +379,7 @@ private extension Zephyr {
             ubiquitousStore.set(value, forKey: key)
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .remote)
         } else {
-            NSUbiquitousKeyValueStore.default().set(nil, forKey: key)
+            NSUbiquitousKeyValueStore.default().setNilValueForKey(key)
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .remote)
         }
 
@@ -501,9 +501,9 @@ extension Zephyr {
         if notification.name == NSUbiquitousKeyValueStore.didChangeExternallyNotification {
 
             guard let userInfo = (notification as NSNotification).userInfo,
-                cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
-                localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date,
-                remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? Date where remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
+                let cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
+                let localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date,
+                let remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? Date , remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
                     return
             }
 
@@ -515,7 +515,7 @@ extension Zephyr {
 
     override public func observeValue(forKeyPath keyPath: String?, of object: AnyObject?, change: [NSKeyValueChangeKey : AnyObject]?, context: UnsafeMutablePointer<Void>?) {
 
-        guard let keyPath = keyPath, object = object else {
+        guard let keyPath = keyPath, let object = object else {
             return
         }
 
