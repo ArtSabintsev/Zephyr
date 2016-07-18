@@ -2,6 +2,7 @@
 
 ### Effortlessly sync NSUserDefaults over iCloud
 
+ ![Cocoapods](https://img.shields.io/cocoapods/v/Zephyr.svg) ![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat) ![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)
 ---
 ### About
 
@@ -24,15 +25,23 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 ```ruby
 pod 'Zephyr'
 ```
-- Add `import Zephyr` to any `.Swift` file that references Zephyr via a CocoaPods installation.
+
+For Swift 3 support:
+
+```ruby
+pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift3'
+```
 
 ### Carthage
 ``` swift
 github "ArtSabintsev/Zephyr"
 ```
 
-Add `import Zephyr` to any `.Swift` file that references Zephyr via a Carthage installation.
+For Swift 3 support:
 
+``` swift
+github "ArtSabintsev/Zephyr" "swift3"
+```
 
 ### Swift Package Manager
 ``` swift
