@@ -72,7 +72,7 @@ public class Zephyr: NSObject {
      A queue used to serialize synchronization on monitored keys
 
      */
-    private let zephyrQueue = DispatchQueue(label: "com.zephyr.queue", attributes: DispatchQueueAttributes.serial);
+    private let zephyrQueue = DispatchQueue(label: "com.zephyr.queue");
 
 
     /**
