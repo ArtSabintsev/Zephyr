@@ -289,7 +289,7 @@ private extension Zephyr {
     func dataStoreWithLatestData() -> ZephyrDataStore {
 
         if let remoteDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate,
-            localDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate {
+            let localDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate {
 
                 // If both localDate and remoteDate exist, compare the two, and the synchronize the data stores.
                 return localDate.timeIntervalSince1970 > remoteDate.timeIntervalSince1970 ? .Local : .Remote
@@ -333,10 +333,10 @@ private extension Zephyr {
             switch dataStore {
             case .Local:
                 let value = zephyrLocalStoreDictionary[key]
-                syncToCloud(key: key, value: value)
+                syncToCloud(key, value: value)
             case .Remote:
                 let value = zephyrRemoteStoreDictionary[key]
-                syncFromCloud(key: key, value: value)
+                syncFromCloud(key, value: value)
             }
 
         }
@@ -353,7 +353,7 @@ private extension Zephyr {
      - parameter value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
 
      */
-    func syncToCloud(key key: String? = nil, value: AnyObject? = nil) {
+    func syncToCloud(key: String? = nil, value: AnyObject? = nil) {
 
         let ubiquitousStore = NSUbiquitousKeyValueStore.defaultStore()
         ubiquitousStore.setObject(NSDate(), forKey: ZephyrSyncKey)
@@ -400,7 +400,7 @@ private extension Zephyr {
      - parameter value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
 
      */
-    func syncFromCloud(key key: String? = nil, value: AnyObject? = nil) {
+    func syncFromCloud(key: String? = nil, value: AnyObject? = nil) {
 
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(NSDate(), forKey: ZephyrSyncKey)
@@ -501,9 +501,10 @@ extension Zephyr {
         if notification.name == NSUbiquitousKeyValueStoreDidChangeExternallyNotification {
 
             guard let userInfo = notification.userInfo,
-                cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
-                localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate,
-                remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate where remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
+                let cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
+                let localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? NSDate,
+                let remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? NSDate
+                where remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
                     return
             }
 
@@ -515,7 +516,7 @@ extension Zephyr {
 
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
 
-        guard let keyPath = keyPath, object = object else {
+        guard let keyPath = keyPath, let object = object else {
             return
         }
 
