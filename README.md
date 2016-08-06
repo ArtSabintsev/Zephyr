@@ -26,6 +26,12 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 pod 'Zephyr'
 ```
 
+For Swift 2.3 support:
+
+```ruby
+pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift2.3'
+```
+
 For Swift 3 support:
 
 ```ruby
@@ -35,6 +41,12 @@ pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => '
 ### Carthage
 ``` swift
 github "ArtSabintsev/Zephyr"
+```
+
+For Swift 2.3 support:
+
+``` swift
+github "ArtSabintsev/Zephyr" "swift2.3"
 ```
 
 For Swift 3 support:
