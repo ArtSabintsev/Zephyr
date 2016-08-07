@@ -322,7 +322,7 @@ private extension Zephyr {
 
      Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
 
-     - parameter keys: Array of leys to synchronize.
+     - parameter keys: Array of keys to synchronize.
      - parameter dataStore: Signifies if keys should be synchronized to/from iCloud.
 
      */
