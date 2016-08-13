@@ -349,7 +349,7 @@ private extension Zephyr {
 
      If a key is passed, only that key will be synchronized.
 
-     - parameter key: If you pass a key, only that key will updated in NSUbiquitousKeyValueStore.
+     - parameter key: If you pass a key, only that key will be updated in NSUbiquitousKeyValueStore.
      - parameter value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
 
      */
@@ -379,7 +379,7 @@ private extension Zephyr {
             ubiquitousStore.set(value, forKey: key)
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .remote)
         } else {
-            NSUbiquitousKeyValueStore.default().setNilValueForKey(key)
+            NSUbiquitousKeyValueStore.default().removeObject(forKey: key)
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .remote)
         }
 
