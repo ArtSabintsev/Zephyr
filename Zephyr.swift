@@ -119,11 +119,11 @@ public class Zephyr: NSObject {
 
      */
     deinit {
-        zephyrQueue.sync(execute: {
-            for key in self.registeredObservationKeys {
+        zephyrQueue.sync {
+            for key in registeredObservationKeys {
                 UserDefaults.standard.removeObserver(self, forKeyPath: key)
             }
-        })
+        }
     }
 
     /**
@@ -232,9 +232,7 @@ public class Zephyr: NSObject {
 
      */
     public static func addKeysToBeMonitored(keys: String...) {
-
         addKeysToBeMonitored(keys: keys)
-
     }
 
     /**
@@ -247,13 +245,15 @@ public class Zephyr: NSObject {
     public static func removeKeysFromBeingMonitored(keys: [String]) {
 
         for key in keys {
+
             if sharedInstance.monitoredKeys.contains(key) == true {
-                sharedInstance.monitoredKeys = sharedInstance.monitoredKeys.filter({$0 != key })
+                sharedInstance.monitoredKeys = sharedInstance.monitoredKeys.filter {$0 != key }
 
                 sharedInstance.zephyrQueue.sync {
                     sharedInstance.unregisterObserver(key: key)
                 }
             }
+
         }
     }
 
@@ -267,9 +267,7 @@ public class Zephyr: NSObject {
 
      */
     public static func removeKeysFromBeingMonitored(keys: String...) {
-
         removeKeysFromBeingMonitored(keys: keys)
-
     }
 
 }
@@ -291,8 +289,8 @@ fileprivate extension Zephyr {
         if let remoteDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? Date,
             let localDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date {
 
-                // If both localDate and remoteDate exist, compare the two, and the synchronize the data stores.
-                return localDate.timeIntervalSince1970 > remoteDate.timeIntervalSince1970 ? .local : .remote
+            // If both localDate and remoteDate exist, compare the two, and then synchronize the data stores.
+            return localDate.timeIntervalSince1970 > remoteDate.timeIntervalSince1970 ? .local : .remote
 
         } else {
 
