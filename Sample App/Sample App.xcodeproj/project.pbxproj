@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5506976C1C684C9C008C5BAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5506976B1C684C9C008C5BAF /* AppDelegate.swift */; };
-		5506976E1C684C9C008C5BAF /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5506976D1C684C9C008C5BAF /* MasterViewController.swift */; };
-		550697701C684C9C008C5BAF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5506976F1C684C9C008C5BAF /* DetailViewController.swift */; };
-		550697731C684C9C008C5BAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 550697711C684C9C008C5BAF /* Main.storyboard */; };
-		550697751C684C9C008C5BAF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 550697741C684C9C008C5BAF /* Assets.xcassets */; };
 		550697781C684C9C008C5BAF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 550697761C684C9C008C5BAF /* LaunchScreen.storyboard */; };
 		550697891C684CB9008C5BAF /* Zephyr.h in Headers */ = {isa = PBXBuildFile; fileRef = 550697881C684CB9008C5BAF /* Zephyr.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5506978D1C684CB9008C5BAF /* Zephyr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 550697861C684CB9008C5BAF /* Zephyr.framework */; };
@@ -46,10 +42,6 @@
 /* Begin PBXFileReference section */
 		550697681C684C9C008C5BAF /* Sample App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sample App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5506976B1C684C9C008C5BAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5506976D1C684C9C008C5BAF /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		5506976F1C684C9C008C5BAF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		550697721C684C9C008C5BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		550697741C684C9C008C5BAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		550697771C684C9C008C5BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		550697791C684C9C008C5BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5506977F1C684CB1008C5BAF /* Zephyr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Zephyr.swift; path = ../../Zephyr.swift; sourceTree = "<group>"; };
@@ -99,10 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				5506976B1C684C9C008C5BAF /* AppDelegate.swift */,
-				5506976D1C684C9C008C5BAF /* MasterViewController.swift */,
-				5506976F1C684C9C008C5BAF /* DetailViewController.swift */,
-				550697711C684C9C008C5BAF /* Main.storyboard */,
-				550697741C684C9C008C5BAF /* Assets.xcassets */,
 				550697761C684C9C008C5BAF /* LaunchScreen.storyboard */,
 				550697791C684C9C008C5BAF /* Info.plist */,
 			);
@@ -177,14 +165,20 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Sabintsev Mobile Projects";
 				TargetAttributes = {
 					550697671C684C9C008C5BAF = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = HT94948NDD;
+						DevelopmentTeamName = "Arthur Sabintsev";
+						LastSwiftMigration = 0800;
 					};
 					550697851C684CB9008C5BAF = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = HT94948NDD;
+						DevelopmentTeamName = "Arthur Sabintsev";
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -213,8 +207,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				550697781C684C9C008C5BAF /* LaunchScreen.storyboard in Resources */,
-				550697751C684C9C008C5BAF /* Assets.xcassets in Resources */,
-				550697731C684C9C008C5BAF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,8 +224,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				550697701C684C9C008C5BAF /* DetailViewController.swift in Sources */,
-				5506976E1C684C9C008C5BAF /* MasterViewController.swift in Sources */,
 				5506976C1C684C9C008C5BAF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,14 +247,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		550697711C684C9C008C5BAF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				550697721C684C9C008C5BAF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		550697761C684C9C008C5BAF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -360,24 +342,27 @@
 		5506977D1C684C9C008C5BAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Sample App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Sabintsev.Sample-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		5506977E1C684C9C008C5BAF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Sample App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Sabintsev.Sample-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -395,6 +380,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Sabintsev.Zephyr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -415,6 +401,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Sabintsev.Zephyr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
