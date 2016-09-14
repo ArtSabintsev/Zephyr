@@ -80,25 +80,25 @@ Zephyr.sync()
 
 **Sync a specific key or keys (Variadic Option)**
 ```Swift
-Zephyr.sync("MyFirstKey", "MySecondKey", ...)
+Zephyr.sync(keys: "MyFirstKey", "MySecondKey", ...)
 ```
 
 **Sync a specific key or keys (Array Option)**
 ```Swift
-Zephyr.sync(["MyFirstKey", "MySecondKey"])
+Zephyr.sync(keys: ["MyFirstKey", "MySecondKey"])
 ```
 
 **Add/Remove Keys for Background Monitoring (Variadic Option)**
 
 ```Swift
-Zephyr.addKeysToBeMonitored("MyFirstKey", "MySecondKey", ...)
-Zephyr.removeKeysFromBeingMonitored("MyFirstKey", "MySecondKey", ...)
+Zephyr.addKeysToBeMonitored(keys: "MyFirstKey", "MySecondKey", ...)
+Zephyr.removeKeysFromBeingMonitored(keys: "MyFirstKey", "MySecondKey", ...)
 ```
 
 **Add/Remove Keys for Background Monitoring (Array Option)**
 ```Swift
-Zephyr.addKeysToBeMonitored(["MyFirstKey", "MySecondKey"])
-Zephyr.removeKeysFromBeingMonitored(["MyFirstKey", "MySecondKey"])
+Zephyr.addKeysToBeMonitored(keys: ["MyFirstKey", "MySecondKey"])
+Zephyr.removeKeysFromBeingMonitored(keys: ["MyFirstKey", "MySecondKey"])
 ```
 **Toggle Automatic Calling of NSUbiquitousKeyValueStore's Synchronization method**
 ```
