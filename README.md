@@ -22,6 +22,8 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 ### Installation Instructions
 
 #### CocoaPods
+For Swift 3 support:
+
 ```ruby
 pod 'Zephyr'
 ```
@@ -32,13 +34,9 @@ For Swift 2.3 support:
 pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift2.3'
 ```
 
+### Carthage
 For Swift 3 support:
 
-```ruby
-pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift3'
-```
-
-### Carthage
 ``` swift
 github "ArtSabintsev/Zephyr"
 ```
@@ -49,15 +47,9 @@ For Swift 2.3 support:
 github "ArtSabintsev/Zephyr" "swift2.3"
 ```
 
-For Swift 3 support:
-
-``` swift
-github "ArtSabintsev/Zephyr" "swift3"
-```
-
 ### Swift Package Manager
 ``` swift
-.Package(url: "https://github.com/ArtSabintsev/Zephyr.git", majorVersion: 1)
+.Package(url: "https://github.com/ArtSabintsev/Zephyr.git", majorVersion: 2)
 ```
 #### Manual
 
