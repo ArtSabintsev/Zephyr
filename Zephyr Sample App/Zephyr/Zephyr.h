@@ -2,8 +2,8 @@
 //  Zephyr.h
 //  Zephyr
 //
-//  Created by Sabintsev, Arthur on 2/7/16.
-//  Copyright © 2016 Sabintsev Mobile Projects. All rights reserved.
+//  Created by Arthur Sabintsev on 1/7/17.
+//  Copyright © 2017 Arthur Ariel Sabintsev. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
