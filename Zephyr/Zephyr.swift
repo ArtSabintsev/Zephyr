@@ -15,7 +15,6 @@ fileprivate enum ZephyrDataStore {
 }
 
 public class Zephyr: NSObject {
-
     /// A debug flag.
     ///
     /// If **true**, then this will enable console log statements.
@@ -191,7 +190,6 @@ public class Zephyr: NSObject {
 // MARK: Helpers
 
 fileprivate extension Zephyr {
-
     /// Compares the last sync date between NSUbiquitousKeyValueStore and NSUserDefaults.
     ///
     /// If no data exists in NSUbiquitousKeyValueStore, then NSUbiquitousKeyValueStore will synchronize with data from NSUserDefaults.
@@ -229,7 +227,6 @@ fileprivate extension Zephyr {
 // MARK: Synchronizers
 
 fileprivate extension Zephyr {
-
     /// Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
     /// 
     /// - Parameters: 
@@ -256,7 +253,6 @@ fileprivate extension Zephyr {
     ///     - key: If you pass a key, only that key will be updated in NSUbiquitousKeyValueStore.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
     func syncToCloud(key: String? = nil, value: Any? = nil) {
-
         let ubiquitousStore = NSUbiquitousKeyValueStore.default()
         ubiquitousStore.set(Date(), forKey: ZephyrSyncKey)
 
@@ -300,7 +296,6 @@ fileprivate extension Zephyr {
     ///     - key: If you pass a key, only that key will updated in NSUserDefaults.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
     func syncFromCloud(key: String? = nil, value: Any? = nil) {
-
         let defaults = UserDefaults.standard
         defaults.set(Date(), forKey: ZephyrSyncKey)
 
@@ -344,10 +339,10 @@ extension Zephyr {
             return
         }
 
-        if !self.registeredObservationKeys.contains(key) {
+        if !registeredObservationKeys.contains(key) {
 
             UserDefaults.standard.addObserver(self, forKeyPath: key, options: .new, context: nil)
-            self.registeredObservationKeys.append(key)
+            registeredObservationKeys.append(key)
 
         }
 
@@ -359,15 +354,14 @@ extension Zephyr {
     /// - Parameters:
     ///     - key: The key that should be removed from being monitored.
     fileprivate func unregisterObserver(key: String) {
-
         if key == ZephyrSyncKey {
             return
         }
 
-        if let index = self.registeredObservationKeys.index(of: key) {
+        if let index = registeredObservationKeys.index(of: key) {
 
             UserDefaults.standard.removeObserver(self, forKeyPath: key, context: nil)
-            self.registeredObservationKeys.remove(at: index)
+            registeredObservationKeys.remove(at: index)
 
         }
 
@@ -382,7 +376,6 @@ extension Zephyr {
     ///  Observation method for NSUbiquitousKeyValueStoreDidChangeExternallyNotification
     func keysDidChangeOnCloud(notification: Notification) {
         if notification.name == NSUbiquitousKeyValueStore.didChangeExternallyNotification {
-
             guard let userInfo = (notification as NSNotification).userInfo,
                 let cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
                 let localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date,
@@ -391,7 +384,7 @@ extension Zephyr {
             }
 
             for key in monitoredKeys where cloudKeys.contains(key) {
-                self.syncSpecificKeys(keys: [key], dataStore: .remote)
+                syncSpecificKeys(keys: [key], dataStore: .remote)
             }
         }
     }
@@ -403,7 +396,6 @@ extension Zephyr {
 
         // Synchronize changes if key is monitored and if key is currently registered to respond to changes
         if monitoredKeys.contains(keyPath) {
-
             zephyrQueue.async {
                 if self.registeredObservationKeys.contains(keyPath) {
                     if object is UserDefaults {
@@ -420,7 +412,6 @@ extension Zephyr {
 // MARK: Loggers
 
 fileprivate extension Zephyr {
-
     /// Prints Zephyr's current sync status if
     ///
     /// - Parameters:
@@ -447,7 +438,6 @@ fileprivate extension Zephyr {
     ///     - value: The value being synchronized.
     ///     - destination: The data store that is receiving the updated key-value pair.
     static func printKeySyncStatus(key: String, value: Any?, destination dataStore: ZephyrDataStore) {
-
         if debugEnabled == true {
             let destination = dataStore == .local ? "FROM iCloud" : "TO iCloud."
 
@@ -468,7 +458,6 @@ fileprivate extension Zephyr {
     ///     - key: The key being synchronized.
     ///     - subscribed: The subscription status of the key.
     static func printObservationStatus(key: String, subscribed: Bool) {
-        
         if debugEnabled {
             let subscriptionState = subscribed == true ? "Subscribed" : "Unsubscribed"
             let preposition = subscribed == true ? "for" : "from"
@@ -488,5 +477,4 @@ fileprivate extension Zephyr {
             print("[Zephyr] \(status)")
         }
     }
-    
 }
