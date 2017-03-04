@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Zephyr"
-  s.version      = "2.1.0"
+  s.version      = "2.2.0"
   s.summary      = "Effortlessly synchronize UserDefaults over iCloud"
 
   s.description  = <<-DESC
