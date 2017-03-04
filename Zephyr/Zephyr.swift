@@ -26,7 +26,7 @@ public class Zephyr: NSObject {
     public static var syncUbiquitousKeyValueStoreOnChange = true
 
     /// The singleton for Zephyr.
-    fileprivate static let sharedInstance = Zephyr()
+    fileprivate static let shared = Zephyr()
 
     /// A shared key that stores the last synchronization date between NSUserDefaults and NSUbiquitousKeyValueStore.
     fileprivate let ZephyrSyncKey = "ZephyrSyncKey"
@@ -92,17 +92,17 @@ public class Zephyr: NSObject {
             return
         }
 
-        switch sharedInstance.dataStoreWithLatestData() {
+        switch shared.dataStoreWithLatestData() {
         case .local:
             printGeneralSyncStatus(finished: false, destination: .remote)
-            sharedInstance.zephyrQueue.sync {
-                sharedInstance.syncToCloud()
+            shared.zephyrQueue.sync {
+                shared.syncToCloud()
             }
             printGeneralSyncStatus(finished: true, destination: .remote)
         case .remote:
             printGeneralSyncStatus(finished: false, destination: .local)
-            sharedInstance.zephyrQueue.sync {
-                sharedInstance.syncFromCloud()
+            shared.zephyrQueue.sync {
+                shared.syncFromCloud()
             }
             printGeneralSyncStatus(finished: true, destination: .local)
         }
@@ -115,17 +115,17 @@ public class Zephyr: NSObject {
     /// - Parameters: 
     ///     - keys: An array of keys that should be synchronized between NSUserDefaults and NSUbiquitousKeyValueStore.
     public static func sync(keys: [String]) {
-        switch sharedInstance.dataStoreWithLatestData() {
+        switch shared.dataStoreWithLatestData() {
         case .local:
             printGeneralSyncStatus(finished: false, destination: .remote)
-            sharedInstance.zephyrQueue.sync {
-                sharedInstance.syncSpecificKeys(keys: keys, dataStore: .local)
+            shared.zephyrQueue.sync {
+                shared.syncSpecificKeys(keys: keys, dataStore: .local)
             }
             printGeneralSyncStatus(finished: true, destination: .remote)
         case .remote:
             printGeneralSyncStatus(finished: false, destination: .local)
-            sharedInstance.zephyrQueue.sync {
-                sharedInstance.syncSpecificKeys(keys: keys, dataStore: .remote)
+            shared.zephyrQueue.sync {
+                shared.syncSpecificKeys(keys: keys, dataStore: .remote)
             }
             printGeneralSyncStatus(finished: true, destination: .local)
         }
@@ -138,11 +138,11 @@ public class Zephyr: NSObject {
     ///     - keys: Pass one or more keys that you would like to begin monitoring.
     public static func addKeysToBeMonitored(keys: [String]) {
         for key in keys {
-            if sharedInstance.monitoredKeys.contains(key) == false {
-                sharedInstance.monitoredKeys.append(key)
+            if shared.monitoredKeys.contains(key) == false {
+                shared.monitoredKeys.append(key)
 
-                sharedInstance.zephyrQueue.sync {
-                    sharedInstance.registerObserver(key: key)
+                shared.zephyrQueue.sync {
+                    shared.registerObserver(key: key)
                 }
             }
         }
@@ -165,11 +165,11 @@ public class Zephyr: NSObject {
     ///    - keys: Pass one or more keys that you would like to stop monitoring.
     public static func removeKeysFromBeingMonitored(keys: [String]) {
         for key in keys {
-            if sharedInstance.monitoredKeys.contains(key) == true {
-                sharedInstance.monitoredKeys = sharedInstance.monitoredKeys.filter {$0 != key }
+            if shared.monitoredKeys.contains(key) == true {
+                shared.monitoredKeys = shared.monitoredKeys.filter {$0 != key }
 
-                sharedInstance.zephyrQueue.sync {
-                    sharedInstance.unregisterObserver(key: key)
+                shared.zephyrQueue.sync {
+                    shared.unregisterObserver(key: key)
                 }
             }
         }
