@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8E5ACC6C1E21881B00FF1FA3"
-               BuildableName = "Zephyr Sample App.app"
-               BlueprintName = "Zephyr Sample App"
-               ReferencedContainer = "container:Zephyr Sample App.xcodeproj">
+               BuildableName = "ZephyrExample.app"
+               BlueprintName = "ZephyrExample"
+               ReferencedContainer = "container:ZephyrExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E5ACC6C1E21881B00FF1FA3"
-            BuildableName = "Zephyr Sample App.app"
-            BlueprintName = "Zephyr Sample App"
-            ReferencedContainer = "container:Zephyr Sample App.xcodeproj">
+            BuildableName = "ZephyrExample.app"
+            BlueprintName = "ZephyrExample"
+            ReferencedContainer = "container:ZephyrExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E5ACC6C1E21881B00FF1FA3"
-            BuildableName = "Zephyr Sample App.app"
-            BlueprintName = "Zephyr Sample App"
-            ReferencedContainer = "container:Zephyr Sample App.xcodeproj">
+            BuildableName = "ZephyrExample.app"
+            BlueprintName = "ZephyrExample"
+            ReferencedContainer = "container:ZephyrExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E5ACC6C1E21881B00FF1FA3"
-            BuildableName = "Zephyr Sample App.app"
-            BlueprintName = "Zephyr Sample App"
-            ReferencedContainer = "container:Zephyr Sample App.xcodeproj">
+            BuildableName = "ZephyrExample.app"
+            BlueprintName = "ZephyrExample"
+            ReferencedContainer = "container:ZephyrExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

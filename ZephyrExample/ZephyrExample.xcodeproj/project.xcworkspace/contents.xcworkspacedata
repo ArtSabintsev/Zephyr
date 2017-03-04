@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Zephyr Sample App.xcodeproj">
+      location = "self:/Users/sabintseva/Documents/oss/zephyr/Zephyr Sample App/ZephyrExample.xcodeproj">
    </FileRef>
 </Workspace>
