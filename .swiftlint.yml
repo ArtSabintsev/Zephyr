@@ -1,0 +1,10 @@
+included:
+  - ../Sources/
+
+disabled_rules:
+  - cyclomatic_complexity
+  - file_length
+  - line_length
+  - variable_name
+
+reporter: "xcode"

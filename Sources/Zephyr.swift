@@ -41,20 +41,16 @@ public class Zephyr: NSObject {
     fileprivate var registeredObservationKeys = [String]()
 
     /// A queue used to serialize synchronization on monitored keys.
-    fileprivate let zephyrQueue = DispatchQueue(label: "com.zephyr.queue");
+    fileprivate let zephyrQueue = DispatchQueue(label: "com.zephyr.queue")
 
     /// A session-persisted variable to directly access all of the NSUserDefaults elements.
     fileprivate var zephyrLocalStoreDictionary: [String: Any] {
-        get {
             return UserDefaults.standard.dictionaryRepresentation()
-        }
     }
 
     /// A session-persisted variable to directly access all of the NSUbiquitousKeyValueStore elements.
-    fileprivate var zephyrRemoteStoreDictionary: [String: Any]  {
-        get {
+    fileprivate var zephyrRemoteStoreDictionary: [String: Any] {
             return NSUbiquitousKeyValueStore.default().dictionaryRepresentation
-        }
     }
 
     /// Zephyr's initialization method.
@@ -70,7 +66,6 @@ public class Zephyr: NSObject {
                                                object: nil)
         NSUbiquitousKeyValueStore.default().synchronize()
     }
-
 
     /// Zephyr's de-initialization method.
     deinit {
@@ -382,7 +377,8 @@ extension Zephyr {
             guard let userInfo = (notification as NSNotification).userInfo,
                 let cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
                 let localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date,
-                let remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? Date , remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
+                let remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? Date,
+                remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970 else {
                     return
             }
 
@@ -449,12 +445,12 @@ fileprivate extension Zephyr {
                 printStatus(status: message)
                 return
             }
-            
+
             let message = "Synchronized key '\(key)' with value '\(value)' \(destination)"
             printStatus(status: message)
         }
     }
-    
+
     /// Prints the subscription state for a specific key if debugEnabled == true
     ///
     /// - Parameters: 
@@ -464,12 +460,12 @@ fileprivate extension Zephyr {
         if debugEnabled {
             let subscriptionState = subscribed == true ? "Subscribed" : "Unsubscribed"
             let preposition = subscribed == true ? "for" : "from"
-            
+
             let message = "\(subscriptionState) '\(key)' \(preposition) observation."
             printStatus(status: message)
         }
     }
-    
+
     /// Prints a status to the console if
     ///
     /// - Parameters: 

@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name         = "Zephyr"
-  s.version      = "2.2.1"
+  s.version      = "2.2.2"
   s.summary      = "Effortlessly synchronize UserDefaults over iCloud"
 
   s.description  = <<-DESC
-  Effortlessly synchronize NSUserDefaults over iCloud.
+  Effortlessly synchronize UserDefaults over iCloud.
   DESC
 
   s.ios.deployment_target = '9.0'
@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
   s.authors      = { "Arthur Ariel Sabintsev" => "arthur@sabintsev.com"}
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/ArtSabintsev/Zephyr.git", :tag => s.version.to_s }
-  s.source_files = 'Zephyr/*.swift'
+  s.source_files = 'Sources/*.swift'
   s.requires_arc = true
 end

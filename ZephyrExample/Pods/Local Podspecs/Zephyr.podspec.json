@@ -1,20 +1,20 @@
 {
   "name": "Zephyr",
-  "version": "2.1.0",
-  "summary": "Effortlessly synchronize NSUserDefaults over iCloud",
-  "description": "Effortlessly synchronize NSUserDefaults over iCloud.",
+  "version": "2.2.2",
+  "summary": "Effortlessly synchronize UserDefaults over iCloud",
+  "description": "Effortlessly synchronize UserDefaults over iCloud.",
+  "platforms": {
+    "ios": "8.0"
+  },
   "homepage": "https://github.com/ArtSabintsev/Zephyr",
   "license": "MIT",
   "authors": {
     "Arthur Ariel Sabintsev": "arthur@sabintsev.com"
   },
-  "platforms": {
-    "ios": "8.0"
-  },
   "source": {
     "git": "https://github.com/ArtSabintsev/Zephyr.git",
-    "tag": "2.1.0"
+    "tag": "2.2.2"
   },
-  "source_files": "Zephyr/*.swift",
+  "source_files": "Sources/*.swift",
   "requires_arc": true
 }

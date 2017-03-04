@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1152E5A612D35B15C5BBD72B321592B4 /* Zephyr-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 38820548B72CC6BC9303664032978594 /* Zephyr-dummy.m */; };
-		5837CEF9FE9CE68618A4E0FFD9B2B1A1 /* Zephyr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F344A4C4ABD1C79878A9163717AE730 /* Zephyr.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		1152E5A612D35B15C5BBD72B321592B4 /* Zephyr-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB19718461A85F1ECC6F7BB44EF23A8 /* Zephyr-dummy.m */; };
+		5837CEF9FE9CE68618A4E0FFD9B2B1A1 /* Zephyr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC96BE7984887F6AB61FAF1F730BD81 /* Zephyr.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		58AA7DE74AAE63981AB6CB662047FB51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */; };
 		7CA325AC9803D3FF3CA930CCAA1DF629 /* Pods-ZephyrExample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C77FA5B9ECA32E3E796D565E05B8721B /* Pods-ZephyrExample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		903C2F340FE21DDA4B341A36A9530F34 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */; };
 		BD2E11936F2A39A004A65D1657340F17 /* Pods-ZephyrExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB0584DC519CF53248C822653AD8A65 /* Pods-ZephyrExample-dummy.m */; };
-		C51A4C04C0D31C059EEC155DCD3FF80D /* Zephyr-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D08CD738764BF4570754299AB0122A7 /* Zephyr-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C51A4C04C0D31C059EEC155DCD3FF80D /* Zephyr-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D6DA365A3B62C40706CAD2DD28C85BC /* Zephyr-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,25 +27,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1F344A4C4ABD1C79878A9163717AE730 /* Zephyr.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Zephyr.swift; sourceTree = "<group>"; };
+		1AC96BE7984887F6AB61FAF1F730BD81 /* Zephyr.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Zephyr.swift; sourceTree = "<group>"; };
 		2456FFD067B81BBE795A47299E682CCB /* Pods-ZephyrExample-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ZephyrExample-resources.sh"; sourceTree = "<group>"; };
-		25CE16311A9D954D5C77B29F4F72D2C4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CB8C6B0F8A5567D493B21A59881340A /* Pods_ZephyrExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ZephyrExample.framework; path = "Pods-ZephyrExample.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		38820548B72CC6BC9303664032978594 /* Zephyr-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Zephyr-dummy.m"; sourceTree = "<group>"; };
-		3A4719FC6CA1B0FF8CD03E6C4D298C03 /* Zephyr.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Zephyr.xcconfig; sourceTree = "<group>"; };
+		330C9E2DC1F9B11586D2335958DFD51E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D6DA365A3B62C40706CAD2DD28C85BC /* Zephyr-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zephyr-umbrella.h"; sourceTree = "<group>"; };
 		485578B36D40815AD93EA2190E3199EB /* Pods-ZephyrExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-ZephyrExample.modulemap"; sourceTree = "<group>"; };
 		4F30C74B8AA949E396C5B72E60CC1C69 /* Pods-ZephyrExample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ZephyrExample-frameworks.sh"; sourceTree = "<group>"; };
+		4FB19718461A85F1ECC6F7BB44EF23A8 /* Zephyr-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Zephyr-dummy.m"; sourceTree = "<group>"; };
 		519FE7AA530FCCDDA7A43E2D7778C52C /* Pods-ZephyrExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ZephyrExample.release.xcconfig"; sourceTree = "<group>"; };
-		5D08CD738764BF4570754299AB0122A7 /* Zephyr-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zephyr-umbrella.h"; sourceTree = "<group>"; };
-		61534EC6BDCF31827F2F9670000F961C /* Zephyr-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zephyr-prefix.pch"; sourceTree = "<group>"; };
+		6513D647B82EC61E5055389A715EA4C5 /* Zephyr-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zephyr-prefix.pch"; sourceTree = "<group>"; };
 		853D262DB4C4399767DCDE7EFD65F89B /* Pods-ZephyrExample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ZephyrExample-acknowledgements.plist"; sourceTree = "<group>"; };
 		8597FA474A5F3B2F61CB3DC5B6E33F50 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EC01C681B7C3048BAD1C9AEED94A8CE /* Pods-ZephyrExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ZephyrExample.debug.xcconfig"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		97E5ED32F25454B25D6495AD623379B1 /* Pods-ZephyrExample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ZephyrExample-acknowledgements.markdown"; sourceTree = "<group>"; };
+		9DA81E7690C5F45B1FC8E759388B699C /* Zephyr.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Zephyr.xcconfig; sourceTree = "<group>"; };
 		C77FA5B9ECA32E3E796D565E05B8721B /* Pods-ZephyrExample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ZephyrExample-umbrella.h"; sourceTree = "<group>"; };
 		CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		D77984A87AEC7260215191AB79F1B6B2 /* Zephyr.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Zephyr.modulemap; sourceTree = "<group>"; };
+		CD0BA9A38EDB14DB1F4AB94436AE9ABA /* Zephyr.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Zephyr.modulemap; sourceTree = "<group>"; };
 		ED139C800D8773B738911A5205997960 /* Zephyr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Zephyr.framework; path = Zephyr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEB0584DC519CF53248C822653AD8A65 /* Pods-ZephyrExample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ZephyrExample-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,27 +70,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0F03072B01F7E2396C47B6158663B635 /* Support Files */ = {
+		06F6E22D63C60316ABA254332EEF0C0B /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				25CE16311A9D954D5C77B29F4F72D2C4 /* Info.plist */,
-				D77984A87AEC7260215191AB79F1B6B2 /* Zephyr.modulemap */,
-				3A4719FC6CA1B0FF8CD03E6C4D298C03 /* Zephyr.xcconfig */,
-				38820548B72CC6BC9303664032978594 /* Zephyr-dummy.m */,
-				61534EC6BDCF31827F2F9670000F961C /* Zephyr-prefix.pch */,
-				5D08CD738764BF4570754299AB0122A7 /* Zephyr-umbrella.h */,
+				330C9E2DC1F9B11586D2335958DFD51E /* Info.plist */,
+				CD0BA9A38EDB14DB1F4AB94436AE9ABA /* Zephyr.modulemap */,
+				9DA81E7690C5F45B1FC8E759388B699C /* Zephyr.xcconfig */,
+				4FB19718461A85F1ECC6F7BB44EF23A8 /* Zephyr-dummy.m */,
+				6513D647B82EC61E5055389A715EA4C5 /* Zephyr-prefix.pch */,
+				3D6DA365A3B62C40706CAD2DD28C85BC /* Zephyr-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "ZephyrExample/Pods/Target Support Files/Zephyr";
 			sourceTree = "<group>";
 		};
-		1B3728E281D420F35A35C567963452F1 /* Zephyr */ = {
+		55702AD7D2CBEAFE099BC82A2422DC3B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				1F344A4C4ABD1C79878A9163717AE730 /* Zephyr.swift */,
+				1AC96BE7984887F6AB61FAF1F730BD81 /* Zephyr.swift */,
 			);
-			name = Zephyr;
-			path = Zephyr;
+			name = Sources;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		7531C8F8DE19F1AA3C8A7AC97A91DC29 /* iOS */ = {
@@ -121,6 +121,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B2ED52418E12D5F47C736E48D6E476A4 /* Zephyr */ = {
+			isa = PBXGroup;
+			children = (
+				55702AD7D2CBEAFE099BC82A2422DC3B /* Sources */,
+				06F6E22D63C60316ABA254332EEF0C0B /* Support Files */,
+			);
+			name = Zephyr;
+			path = ../..;
+			sourceTree = "<group>";
+		};
 		B6B0AA084AACE6FBB5EA97D94C2CC949 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,16 +145,6 @@
 				7531C8F8DE19F1AA3C8A7AC97A91DC29 /* iOS */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CA2F0A13BF000E4A21B21D4688B12A78 /* Zephyr */ = {
-			isa = PBXGroup;
-			children = (
-				0F03072B01F7E2396C47B6158663B635 /* Support Files */,
-				1B3728E281D420F35A35C567963452F1 /* Zephyr */,
-			);
-			name = Zephyr;
-			path = ../..;
 			sourceTree = "<group>";
 		};
 		CA6DE50ED51E72E4465195472C4563E6 /* Pods-ZephyrExample */ = {
@@ -168,7 +168,7 @@
 		CEA6035BDF160DF9EB41BCF089F553B2 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CA2F0A13BF000E4A21B21D4688B12A78 /* Zephyr */,
+				B2ED52418E12D5F47C736E48D6E476A4 /* Zephyr */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -373,7 +373,7 @@
 		};
 		71EC7A44E62811A7C71E20B0BE2F79F3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A4719FC6CA1B0FF8CD03E6C4D298C03 /* Zephyr.xcconfig */;
+			baseConfigurationReference = 9DA81E7690C5F45B1FC8E759388B699C /* Zephyr.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -405,7 +405,7 @@
 		};
 		75E58EFF29914DDE7BA6B374999F4BEC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A4719FC6CA1B0FF8CD03E6C4D298C03 /* Zephyr.xcconfig */;
+			baseConfigurationReference = 9DA81E7690C5F45B1FC8E759388B699C /* Zephyr.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";

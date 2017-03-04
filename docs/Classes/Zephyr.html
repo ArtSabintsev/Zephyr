@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Zephyr Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Zephyr" class="dashAnchor"></a>
+    <a title="Zephyr Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Zephyr Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/artsabintsev/zephyr"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Zephyr Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Zephyr Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Zephyr.html">Zephyr</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Zephyr</h1>
+            <p>Undocumented</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC6Zephyr6Zephyr12debugEnabledSb"></a>
+                    <a name="//apple_ref/swift/Variable/debugEnabled" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC6Zephyr6Zephyr12debugEnabledSb">debugEnabled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A debug flag.</p>
+
+<p>If <strong>true</strong>, then this will enable console log statements.</p>
+
+<p>By default, this flag is set to <strong>false</strong>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">debugEnabled</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC6Zephyr6Zephyr35syncUbiquitousKeyValueStoreOnChangeSb"></a>
+                    <a name="//apple_ref/swift/Variable/syncUbiquitousKeyValueStoreOnChange" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC6Zephyr6Zephyr35syncUbiquitousKeyValueStoreOnChangeSb">syncUbiquitousKeyValueStoreOnChange</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If <strong>true</strong>, then NSUbiquitousKeyValueStore.synchronize() will be called immediately after any change is made.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">syncUbiquitousKeyValueStoreOnChange</span> <span class="o">=</span> <span class="kc">true</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC6Zephyr6Zephyr4syncFt4keysGSaSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/sync(keys:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC6Zephyr6Zephyr4syncFt4keysGSaSS__T_">sync(keys:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Zephyr&rsquo;s synchronization method.</p>
+
+<p>Zephyr will synchronize all NSUserDefaults with NSUbiquitousKeyValueStore.</p>
+
+<p>If one or more keys are passed, only those keys will be synchronized.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">sync</span><span class="p">(</span><span class="nv">keys</span><span class="p">:</span> <span class="kt">String</span><span class="o">...</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC6Zephyr6Zephyr4syncFT4keysGSaSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/sync(keys:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC6Zephyr6Zephyr4syncFT4keysGSaSS__T_">sync(keys:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Overloaded version of Zephyr&rsquo;s synchronization method, <strong>sync(keys:)</strong>.</p>
+
+<p>This method will synchronize an array of keys between NSUserDefaults and NSUbiquitousKeyValueStore.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">sync</span><span class="p">(</span><span class="nv">keys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of keys that should be synchronized between NSUserDefaults and NSUbiquitousKeyValueStore.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC6Zephyr6Zephyr20addKeysToBeMonitoredFT4keysGSaSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/addKeysToBeMonitored(keys:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC6Zephyr6Zephyr20addKeysToBeMonitoredFT4keysGSaSS__T_">addKeysToBeMonitored(keys:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add specific keys to be monitored in the background. Monitored keys will automatically
+be synchronized between both data stores whenever a change is detected</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">addKeysToBeMonitored</span><span class="p">(</span><span class="nv">keys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Pass one or more keys that you would like to begin monitoring.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC6Zephyr6Zephyr20addKeysToBeMonitoredFt4keysGSaSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/addKeysToBeMonitored(keys:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC6Zephyr6Zephyr20addKeysToBeMonitoredFt4keysGSaSS__T_">addKeysToBeMonitored(keys:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Overloaded version of the <strong>addKeysToBeMonitored(keys:)</strong> method.</p>
+
+<p>Add specific keys to be monitored in the background. Monitored keys will automatically
+be synchronized between both data stores whenever a change is detected</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">addKeysToBeMonitored</span><span class="p">(</span><span class="nv">keys</span><span class="p">:</span> <span class="kt">String</span><span class="o">...</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Pass one or more keys that you would like to begin monitoring.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC6Zephyr6Zephyr28removeKeysFromBeingMonitoredFT4keysGSaSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/removeKeysFromBeingMonitored(keys:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC6Zephyr6Zephyr28removeKeysFromBeingMonitoredFT4keysGSaSS__T_">removeKeysFromBeingMonitored(keys:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Remove specific keys from being monitored in the background.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">removeKeysFromBeingMonitored</span><span class="p">(</span><span class="nv">keys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Pass one or more keys that you would like to stop monitoring.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC6Zephyr6Zephyr28removeKeysFromBeingMonitoredFt4keysGSaSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/removeKeysFromBeingMonitored(keys:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC6Zephyr6Zephyr28removeKeysFromBeingMonitoredFt4keysGSaSS__T_">removeKeysFromBeingMonitored(keys:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Overloaded version of the <strong>removeKeysFromBeingMonitored(keys:)</strong> method.</p>
+
+<p>Remove specific keys from being monitored in the background.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">removeKeysFromBeingMonitored</span><span class="p">(</span><span class="nv">keys</span><span class="p">:</span> <span class="kt">String</span><span class="o">...</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Pass one or more keys that you would like to stop monitoring.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Zephyr6Zephyr12observeValueFT10forKeyPathGSqSS_2ofGSqP__6changeGSqGVs10DictionaryVSC19NSKeyValueChangeKeyP___7contextGSqSv__T_"></a>
+                    <a name="//apple_ref/swift/Method/observeValue(forKeyPath:of:change:context:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Zephyr6Zephyr12observeValueFT10forKeyPathGSqSS_2ofGSqP__6changeGSqGVs10DictionaryVSC19NSKeyValueChangeKeyP___7contextGSqSv__T_">observeValue(forKeyPath:of:change:context:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>© 2015-2017 <a class="link" href="http://www.sabintsev.com" target="_blank" rel="external">Arthur Ariel Sabintsev</a></p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
