@@ -1,5 +1,5 @@
 PODS:
-  - Zephyr (2.1.0)
+  - Zephyr (2.2.2)
 
 DEPENDENCIES:
   - Zephyr (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Zephyr: d568e6d468ecf6f145aa167075e8c9f6275bc26e
+  Zephyr: 542de42ddc36b4b66c346734296f53a86b6df2d2
 
 PODFILE CHECKSUM: 685dec8aa95ee80fb21e94678cd2cebefcbca2dc
 
