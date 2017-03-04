@@ -1,6 +1,7 @@
 # Zephyr
 
 ### Effortlessly sync NSUserDefaults over iCloud
+[![Platform](https://img.shields.io/cocoapods/p/Zephyr.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr) 
 
 [![CocoaPods](https://img.shields.io/cocoapods/v/Zephyr.svg)]()  [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)]() [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)]() [![CocoaPods](https://img.shields.io/cocoapods/dt/Zephyr.svg)]() [![CocoaPods](https://img.shields.io/cocoapods/dm/Zephyr.svg)]()
 ---
@@ -67,7 +68,7 @@ In Xcode, open your app's project/workspace file:
 - Under Services, make sure to check `Key-value storage`
 - Repeat for all Targets (if necessary)
 
-![How to turn on iCloud Key Value Store Syncing](https://github.com/ArtSabintsev/Zephyr/blob/master/screenshot.png?raw=true "How to turn on iCloud Key Value Store Syncing")
+![How to turn on iCloud Key Value Store Syncing](https://github.com/ArtSabintsev/Zephyr/blob/master/Assets/XcodeSettings.png?raw=true "How to turn on iCloud Key Value Store Syncing")
 
 #### Integrate Zephyr into your App
 

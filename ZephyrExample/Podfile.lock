@@ -1,0 +1,16 @@
+PODS:
+  - Zephyr (2.1.0)
+
+DEPENDENCIES:
+  - Zephyr (from `../`)
+
+EXTERNAL SOURCES:
+  Zephyr:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Zephyr: d568e6d468ecf6f145aa167075e8c9f6275bc26e
+
+PODFILE CHECKSUM: 685dec8aa95ee80fb21e94678cd2cebefcbca2dc
+
+COCOAPODS: 1.1.1
