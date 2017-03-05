@@ -12,8 +12,21 @@
 		551636231E6A7F33004D41AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5516361B1E6A7F33004D41AA /* LaunchScreen.storyboard */; };
 		551636241E6A7F33004D41AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5516361D1E6A7F33004D41AA /* Main.storyboard */; };
 		551636261E6A7F33004D41AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551636201E6A7F33004D41AA /* ViewController.swift */; };
-		569814AED09AB706FF6A95A0 /* Pods_ZephyrExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B922807BE98BB4F216C7DA3 /* Pods_ZephyrExample.framework */; };
+		55EC36381E6BB0BB00726F13 /* Zephyr.h in Headers */ = {isa = PBXBuildFile; fileRef = 55EC36361E6BB0BB00726F13 /* Zephyr.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55EC363B1E6BB0BB00726F13 /* Zephyr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EC36341E6BB0BB00726F13 /* Zephyr.framework */; };
+		55EC363C1E6BB0BB00726F13 /* Zephyr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55EC36341E6BB0BB00726F13 /* Zephyr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		55EC36411E6BB0C400726F13 /* Zephyr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EC36401E6BB0C400726F13 /* Zephyr.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		55EC36391E6BB0BB00726F13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8E5ACC651E21881B00FF1FA3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 55EC36331E6BB0BB00726F13;
+			remoteInfo = Zephyr;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8E5ACC931E21882600FF1FA3 /* Embed Frameworks */ = {
@@ -22,6 +35,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				55EC363C1E6BB0BB00726F13 /* Zephyr.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,41 +49,32 @@
 		5516361E1E6A7F33004D41AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5516361F1E6A7F33004D41AA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		551636201E6A7F33004D41AA /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		823E8DF5837849F72BEB6C63 /* Pods-ZephyrExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZephyrExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZephyrExample/Pods-ZephyrExample.release.xcconfig"; sourceTree = "<group>"; };
+		55EC36341E6BB0BB00726F13 /* Zephyr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Zephyr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		55EC36361E6BB0BB00726F13 /* Zephyr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Zephyr.h; sourceTree = "<group>"; };
+		55EC36371E6BB0BB00726F13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55EC36401E6BB0C400726F13 /* Zephyr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Zephyr.swift; path = ../../Sources/Zephyr.swift; sourceTree = "<group>"; };
 		8E5ACC6D1E21881B00FF1FA3 /* ZephyrExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZephyrExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B922807BE98BB4F216C7DA3 /* Pods_ZephyrExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZephyrExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3197D1FD2FC8C05FB0C0AF2 /* Pods-ZephyrExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZephyrExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZephyrExample/Pods-ZephyrExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		55EC36301E6BB0BB00726F13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8E5ACC6A1E21881B00FF1FA3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				569814AED09AB706FF6A95A0 /* Pods_ZephyrExample.framework in Frameworks */,
+				55EC363B1E6BB0BB00726F13 /* Zephyr.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03DCD48C0354A343B5349F6C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C3197D1FD2FC8C05FB0C0AF2 /* Pods-ZephyrExample.debug.xcconfig */,
-				823E8DF5837849F72BEB6C63 /* Pods-ZephyrExample.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		1B03844382619831962D378A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9B922807BE98BB4F216C7DA3 /* Pods_ZephyrExample.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		551636181E6A7F33004D41AA /* ZephyrExample */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,13 +88,22 @@
 			path = ZephyrExample;
 			sourceTree = "<group>";
 		};
+		55EC36351E6BB0BB00726F13 /* Zephyr */ = {
+			isa = PBXGroup;
+			children = (
+				55EC36401E6BB0C400726F13 /* Zephyr.swift */,
+				55EC36361E6BB0BB00726F13 /* Zephyr.h */,
+				55EC36371E6BB0BB00726F13 /* Info.plist */,
+			);
+			path = Zephyr;
+			sourceTree = "<group>";
+		};
 		8E5ACC641E21881B00FF1FA3 = {
 			isa = PBXGroup;
 			children = (
 				551636181E6A7F33004D41AA /* ZephyrExample */,
+				55EC36351E6BB0BB00726F13 /* Zephyr */,
 				8E5ACC6E1E21881B00FF1FA3 /* Products */,
-				03DCD48C0354A343B5349F6C /* Pods */,
-				1B03844382619831962D378A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,29 +111,57 @@
 			isa = PBXGroup;
 			children = (
 				8E5ACC6D1E21881B00FF1FA3 /* ZephyrExample.app */,
+				55EC36341E6BB0BB00726F13 /* Zephyr.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		55EC36311E6BB0BB00726F13 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55EC36381E6BB0BB00726F13 /* Zephyr.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		55EC36331E6BB0BB00726F13 /* Zephyr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55EC363F1E6BB0BB00726F13 /* Build configuration list for PBXNativeTarget "Zephyr" */;
+			buildPhases = (
+				55EC362F1E6BB0BB00726F13 /* Sources */,
+				55EC36301E6BB0BB00726F13 /* Frameworks */,
+				55EC36311E6BB0BB00726F13 /* Headers */,
+				55EC36321E6BB0BB00726F13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Zephyr;
+			productName = Zephyr;
+			productReference = 55EC36341E6BB0BB00726F13 /* Zephyr.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		8E5ACC6C1E21881B00FF1FA3 /* ZephyrExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E5ACC7F1E21881B00FF1FA3 /* Build configuration list for PBXNativeTarget "ZephyrExample" */;
 			buildPhases = (
-				5AC64B40A946063407FF6C6D /* [CP] Check Pods Manifest.lock */,
 				8E5ACC691E21881B00FF1FA3 /* Sources */,
 				8E5ACC6A1E21881B00FF1FA3 /* Frameworks */,
 				8E5ACC6B1E21881B00FF1FA3 /* Resources */,
 				8E5ACC931E21882600FF1FA3 /* Embed Frameworks */,
-				6564D4E520F1F553B01BF248 /* [CP] Embed Pods Frameworks */,
-				A4A2D785EF449CC7D4507231 /* [CP] Copy Pods Resources */,
 				55E37D1C1E6AA2C300B4F092 /* SwiftLint */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				55EC363A1E6BB0BB00726F13 /* PBXTargetDependency */,
 			);
 			name = ZephyrExample;
 			productName = "Zephyr Sample App";
@@ -136,6 +178,12 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Arthur Ariel Sabintsev";
 				TargetAttributes = {
+					55EC36331E6BB0BB00726F13 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = HT94948NDD;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
 					8E5ACC6C1E21881B00FF1FA3 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = HT94948NDD;
@@ -157,11 +205,19 @@
 			projectRoot = "";
 			targets = (
 				8E5ACC6C1E21881B00FF1FA3 /* ZephyrExample */,
+				55EC36331E6BB0BB00726F13 /* Zephyr */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		55EC36321E6BB0BB00726F13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8E5ACC6B1E21881B00FF1FA3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -189,54 +245,17 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --config ../.swiftlint.yml\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		5AC64B40A946063407FF6C6D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		6564D4E520F1F553B01BF248 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZephyrExample/Pods-ZephyrExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A4A2D785EF449CC7D4507231 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZephyrExample/Pods-ZephyrExample-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		55EC362F1E6BB0BB00726F13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55EC36411E6BB0C400726F13 /* Zephyr.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8E5ACC691E21881B00FF1FA3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -247,6 +266,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		55EC363A1E6BB0BB00726F13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 55EC36331E6BB0BB00726F13 /* Zephyr */;
+			targetProxy = 55EC36391E6BB0BB00726F13 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5516361B1E6A7F33004D41AA /* LaunchScreen.storyboard */ = {
@@ -268,6 +295,55 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		55EC363D1E6BB0BB00726F13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = HT94948NDD;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Zephyr/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sabintsev.Zephyr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		55EC363E1E6BB0BB00726F13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = HT94948NDD;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Zephyr/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sabintsev.Zephyr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		8E5ACC7D1E21881B00FF1FA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -363,7 +439,6 @@
 		};
 		8E5ACC801E21881B00FF1FA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C3197D1FD2FC8C05FB0C0AF2 /* Pods-ZephyrExample.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -378,7 +453,6 @@
 		};
 		8E5ACC811E21881B00FF1FA3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 823E8DF5837849F72BEB6C63 /* Pods-ZephyrExample.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -394,6 +468,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		55EC363F1E6BB0BB00726F13 /* Build configuration list for PBXNativeTarget "Zephyr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55EC363D1E6BB0BB00726F13 /* Debug */,
+				55EC363E1E6BB0BB00726F13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		8E5ACC681E21881B00FF1FA3 /* Build configuration list for PBXProject "ZephyrExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
