@@ -19,6 +19,7 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 - [x] Syncs only specific keys in NSUserDefaults
 - [x] Background monitoring and synchronization between NSUserDefaults and NSUbiquitousKeyValueStore
 - [x] Detailed Logging
+- [x] Documentation at http://sabintsev.com/Zephyr/
 
 ### Installation Instructions
 
