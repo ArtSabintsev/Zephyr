@@ -1,7 +1,7 @@
 # Zephyr
 
 ### Effortlessly sync UserDefaults over iCloud
-[![Platform](https://img.shields.io/cocoapods/p/Zephyr.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr)
+[![Platform](https://img.shields.io/badge/Platforms-iOS%20tvOS%20watchOS%20-lightgray.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr)
 
 [![CocoaPods](https://img.shields.io/cocoapods/v/Zephyr.svg)]()  [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)]() [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)]() [![CocoaPods](https://img.shields.io/cocoapods/dt/Zephyr.svg)]() [![CocoaPods](https://img.shields.io/cocoapods/dm/Zephyr.svg)]()
 ---
