@@ -1,4 +1,4 @@
-# Zephyr
+# Zephyr 🌬️
 
 ### Effortlessly sync UserDefaults over iCloud
 [![Platform](https://img.shields.io/badge/Platforms-iOS%20tvOS%20watchOS%20-lightgray.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr)
