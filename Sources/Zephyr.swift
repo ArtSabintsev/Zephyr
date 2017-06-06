@@ -14,6 +14,7 @@ fileprivate enum ZephyrDataStore {
     case remote // NSUbiquitousKeyValueStore
 }
 
+@objcMembers
 public class Zephyr: NSObject {
     /// A debug flag.
     ///
@@ -367,12 +368,12 @@ extension Zephyr {
     }
 
     /// Observation method for UIApplicationWillEnterForegroundNotification
-    @objc func willEnterForeground(notification: Notification) {
+    func willEnterForeground(notification: Notification) {
         NSUbiquitousKeyValueStore.default.synchronize()
     }
 
     ///  Observation method for NSUbiquitousKeyValueStoreDidChangeExternallyNotification
-    @objc func keysDidChangeOnCloud(notification: Notification) {
+    func keysDidChangeOnCloud(notification: Notification) {
         if notification.name == NSUbiquitousKeyValueStore.didChangeExternallyNotification {
             guard let userInfo = (notification as NSNotification).userInfo,
                 let cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
