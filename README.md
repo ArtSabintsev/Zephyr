@@ -7,7 +7,7 @@
 ---
 ### About
 
-Zephyr synchronizes specific keys and/or all of your [NSUserDefaults](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSUserDefaults_Class/) over iCloud using [NSUbiquitousKeyValueStore](https://developer.apple.com/library/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/).
+Zephyr synchronizes specific keys and/or all of your [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) over iCloud using [NSUbiquitousKeyValueStore](https://developer.apple.com/library/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/).
 
 Zephyr has built in monitoring, allowing it to sync specific keys in the background as they change.
 
