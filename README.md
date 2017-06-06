@@ -15,9 +15,9 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 
 ### Features
 - [x] CocoaPods Support
-- [x] Syncs all your NSUserDefaults (if you wish)
-- [x] Syncs only specific keys in NSUserDefaults
-- [x] Background monitoring and synchronization between NSUserDefaults and NSUbiquitousKeyValueStore
+- [x] Syncs all your UserDefaults (if you wish)
+- [x] Syncs only specific keys in UserDefaults
+- [x] Background monitoring and synchronization between UserDefaults and NSUbiquitousKeyValueStore
 - [x] Detailed Logging
 - [x] Documentation at http://sabintsev.com/Zephyr/
 
