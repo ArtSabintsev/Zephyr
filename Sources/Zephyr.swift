@@ -50,7 +50,7 @@ public class Zephyr: NSObject {
 
     /// A session-persisted variable to directly access all of the NSUbiquitousKeyValueStore elements.
     fileprivate var zephyrRemoteStoreDictionary: [String: Any] {
-            return NSUbiquitousKeyValueStore.default().dictionaryRepresentation
+            return NSUbiquitousKeyValueStore.default.dictionaryRepresentation
     }
 
     /// Zephyr's initialization method.
@@ -64,7 +64,7 @@ public class Zephyr: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
                                                name: NSNotification.Name.UIApplicationWillEnterForeground,
                                                object: nil)
-        NSUbiquitousKeyValueStore.default().synchronize()
+        NSUbiquitousKeyValueStore.default.synchronize()
     }
 
     /// Zephyr's de-initialization method.
@@ -251,7 +251,7 @@ fileprivate extension Zephyr {
     ///     - key: If you pass a key, only that key will be updated in NSUbiquitousKeyValueStore.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
     func syncToCloud(key: String? = nil, value: Any? = nil) {
-        let ubiquitousStore = NSUbiquitousKeyValueStore.default()
+        let ubiquitousStore = NSUbiquitousKeyValueStore.default
         ubiquitousStore.set(Date(), forKey: ZephyrSyncKey)
 
         // Sync all defaults to iCloud if key is nil, otherwise sync only the specific key/value pair.
@@ -275,7 +275,7 @@ fileprivate extension Zephyr {
             ubiquitousStore.set(value, forKey: key)
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .remote)
         } else {
-            NSUbiquitousKeyValueStore.default().removeObject(forKey: key)
+            NSUbiquitousKeyValueStore.default.removeObject(forKey: key)
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .remote)
         }
 
@@ -367,12 +367,12 @@ extension Zephyr {
     }
 
     /// Observation method for UIApplicationWillEnterForegroundNotification
-    func willEnterForeground(notification: Notification) {
-        NSUbiquitousKeyValueStore.default().synchronize()
+    @objc func willEnterForeground(notification: Notification) {
+        NSUbiquitousKeyValueStore.default.synchronize()
     }
 
     ///  Observation method for NSUbiquitousKeyValueStoreDidChangeExternallyNotification
-    func keysDidChangeOnCloud(notification: Notification) {
+    @objc func keysDidChangeOnCloud(notification: Notification) {
         if notification.name == NSUbiquitousKeyValueStore.didChangeExternallyNotification {
             guard let userInfo = (notification as NSNotification).userInfo,
                 let cloudKeys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
