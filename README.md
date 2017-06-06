@@ -67,9 +67,9 @@ In Xcode, open your app's project/workspace file:
 
 #### Integrate Zephyr into your App
 
-Before performing each sync, Zephyr automatically checks to see if the data in NSUserDefaults or NSUbiquitousKeyValueStore is newer. To make sure there's no overwriting going on in a fresh installation of your app on a new device that's connected to the same iCloud account, make sure that your NSUserDefaults are registered ***BEFORE*** calling any of the Zephyr methods.
+Before performing each sync, Zephyr automatically checks to see if the data in UserDefaults or NSUbiquitousKeyValueStore is newer. To make sure there's no overwriting going on in a fresh installation of your app on a new device that's connected to the same iCloud account, make sure that your UserDefaults are registered ***BEFORE*** calling any of the Zephyr methods.
 
-**Sync all NSUserDefaults**
+**Sync all UserDefaults**
 ```Swift
 Zephyr.sync()
 ```
