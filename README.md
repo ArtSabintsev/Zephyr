@@ -30,6 +30,16 @@ For Swift 3 support:
 pod 'Zephyr'
 ```
 
+For Swift 4 support:
+```ruby
+pod 'Siren', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift4'
+```
+
+For Swift 4 support:
+```swift
+github "ArtSabintsev/Siren", "swift4"
+```
+
 ### Carthage
 For Swift 3 support:
 
