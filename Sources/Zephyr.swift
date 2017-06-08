@@ -9,7 +9,7 @@
 import Foundation
 
 /// Enumerates the Local (NSUserDefaults) and Remote (NSUNSUbiquitousKeyValueStore) data stores
-fileprivate enum ZephyrDataStore {
+private enum ZephyrDataStore {
     case local  // NSUserDefaults
     case remote // NSUbiquitousKeyValueStore
 }
@@ -30,27 +30,27 @@ public class Zephyr: NSObject {
     public static var syncUbiquitousStoreKeyValueStoreOnChange = true
 
     /// The singleton for Zephyr.
-    fileprivate static let shared = Zephyr()
+    private static let shared = Zephyr()
 
     /// A shared key that stores the last synchronization date between NSUserDefaults and NSUbiquitousKeyValueStore.
-    fileprivate let ZephyrSyncKey = "ZephyrSyncKey"
+    private let ZephyrSyncKey = "ZephyrSyncKey"
 
     /// An array of keys that should be actively monitored for changes.
-    fileprivate var monitoredKeys = [String]()
+    private var monitoredKeys = [String]()
 
     /// An array of keys that are currently registered for observation.
-    fileprivate var registeredObservationKeys = [String]()
+    private var registeredObservationKeys = [String]()
 
     /// A queue used to serialize synchronization on monitored keys.
-    fileprivate let zephyrQueue = DispatchQueue(label: "com.zephyr.queue")
+    private let zephyrQueue = DispatchQueue(label: "com.zephyr.queue")
 
     /// A session-persisted variable to directly access all of the NSUserDefaults elements.
-    fileprivate var zephyrLocalStoreDictionary: [String: Any] {
+    private var zephyrLocalStoreDictionary: [String: Any] {
             return UserDefaults.standard.dictionaryRepresentation()
     }
 
     /// A session-persisted variable to directly access all of the NSUbiquitousKeyValueStore elements.
-    fileprivate var zephyrRemoteStoreDictionary: [String: Any] {
+    private var zephyrRemoteStoreDictionary: [String: Any] {
             return NSUbiquitousKeyValueStore.default.dictionaryRepresentation
     }
 
@@ -188,7 +188,7 @@ public class Zephyr: NSObject {
 
 // MARK: Helpers
 
-fileprivate extension Zephyr {
+private extension Zephyr {
     /// Compares the last sync date between NSUbiquitousKeyValueStore and NSUserDefaults.
     ///
     /// If no data exists in NSUbiquitousKeyValueStore, then NSUbiquitousKeyValueStore will synchronize with data from NSUserDefaults.
@@ -225,7 +225,7 @@ fileprivate extension Zephyr {
 
 // MARK: Synchronizers
 
-fileprivate extension Zephyr {
+private extension Zephyr {
     /// Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
     /// 
     /// - Parameters: 
@@ -333,7 +333,7 @@ extension Zephyr {
     ///
     /// - Parameters: 
     ///     - key: The key that should be added and monitored.
-    fileprivate func registerObserver(key: String) {
+    private func registerObserver(key: String) {
         if key == ZephyrSyncKey {
             return
         }
@@ -352,7 +352,7 @@ extension Zephyr {
     ///
     /// - Parameters:
     ///     - key: The key that should be removed from being monitored.
-    fileprivate func unregisterObserver(key: String) {
+    private func unregisterObserver(key: String) {
         if key == ZephyrSyncKey {
             return
         }
@@ -411,7 +411,7 @@ extension Zephyr {
 
 // MARK: Loggers
 
-fileprivate extension Zephyr {
+private extension Zephyr {
     /// Prints Zephyr's current sync status if
     ///
     /// - Parameters:
