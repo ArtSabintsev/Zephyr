@@ -14,7 +14,6 @@ private enum ZephyrDataStore {
     case remote // NSUbiquitousKeyValueStore
 }
 
-@objcMembers
 public class Zephyr: NSObject {
     /// A debug flag.
     ///
@@ -186,7 +185,7 @@ public class Zephyr: NSObject {
 
 }
 
-// MARK: Helpers
+// MARK: - Helpers
 
 private extension Zephyr {
     /// Compares the last sync date between NSUbiquitousKeyValueStore and NSUserDefaults.
@@ -223,7 +222,7 @@ private extension Zephyr {
 
 }
 
-// MARK: Synchronizers
+// MARK: - Synchronizers
 
 private extension Zephyr {
     /// Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
@@ -325,7 +324,7 @@ private extension Zephyr {
 
 }
 
-// MARK: Observers
+// MARK: - Observers
 
 extension Zephyr {
 
@@ -367,6 +366,30 @@ extension Zephyr {
         Zephyr.printObservationStatus(key: key, subscribed: false)
     }
 
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard let keyPath = keyPath, let object = object else {
+            return
+        }
+
+        // Synchronize changes if key is monitored and if key is currently registered to respond to changes
+        if monitoredKeys.contains(keyPath) {
+            zephyrQueue.async {
+                if self.registeredObservationKeys.contains(keyPath) {
+                    if object is UserDefaults {
+                        UserDefaults.standard.set(Date(), forKey: self.ZephyrSyncKey)
+                    }
+
+                    self.syncSpecificKeys(keys: [keyPath], dataStore: .local)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Observers (Objective-C)
+
+@objc extension Zephyr {
+
     /// Observation method for UIApplicationWillEnterForegroundNotification
     func willEnterForeground(notification: Notification) {
         NSUbiquitousKeyValueStore.default.synchronize()
@@ -389,27 +412,9 @@ extension Zephyr {
         }
     }
 
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard let keyPath = keyPath, let object = object else {
-            return
-        }
-
-        // Synchronize changes if key is monitored and if key is currently registered to respond to changes
-        if monitoredKeys.contains(keyPath) {
-            zephyrQueue.async {
-                if self.registeredObservationKeys.contains(keyPath) {
-                    if object is UserDefaults {
-                        UserDefaults.standard.set(Date(), forKey: self.ZephyrSyncKey)
-                    }
-
-                    self.syncSpecificKeys(keys: [keyPath], dataStore: .local)
-                }
-            }
-        }
-    }
 }
 
-// MARK: Loggers
+// MARK: - Loggers
 
 private extension Zephyr {
     /// Prints Zephyr's current sync status if
