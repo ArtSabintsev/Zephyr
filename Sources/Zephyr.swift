@@ -85,7 +85,7 @@ public class Zephyr: NSObject {
     /// - Parameters:
     ///     - keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.
     public static func sync(keys: String...) {
-        if keys.count > 0 {
+        if !keys.isEmpty {
             sync(keys: keys)
             return
         }
