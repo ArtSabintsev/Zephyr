@@ -2,9 +2,11 @@ included:
   - ../Sources/
 
 disabled_rules:
+  - block_based_kvo
   - cyclomatic_complexity
   - file_length
   - line_length
+  - unused_optional_binding
   - variable_name
 
 reporter: "xcode"
