@@ -10,7 +10,7 @@ import Foundation
 
 /// Enumerates the Local (NSUserDefaults) and Remote (NSUNSUbiquitousKeyValueStore) data stores
 private enum ZephyrDataStore {
-    case local  // NSUserDefaults
+    case local  // UserDefaults
     case remote // NSUbiquitousKeyValueStore
 }
 
