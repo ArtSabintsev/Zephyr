@@ -45,12 +45,12 @@ public class Zephyr: NSObject {
 
     /// A session-persisted variable to directly access all of the NSUserDefaults elements.
     fileprivate var zephyrLocalStoreDictionary: [String: Any] {
-            return UserDefaults.standard.dictionaryRepresentation()
+        return UserDefaults.standard.dictionaryRepresentation()
     }
 
     /// A session-persisted variable to directly access all of the NSUbiquitousKeyValueStore elements.
     fileprivate var zephyrRemoteStoreDictionary: [String: Any] {
-            return NSUbiquitousKeyValueStore.default().dictionaryRepresentation
+        return NSUbiquitousKeyValueStore.default().dictionaryRepresentation
     }
 
     /// Zephyr's initialization method.
