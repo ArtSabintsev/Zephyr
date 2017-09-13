@@ -367,20 +367,18 @@ extension Zephyr {
     }
 
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard let keyPath = keyPath, let object = object else {
+        guard let keyPath = keyPath, let object = object, monitoredKeys.contains(keyPath) else {
             return
         }
 
         // Synchronize changes if key is monitored and if key is currently registered to respond to changes
-        if monitoredKeys.contains(keyPath) {
-            zephyrQueue.async {
-                if self.registeredObservationKeys.contains(keyPath) {
-                    if object is UserDefaults {
-                        UserDefaults.standard.set(Date(), forKey: self.ZephyrSyncKey)
-                    }
-
-                    self.syncSpecificKeys(keys: [keyPath], dataStore: .local)
+        zephyrQueue.async {
+            if self.registeredObservationKeys.contains(keyPath) {
+                if object is UserDefaults {
+                    UserDefaults.standard.set(Date(), forKey: self.ZephyrSyncKey)
                 }
+
+                self.syncSpecificKeys(keys: [keyPath], dataStore: .local)
             }
         }
     }
