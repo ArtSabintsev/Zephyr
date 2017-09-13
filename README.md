@@ -23,30 +23,52 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 
 ### Installation Instructions
 
+| Swift Version |  Branch Name  | Will Continue to Receive Updates?
+| ------------- | ------------- |  -------------
+| 4.0  | master   | **Yes**
+| 3.2  | swift3.2 | No
+| 3.1  | swift3.1  | No
+
 #### CocoaPods
-For Swift 3 support:
+For Swift 4 support:
 
 ```ruby
 pod 'Zephyr'
 ```
 
-For Swift 4 support:
+For Swift 3.2 support:
 ```ruby
-pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift4'
+pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift3.2'
+```
+For Swift 3.1 support:
+```ruby
+pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift3.1'
 ```
 
-
 ### Carthage
-For Swift 3 support:
+For Swift 4 support:
 
 ``` swift
 github "ArtSabintsev/Zephyr"
 ```
 
+For Swift 3.2 support:
+
+``` swift
+github "ArtSabintsev/Zephyr", "swift3.2"
+```
+
+For Swift 3.1 support:
+
+``` swift
+github "ArtSabintsev/Zephyr", "swift3.1"
+```
+
 ### Swift Package Manager
 ``` swift
-.Package(url: "https://github.com/ArtSabintsev/Zephyr.git", majorVersion: 2)
+.Package(url: "https://github.com/ArtSabintsev/Zephyr.git", majorVersion: 3)
 ```
+
 #### Manual
 
 1. [Download Zephyr](http://github.com/ArtSabintsev/Zephyr/archive/master.zip)
