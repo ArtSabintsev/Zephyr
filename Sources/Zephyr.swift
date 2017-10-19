@@ -14,6 +14,7 @@ private enum ZephyrDataStore {
     case remote // NSUbiquitousKeyValueStore
 }
 
+@objcMembers
 public class Zephyr: NSObject {
     /// A debug flag.
     ///
@@ -366,7 +367,7 @@ extension Zephyr {
         Zephyr.printObservationStatus(key: key, subscribed: false)
     }
 
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let object = object, monitoredKeys.contains(keyPath) else {
             return
         }
