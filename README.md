@@ -92,7 +92,7 @@ In Xcode, open your app's project/workspace file:
 
 #### Integrate Zephyr into your App
 
-Before performing each sync, Zephyr automatically checks to see if the data in UserDefaults or NSUbiquitousKeyValueStore is newer. To make sure there's no overwriting going on in a fresh installation of your app on a new device that's connected to the same iCloud account, make sure that your UserDefaults are registered ***BEFORE*** calling any of the Zephyr methods.
+Before performing each sync, Zephyr automatically checks to see if the data in UserDefaults or NSUbiquitousKeyValueStore is newer. To make sure there's no overwriting going on in a fresh installation of your app on a new device that's connected to the same iCloud account, make sure that your UserDefaults are registered ***BEFORE*** calling any of the Zephyr methods. One way to easily achieve this is by using the [UserDefaults Register API](https://developer.apple.com/documentation/foundation/userdefaults/1417065-register).
 
 **Sync all UserDefaults**
 ```Swift
