@@ -94,7 +94,7 @@ public class Zephyr: NSObject {
         shared.userDefaults = userDefaults
         
         if !keys.isEmpty {
-            sync(keys: keys)
+            sync(userDefaults: userDefaults, keys: keys)
             return
         }
         
