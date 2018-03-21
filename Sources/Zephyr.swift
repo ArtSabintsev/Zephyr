@@ -88,7 +88,7 @@ public class Zephyr: NSObject {
     ///
     /// If a custom UserDefaults object is passed in, Zephyr will synchronize that rather than UserDefaults.standard
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.
     public static func sync(userDefaults: UserDefaults = UserDefaults.standard, keys: String...) {
         shared.userDefaults = userDefaults
@@ -118,7 +118,7 @@ public class Zephyr: NSObject {
     ///
     /// This method will synchronize an array of keys between NSUserDefaults and NSUbiquitousKeyValueStore.
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - keys: An array of keys that should be synchronized between NSUserDefaults and NSUbiquitousKeyValueStore.
     public static func sync(userDefaults: UserDefaults = UserDefaults.standard, keys: [String]) {
         shared.userDefaults = userDefaults
@@ -161,7 +161,7 @@ public class Zephyr: NSObject {
     /// Add specific keys to be monitored in the background. Monitored keys will automatically
     /// be synchronized between both data stores whenever a change is detected
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - keys: Pass one or more keys that you would like to begin monitoring.
     public static func addKeysToBeMonitored(keys: String...) {
         addKeysToBeMonitored(keys: keys)
@@ -169,7 +169,7 @@ public class Zephyr: NSObject {
 
     /// Remove specific keys from being monitored in the background.
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///    - keys: Pass one or more keys that you would like to stop monitoring.
     public static func removeKeysFromBeingMonitored(keys: [String]) {
         for key in keys {
@@ -187,7 +187,7 @@ public class Zephyr: NSObject {
     ///
     /// Remove specific keys from being monitored in the background.
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - keys: Pass one or more keys that you would like to stop monitoring.
     public static func removeKeysFromBeingMonitored(keys: String...) {
         removeKeysFromBeingMonitored(keys: keys)
@@ -237,7 +237,7 @@ private extension Zephyr {
 private extension Zephyr {
     /// Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - keys: Array of keys to synchronize.
     ///     - dataStore: Signifies if keys should be synchronized to/from iCloud.
     func syncSpecificKeys(keys: [String], dataStore: ZephyrDataStore) {
@@ -257,7 +257,7 @@ private extension Zephyr {
     ///
     /// If a key is passed, only that key will be synchronized.
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - key: If you pass a key, only that key will be updated in NSUbiquitousKeyValueStore.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
     func syncToCloud(key: String? = nil, value: Any? = nil) {
@@ -300,7 +300,7 @@ private extension Zephyr {
     ///
     /// If a key is passed, only that key will be synchronized.
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - key: If you pass a key, only that key will updated in NSUserDefaults.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
     func syncFromCloud(key: String? = nil, value: Any? = nil) {
@@ -340,7 +340,7 @@ extension Zephyr {
 
     /// Adds key-value observation after synchronization of a specific key.
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - key: The key that should be added and monitored.
     private func registerObserver(key: String) {
         if key == ZephyrSyncKey {
@@ -359,7 +359,7 @@ extension Zephyr {
 
     /// Removes key-value observation before synchronization of a specific key.
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - key: The key that should be removed from being monitored.
     private func unregisterObserver(key: String) {
         if key == ZephyrSyncKey {
@@ -427,7 +427,7 @@ extension Zephyr {
 private extension Zephyr {
     /// Prints Zephyr's current sync status if
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - debugEnabled == true
     ///     - finished: The current status of syncing
     static func printGeneralSyncStatus(finished: Bool, destination dataStore: ZephyrDataStore) {
@@ -446,7 +446,7 @@ private extension Zephyr {
 
     /// Prints the key, value, and destination of the synchronized information if debugEnabled == true
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - key: The key being synchronized.
     ///     - value: The value being synchronized.
     ///     - destination: The data store that is receiving the updated key-value pair.
@@ -467,7 +467,7 @@ private extension Zephyr {
 
     /// Prints the subscription state for a specific key if debugEnabled == true
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - key: The key being synchronized.
     ///     - subscribed: The subscription status of the key.
     static func printObservationStatus(key: String, subscribed: Bool) {
@@ -482,7 +482,7 @@ private extension Zephyr {
 
     /// Prints a status to the console if
     ///
-    /// - Parameters:
+    /// - Parameters: 
     ///     - debugEnabled == true
     ///     - status: The string that should be printed to the console.
     static func printStatus(status: String) {
