@@ -28,7 +28,7 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 
 | Swift Version |  Branch Name  | Will Continue to Receive Updates?
 | ------------- | ------------- |  -------------
-| 4.0  | master   | **Yes**
+| 4.0 & 4.1  | master   | **Yes**
 | 3.2  | swift3.2 | No
 | 3.1  | swift3.1  | No
 
