@@ -47,7 +47,7 @@ pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => '
 ```
 
 ### Carthage
-For Swift 4 support:
+For Swift 4.1 support:
 
 ``` swift
 github "ArtSabintsev/Zephyr"
