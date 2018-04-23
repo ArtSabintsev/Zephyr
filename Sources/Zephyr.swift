@@ -8,14 +8,14 @@
 
 import Foundation
 
-/// Enumerates the Local (NSUserDefaults) and Remote (NSUNSUbiquitousKeyValueStore) data stores
+/// Enumerates the Local (`UserDefaults`) and Remote (`NSUNSUbiquitousKeyValueStore`) data stores
 private enum ZephyrDataStore {
     case local  // UserDefaults
     case remote // NSUbiquitousKeyValueStore
 }
 
 @objcMembers
-public class Zephyr: NSObject {
+public final class Zephyr: NSObject {
     /// A debug flag.
     ///
     /// If **true**, then this will enable console log statements.
@@ -23,7 +23,7 @@ public class Zephyr: NSObject {
     /// By default, this flag is set to **false**.
     public static var debugEnabled = false
 
-    /// If **true**, then NSUbiquitousKeyValueStore.synchronize() will be called immediately after any change is made.
+    /// If **true**, then `NSUbiquitousKeyValueStore.synchronize()` will be called immediately after any change is made.
     public static var syncUbiquitousKeyValueStoreOnChange = true
 
     @available(*, deprecated: 2.2.1, unavailable, renamed: "syncUbiquitousKeyValueStoreOnChange")
@@ -32,7 +32,7 @@ public class Zephyr: NSObject {
     /// The singleton for Zephyr.
     private static let shared = Zephyr()
 
-    /// A shared key that stores the last synchronization date between NSUserDefaults and NSUbiquitousKeyValueStore.
+    /// A shared key that stores the last synchronization date between `UserDefaults` and `NSUbiquitousKeyValueStore`.
     private let ZephyrSyncKey = "ZephyrSyncKey"
 
     /// An array of keys that should be actively monitored for changes.
@@ -44,17 +44,17 @@ public class Zephyr: NSObject {
     /// A queue used to serialize synchronization on monitored keys.
     private let zephyrQueue = DispatchQueue(label: "com.zephyr.queue")
 
-    /// A session-persisted variable to directly access all of the NSUserDefaults elements.
+    /// A session-persisted variable to directly access all of the `UserDefaults` elements.
     private var zephyrLocalStoreDictionary: [String: Any] {
         return userDefaults.dictionaryRepresentation()
     }
 
-    /// A session-persisted variable to directly access all of the NSUbiquitousKeyValueStore elements.
+    /// A session-persisted variable to directly access all of the `NSUbiquitousKeyValueStore` elements.
     private var zephyrRemoteStoreDictionary: [String: Any] {
         return NSUbiquitousKeyValueStore.default.dictionaryRepresentation
     }
 
-    // The `UserDefaults` object to sync with `NSUbiquitousKeyValueStore/iCloud`.
+    // The `UserDefaults` object to sync with `NSUbiquitousKeyValueStore` (e.g., iCloud).
     private var userDefaults: UserDefaults = UserDefaults.standard
 
     /// Zephyr's initialization method.
@@ -82,12 +82,12 @@ public class Zephyr: NSObject {
 
     /// Zephyr's synchronization method.
     ///
-    /// Zephyr will synchronize all NSUserDefaults with NSUbiquitousKeyValueStore.
+    /// Zephyr will synchronize all `UserDefaults` with `NSUbiquitousKeyValueStore`.
     ///
     /// If one or more keys are passed, only those keys will be synchronized.
     ///
     /// - Parameters:
-    ///     - keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.
+    ///     - keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all `UserDefaults` will be synchronized with `NSUbiquitousKeyValueStore`.
     public static func sync(keys: String...) {
 
         if !keys.isEmpty {
@@ -111,12 +111,12 @@ public class Zephyr: NSObject {
         }
     }
 
-    /// Overloaded version of Zephyr's synchronization method, **sync(keys:)**.
+    /// Overloaded version of Zephyr's synchronization method, `sync(keys:)`.
     ///
-    /// This method will synchronize an array of keys between NSUserDefaults and NSUbiquitousKeyValueStore.
+    /// This method will synchronize an array of keys between `UserDefaults` and `NSUbiquitousKeyValueStore`.
     ///
     /// - Parameters:
-    ///     - keys: An array of keys that should be synchronized between NSUserDefaults and NSUbiquitousKeyValueStore.
+    ///     - keys: An array of keys that should be synchronized between `UserDefaults` and `NSUbiquitousKeyValueStore`.
     public static func sync(keys: [String]) {
 
         switch shared.dataStoreWithLatestData() {
@@ -135,27 +135,27 @@ public class Zephyr: NSObject {
         }
     }
 
-    /// Overloaded version of Zephyr's synchronization method, **sync(keys:)**.
+    /// Overloaded version of Zephyr's synchronization method, `sync(keys:)`.
     ///
-    /// If a custom UserDefaults object is passed in, Zephyr will synchronize that rather than UserDefaults.standard
+    /// If a custom UserDefaults object is passed in, Zephyr will synchronize that rather than `UserDefaults.standard`.
     ///
     /// - Parameters:
-    ///     - userDefaults: The UserDefaults object that should be synchronized with UbiquitousKeyValueStore.default
-    ///       default value is UserDefaults.standard
-    ///     - keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all NSUserDefaults will be synchronized with NSUbiquitousKeyValueStore.
+    ///     - userDefaults: The `UserDefaults` object that should be synchronized with `UbiquitousKeyValueStore.default`.
+    ///       default value is `UserDefaults.standard`.
+    ///     - keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all `UserDefaults` will be synchronized with `NSUbiquitousKeyValueStore`.
     public static func sync(keys: String..., userDefaults: UserDefaults = UserDefaults.standard) {
         shared.userDefaults = userDefaults
         sync(keys: keys)
     }
 
-    /// Overloaded version of Zephyr's synchronization method, **sync(keys:)**.
+    /// Overloaded version of Zephyr's synchronization method, `sync(keys:)`.
     ///
-    /// If a custom UserDefaults object is passed in, Zephyr will synchronize that rather than UserDefaults.standard
+    /// If a custom UserDefaults object is passed in, Zephyr will synchronize that rather than `UserDefaults.standard`.
     ///
     /// - Parameters:
-    ///     - userDefaults: The UserDefaults object that should be synchronized with UbiquitousKeyValueStore.default
-    ///       default value is UserDefaults.standard
-    ///     - keys: An array of keys that should be synchronized between NSUserDefaults and NSUbiquitousKeyValueStore.
+    ///     - userDefaults: The `UserDefaults` object that should be synchronized with `UbiquitousKeyValueStore.default`
+    ///       default value is `UserDefaults.standard`
+    ///     - keys: An array of keys that should be synchronized between `UserDefaults` and `NSUbiquitousKeyValueStore`.
     public static func sync(keys: [String], userDefaults: UserDefaults = UserDefaults.standard) {
         shared.userDefaults = userDefaults
         sync(keys: keys)
@@ -218,10 +218,10 @@ public class Zephyr: NSObject {
 // MARK: - Helpers
 
 private extension Zephyr {
-    /// Compares the last sync date between NSUbiquitousKeyValueStore and NSUserDefaults.
+    /// Compares the last sync date between `NSUbiquitousKeyValueStore` and `UserDefaults`.
     ///
-    /// If no data exists in NSUbiquitousKeyValueStore, then NSUbiquitousKeyValueStore will synchronize with data from NSUserDefaults.
-    /// If no data exists in NSUserDefaults, then NSUserDefaults will synchronize with data from NSUbiquitousKeyValueStore.
+    /// If no data exists in `NSUbiquitousKeyValueStore`, then `NSUbiquitousKeyValueStore` will synchronize with data from `UserDefaults`.
+    /// If no data exists in `UserDefaults`, then `UserDefaults` will synchronize with data from `NSUbiquitousKeyValueStore`.
     ///
     /// - Returns: The persistent data store that has the newest data.
     func dataStoreWithLatestData() -> ZephyrDataStore {
@@ -255,7 +255,7 @@ private extension Zephyr {
 // MARK: - Synchronizers
 
 private extension Zephyr {
-    /// Synchronizes specific keys to/from NSUbiquitousKeyValueStore and NSUserDefaults.
+    /// Synchronizes specific keys to/from `NSUbiquitousKeyValueStore` and `UserDefaults`.
     ///
     /// - Parameters:
     ///     - keys: Array of keys to synchronize.
@@ -273,12 +273,12 @@ private extension Zephyr {
         }
     }
 
-    /// Synchronizes all NSUserDefaults to NSUbiquitousKeyValueStore.
+    /// Synchronizes all `UserDefaults` to `NSUbiquitousKeyValueStore`.
     ///
     /// If a key is passed, only that key will be synchronized.
     ///
     /// - Parameters:
-    ///     - key: If you pass a key, only that key will be updated in NSUbiquitousKeyValueStore.
+    ///     - key: If you pass a key, only that key will be updated in `NSUbiquitousKeyValueStore`.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
     func syncToCloud(key: String? = nil, value: Any? = nil) {
         let ubiquitousStore = NSUbiquitousKeyValueStore.default
@@ -316,12 +316,12 @@ private extension Zephyr {
         registerObserver(key: key)
     }
 
-    /// Synchronizes all NSUbiquitousKeyValueStore to NSUserDefaults.
+    /// Synchronizes all `NSUbiquitousKeyValueStore` to `UserDefaults`.
     ///
     /// If a key is passed, only that key will be synchronized.
     ///
     /// - Parameters:
-    ///     - key: If you pass a key, only that key will updated in NSUserDefaults.
+    ///     - key: If you pass a key, only that key will updated in `UserDefaults`.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
     func syncFromCloud(key: String? = nil, value: Any? = nil) {
         let defaults = userDefaults
@@ -416,14 +416,15 @@ extension Zephyr {
 
 // MARK: - Observers (Objective-C)
 
-@objc extension Zephyr {
+@objc
+extension Zephyr {
 
     /// Observation method for UIApplicationWillEnterForegroundNotification
     func willEnterForeground(notification: Notification) {
         NSUbiquitousKeyValueStore.default.synchronize()
     }
 
-    ///  Observation method for NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+    ///  Observation method for `NSUbiquitousKeyValueStore.didChangeExternallyNotification`
     func keysDidChangeOnCloud(notification: Notification) {
         if notification.name == NSUbiquitousKeyValueStore.didChangeExternallyNotification {
             guard let userInfo = (notification as NSNotification).userInfo,
