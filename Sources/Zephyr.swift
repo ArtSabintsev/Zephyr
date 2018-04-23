@@ -167,11 +167,10 @@ public class Zephyr: NSObject {
     /// - Parameters:
     ///     - keys: Pass one or more keys that you would like to begin monitoring.
     public static func addKeysToBeMonitored(keys: [String]) {
-        for key in keys {
-            if shared.monitoredKeys.contains(key) == false {
-                shared.monitoredKeys.append(key)
-
-                shared.zephyrQueue.sync {
+        shared.zephyrQueue.sync {
+            for key in keys {
+                if shared.monitoredKeys.contains(key) == false {
+                    shared.monitoredKeys.append(key)
                     shared.registerObserver(key: key)
                 }
             }
@@ -194,11 +193,10 @@ public class Zephyr: NSObject {
     /// - Parameters:
     ///    - keys: Pass one or more keys that you would like to stop monitoring.
     public static func removeKeysFromBeingMonitored(keys: [String]) {
-        for key in keys {
-            if shared.monitoredKeys.contains(key) == true {
-                shared.monitoredKeys = shared.monitoredKeys.filter {$0 != key }
-
-                shared.zephyrQueue.sync {
+        shared.zephyrQueue.sync {
+            for key in keys {
+                if shared.monitoredKeys.contains(key) == true {
+                    shared.monitoredKeys = shared.monitoredKeys.filter {$0 != key }
                     shared.unregisterObserver(key: key)
                 }
             }
