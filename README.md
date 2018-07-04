@@ -4,7 +4,7 @@
 
 ![Swift Support](https://img.shields.io/badge/Swift-3.1%2C%203.2%2C%204.1-orange.svg) [![Platform](https://img.shields.io/badge/Platforms-iOS%20%7c%20tvOS-lightgray.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr) ![Documentation](https://github.com/ArtSabintsev/Zephyr/blob/master/docs/badge.svg)
 
-[![CocoaPods](https://img.shields.io/cocoapods/v/Zephyr.svg)]()  [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)]() [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/) [![CocoaPods](https://img.shields.io/cocoapods/dt/Zephyr.svg)](https://cocoapods.org/pods/Zephyr) [![CocoaPods](https://img.shields.io/cocoapods/dm/Zephyr.svg)](https://cocoapods.org/pods/Zephyr)
+[![CocoaPods](https://img.shields.io/cocoapods/v/Zephyr.svg)]()  [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)]() [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/)
 ---
 ### About
 
