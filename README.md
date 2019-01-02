@@ -16,10 +16,9 @@ Zephyr has built in monitoring, allowing it to sync specific keys in the backgro
 For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/Zephyr/releases) tab.
 
 ### Features
-- [x] CocoaPods Support
-- [x] Syncs all your UserDefaults (if you wish)
-- [x] Syncs only specific keys in UserDefaults
-- [x] Background monitoring and synchronization between UserDefaults and NSUbiquitousKeyValueStore
+- [x] CocoaPods, Carthage, and SwiftPM Support
+- [x] Syncs specific `UserDefaults` keys or all of your `UserDefaults`.
+- [x] Background monitoring and synchronization between `UserDefaults` and `NSUbiquitousKeyValueStore`
 - [x] Detailed Logging
 - [x] Documentation at http://sabintsev.com/Zephyr/
 
