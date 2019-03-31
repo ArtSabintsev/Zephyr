@@ -1,7 +1,6 @@
 Pod::Spec.new do |s|
   # Version
-  s.version       = "3.2.0"
-  s.swift_version = '4.2'
+  s.version       = "3.3.0"
 
   # Meta
   s.name         = "Zephyr"
