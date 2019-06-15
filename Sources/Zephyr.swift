@@ -67,7 +67,7 @@ public final class Zephyr: NSObject {
                                                name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-                                               name: UIApplication.willEnterForegroundNotification,
+                                               name: .UIApplicationWillEnterForeground,
                                                object: nil)
         NSUbiquitousKeyValueStore.default.synchronize()
     }
