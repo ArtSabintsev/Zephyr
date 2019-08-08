@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(iOS) || os(tvOS) || os(watchOS)
+#if os(iOS) || os(tvOS)
 import UIKit
 #endif
 
@@ -68,9 +68,9 @@ public final class Zephyr: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(keysDidChangeOnCloud(notification:)),
                                                name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
                                                object: nil)
-        #if os(iOS) || os(tvOS) || os(watchOS)
+        #if os(iOS) || os(tvOS)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-                                               name: .UIApplicationWillEnterForeground,
+                                               name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
         #endif
         NSUbiquitousKeyValueStore.default.synchronize()
