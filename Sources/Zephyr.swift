@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if os(iOS) || os(tvOS) || os(watchOS)
 import UIKit
+#endif
 
 /// Enumerates the Local (`UserDefaults`) and Remote (`NSUNSUbiquitousKeyValueStore`) data stores
 private enum ZephyrDataStore {
@@ -66,9 +68,11 @@ public final class Zephyr: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(keysDidChangeOnCloud(notification:)),
                                                name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
                                                object: nil)
+        #if os(iOS) || os(tvOS) || os(watchOS)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-                                               name: UIApplication.willEnterForegroundNotification,
+                                               name: .UIApplicationWillEnterForeground,
                                                object: nil)
+        #endif
         NSUbiquitousKeyValueStore.default.synchronize()
     }
 
