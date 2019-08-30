@@ -328,7 +328,7 @@ private extension Zephyr {
     /// - Parameters:
     ///     - key: If you pass a key, only that key will updated in `UserDefaults`.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
-    public func syncFromCloud(key: String? = nil, value: Any? = nil) {
+    func syncFromCloud(key: String? = nil, value: Any? = nil) {
         let defaults = userDefaults
         defaults.set(Date(), forKey: ZephyrSyncKey)
 
