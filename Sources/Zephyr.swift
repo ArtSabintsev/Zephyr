@@ -328,7 +328,7 @@ private extension Zephyr {
     /// - Parameters:
     ///     - key: If you pass a key, only that key will updated in `UserDefaults`.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
-    func syncFromCloud(key: String? = nil, value: Any? = nil) {
+    public func syncFromCloud(key: String? = nil, value: Any? = nil) {
         let defaults = userDefaults
         defaults.set(Date(), forKey: ZephyrSyncKey)
 
@@ -353,6 +353,8 @@ private extension Zephyr {
             defaults.set(nil, forKey: key)
             Zephyr.printKeySyncStatus(key: key, value: nil, destination: .local)
         }
+
+        Zephyr.postNotificationAfterSyncFromCloud()
 
         registerObserver(key: key)
     }
@@ -444,8 +446,7 @@ extension Zephyr {
                 syncSpecificKeys(keys: [key], dataStore: .remote)
             }
 
-            // Notify any observers that we have finished synchronizing an update from iCloud.
-            NotificationCenter.default.post(name: Zephyr.keysDidChangeOnCloudNotification, object: nil)
+            Zephyr.postNotificationAfterSyncFromCloud()
         }
     }
 
@@ -518,5 +519,10 @@ private extension Zephyr {
         if debugEnabled == true {
             print("[Zephyr] \(status)")
         }
+    }
+
+    // Notify any observers that we have finished synchronizing an update from iCloud.
+    static func postNotificationAfterSyncFromCloud() {
+        NotificationCenter.default.post(name: Zephyr.keysDidChangeOnCloudNotification, object: nil)
     }
 }
