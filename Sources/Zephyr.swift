@@ -68,17 +68,19 @@ public final class Zephyr: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(keysDidChangeOnCloud(notification:)),
                                                name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
                                                object: nil)
+
         #if os(iOS) || os(tvOS)
         if #available(iOS 13.0, *) {
             NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
             name: UIScene.willEnterForegroundNotification,
             object: nil)
-        } else {
-            NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-                                                   name: UIApplication.willEnterForegroundNotification,
-                                                   object: nil)
         }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
+                                               name: UIApplication.willEnterForegroundNotification,
+                                               object: nil)
         #endif
+
         NSUbiquitousKeyValueStore.default.synchronize()
     }
 
