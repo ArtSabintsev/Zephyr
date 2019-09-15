@@ -65,22 +65,7 @@ public final class Zephyr: NSObject {
     /// Do not call this method directly.
     override init() {
         super.init()
-        NotificationCenter.default.addObserver(self, selector: #selector(keysDidChangeOnCloud(notification:)),
-                                               name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-                                               object: nil)
-
-        #if os(iOS) || os(tvOS)
-        if #available(iOS 13.0, tvOS 13.0, *) {
-            NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-                                                   name: UIScene.willEnterForegroundNotification,
-                                                   object: nil)
-        }
-
-        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-                                               name: UIApplication.willEnterForegroundNotification,
-                                               object: nil)
-        #endif
-
+        setupNotifications()
         NSUbiquitousKeyValueStore.default.synchronize()
     }
 
@@ -231,6 +216,26 @@ public final class Zephyr: NSObject {
 // MARK: - Helpers
 
 private extension Zephyr {
+
+    /// Setup UIApplication and UIScene event state notifications.
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keysDidChangeOnCloud(notification:)),
+                                               name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+                                               object: nil)
+
+        #if os(iOS) || os(tvOS)
+        if #available(iOS 13.0, tvOS 13.0, *) {
+            NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
+                                                   name: UIScene.willEnterForegroundNotification,
+                                                   object: nil)
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
+                                               name: UIApplication.willEnterForegroundNotification,
+                                               object: nil)
+        #endif
+    }
+
     /// Compares the last sync date between `NSUbiquitousKeyValueStore` and `UserDefaults`.
     ///
     /// If no data exists in `NSUbiquitousKeyValueStore`, then `NSUbiquitousKeyValueStore` will synchronize with data from `UserDefaults`.
