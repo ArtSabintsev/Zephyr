@@ -27,7 +27,7 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 | Swift Version |  Branch Name  | Will Continue to Receive Updates?
 | ------------- | ------------- |  -------------
 | 5.1 | swift5.1 | **Yes**
-| 5.0 | master | **Yes**
+| 5.0 | swift5.0 | No
 | 4.2 | swift4.2 | No
 | 4.1 | swift4.1 | No
 | 3.2 | swift3.2 | No
@@ -35,7 +35,8 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 
 #### CocoaPods
 ```ruby
-pod 'Zephyr' # Swift 5.0
+pod 'Zephyr' # Swift 5.1
+pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift5.0' # Swift 5.0
 pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift4.2' # Swift 4.2
 pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift4.1' # Swift 4.1
 pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift3.2' # Swift 3.2
@@ -44,7 +45,8 @@ pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => '
 
 ### Carthage
 ``` swift
-github "ArtSabintsev/Zephyr" // Swift 5.0
+github "ArtSabintsev/Zephyr" // Swift 5.1
+github "ArtSabintsev/Zephyr" "swift5.0" // Swift 5.0
 github "ArtSabintsev/Zephyr" "swift4.2" // Swift 4.2
 github "ArtSabintsev/Zephyr" "swift4.1" // Swift 4.1
 github "ArtSabintsev/Zephyr" "swift3.2" // Swift 3.2
