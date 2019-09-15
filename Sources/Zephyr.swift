@@ -72,8 +72,8 @@ public final class Zephyr: NSObject {
         #if os(iOS) || os(tvOS)
         if #available(iOS 13.0, *) {
             NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-            name: UIScene.willEnterForegroundNotification,
-            object: nil)
+                                                   name: UIScene.willEnterForegroundNotification,
+                                                   object: nil)
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
