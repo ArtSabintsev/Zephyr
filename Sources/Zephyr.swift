@@ -456,7 +456,7 @@ extension Zephyr {
                 return
             }
             
-            if (localStoredDate != nil && remoteStoredDate != nil && !(remoteStoredDate!.timeIntervalSince1970 > localStoredDate!.timeIntervalSince1970)) {
+            if (localStoredDate != nil && remoteStoredDate != nil && localStoredDate!= nil && !(remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970)) {
                 return
             }
 
