@@ -3,8 +3,8 @@ import PackageDescription
 
 let package = Package(
     name: "Zephyr",
+    platforms: [.iOS(.v8)],
     products: [.library(name: "Zephyr", targets: ["Zephyr"])],
-    targets: [.target(name: "Zephyr", path: "Sources")],
-    platforms: [.iOS(.v8)],  
+    targets: [.target(name: "Zephyr", path: "Sources")],  
     swiftLanguageVersions: [.v5]
 )
