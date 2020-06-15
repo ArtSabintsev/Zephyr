@@ -449,18 +449,19 @@ extension Zephyr {
         if notification.name == NSUbiquitousKeyValueStore.didChangeExternallyNotification {
             let userInfo = (notification as NSNotification).userInfo
             let cloudKeys = userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String]
-            let localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date
             let remoteStoredDate = zephyrRemoteStoreDictionary[ZephyrSyncKey] as? Date
-            
-            if (userInfo == nil || remoteStoredDate == nil || cloudKeys == nil) {
-                return
-            }
-            
-            if (localStoredDate != nil && remoteStoredDate != nil && localStoredDate != nil && !(remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970)) {
+
+            if (userInfo == nil || cloudKeys == nil || remoteStoredDate == nil) {
                 return
             }
 
-            for key in monitoredKeys where cloudKeys.contains(key) {
+            let localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date
+
+            if (localStoredDate != nil && remoteStoredDate != nil && !(remoteStoredDate!.timeIntervalSince1970 > localStoredDate!.timeIntervalSince1970)) {
+                return
+            }
+
+            for key in monitoredKeys where cloudKeys!.contains(key) {
                 syncSpecificKeys(keys: [key], dataStore: .remote)
             }
 
