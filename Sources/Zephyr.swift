@@ -453,8 +453,8 @@ extension Zephyr {
                     return
             }
 
-            let localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date
-            if (localStoredDate != nil && !(remoteStoredDate.timeIntervalSince1970 > localStoredDate!.timeIntervalSince1970)) {
+            if let localStoredDate = zephyrLocalStoreDictionary[ZephyrSyncKey] as? Date,
+                !(remoteStoredDate.timeIntervalSince1970 > localStoredDate.timeIntervalSince1970) {
                 return
             }
 
