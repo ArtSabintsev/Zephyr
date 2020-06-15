@@ -2,7 +2,7 @@
 
 ### Effortlessly sync UserDefaults over iCloud
 
-![Swift Support](https://img.shields.io/badge/Swift-5.1%2C%205.0%2C%204.2%2C%204.1%2C%203.2%2C%203.1-orange.svg) [![Platform](https://img.shields.io/badge/Platforms-iOS%20%7c%20tvOS-lightgray.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr) ![Documentation](https://github.com/ArtSabintsev/Zephyr/blob/master/docs/badge.svg)
+![Swift Support](https://img.shields.io/badge/Swift-5.2%2C%205.1%2C%205.0%2C%204.2%2C%204.1%2C%203.2%2C%203.1-orange.svg) [![Platform](https://img.shields.io/badge/Platforms-iOS%20%7c%20tvOS-lightgray.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr) ![Documentation](https://github.com/ArtSabintsev/Zephyr/blob/master/docs/badge.svg)
 
 [![CocoaPods](https://img.shields.io/cocoapods/v/Zephyr.svg)]()  [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)]() [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/)
 
@@ -26,7 +26,7 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 
 | Swift Version |  Branch Name  | Will Continue to Receive Updates?
 | ------------- | ------------- |  -------------
-| 5.1 | master | **Yes**
+| 5.1-5.2 | master | **Yes**
 | 5.0 | swift5.0 | No
 | 4.2 | swift4.2 | No
 | 4.1 | swift4.1 | No
@@ -35,7 +35,7 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 
 #### CocoaPods
 ```ruby
-pod 'Zephyr' # Swift 5.1
+pod 'Zephyr' # Swift 5.1+
 pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift5.0' # Swift 5.0
 pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift4.2' # Swift 4.2
 pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => 'swift4.1' # Swift 4.1
@@ -45,7 +45,7 @@ pod 'Zephyr', :git => 'https://github.com/ArtSabintsev/Zephyr.git', :branch => '
 
 ### Carthage
 ``` swift
-github "ArtSabintsev/Zephyr" // Swift 5.1
+github "ArtSabintsev/Zephyr" // Swift 5.1+
 github "ArtSabintsev/Zephyr" "swift5.0" // Swift 5.0
 github "ArtSabintsev/Zephyr" "swift4.2" // Swift 4.2
 github "ArtSabintsev/Zephyr" "swift4.1" // Swift 4.1
