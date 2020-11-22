@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   # Version
-  s.version       = "3.6.0"
-  s.swift_version = "5.2"
+  s.version       = "3.6.1"
+  s.swift_version = "5.3"
 
   # Meta
   s.name         = "Zephyr"
@@ -14,8 +14,8 @@ Pod::Spec.new do |s|
   DESC
 
   # Deployment
-  s.ios.deployment_target      = '9.0'
-  s.tvos.deployment_target     = '9.0'
+  s.ios.deployment_target      = '11.0'
+  s.tvos.deployment_target     = '11.0'
 
   # Sources
   s.source       = { :git => "https://github.com/ArtSabintsev/Zephyr.git", :tag => s.version.to_s }
