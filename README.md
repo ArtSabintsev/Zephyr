@@ -2,9 +2,7 @@
 
 ### Effortlessly sync UserDefaults over iCloud
 
-![Swift Support](https://img.shields.io/badge/Swift-5.3-orange.svg) [![Platform](https://img.shields.io/badge/Platforms-iOS%20%7c%20tvOS-lightgray.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr) 
-
-[![CocoaPods](https://img.shields.io/cocoapods/v/Zephyr.svg)]()  [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/)
+![Swift Support](https://img.shields.io/badge/Swift-5.3-orange.svg) [![Platform](https://img.shields.io/badge/Platforms-iOS%20%7c%20tvOS-lightgray.svg?style=flat)](http://cocoadocs.org/docsets/Zephyr) [![CocoaPods](https://img.shields.io/cocoapods/v/Zephyr.svg)]() [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/)
 
 ---
 ### About
@@ -20,7 +18,6 @@ For the latest updates, refer to the [Releases](https://github.com/ArtSabintsev/
 - [x] Syncs specific `UserDefaults` keys or all of your `UserDefaults`.
 - [x] Background monitoring and synchronization between `UserDefaults` and `NSUbiquitousKeyValueStore`
 - [x] Detailed Logging
-- [x] Documentation at http://sabintsev.com/Zephyr/
 
 ### Installation Instructions
 
