@@ -458,8 +458,10 @@ extension Zephyr {
                 return
             }
 
-            for key in monitoredKeys where cloudKeys.contains(key) {
-                syncSpecificKeys(keys: [key], dataStore: .remote)
+            zephyrQueue.sync {
+                for key in monitoredKeys where cloudKeys.contains(key) {
+                    syncSpecificKeys(keys: [key], dataStore: .remote)
+                }
             }
 
             Zephyr.postNotificationAfterSyncFromCloud()
