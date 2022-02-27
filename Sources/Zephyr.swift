@@ -360,7 +360,7 @@ private extension Zephyr {
         unregisterObserver(key: key)
 
         if let value = value {
-            defaults.set(value, forKey: key)
+            DispatchQueue.main.async { defaults.set(value, forKey: key) }
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
         } else {
             defaults.set(nil, forKey: key)
