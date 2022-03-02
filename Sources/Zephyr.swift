@@ -349,7 +349,7 @@ private extension Zephyr {
         guard let key = key else {
             for (key, value) in zephyrRemoteStoreDictionary {
                 unregisterObserver(key: key)
-                defaults.set(value, forKey: key)
+                DispatchQueue.main.async { defaults.set(value, forKey: key) }
                 Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
                 registerObserver(key: key)
             }
@@ -360,10 +360,10 @@ private extension Zephyr {
         unregisterObserver(key: key)
 
         if let value = value {
-            defaults.set(value, forKey: key)
+            DispatchQueue.main.async { defaults.set(value, forKey: key) }
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
         } else {
-            defaults.set(nil, forKey: key)
+            DispatchQueue.main.async { defaults.set(nil, forKey: key) }
             Zephyr.printKeySyncStatus(key: key, value: nil, destination: .local)
         }
 
