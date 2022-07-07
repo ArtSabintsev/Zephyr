@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
   # Deployment
   s.ios.deployment_target      = '11.0'
   s.tvos.deployment_target     = '11.0'
+  s.watchos.deployment_target  = '9.0'
 
   # Sources
   s.source       = { :git => "https://github.com/ArtSabintsev/Zephyr.git", :tag => s.version.to_s }
