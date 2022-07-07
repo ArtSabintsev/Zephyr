@@ -11,6 +11,10 @@ import Foundation
 import UIKit
 #endif
 
+#if os(watchOS)
+import WatchKit
+#endif
+
 /// Enumerates the Local (`UserDefaults`) and Remote (`NSUNSUbiquitousKeyValueStore`) data stores
 private enum ZephyrDataStore {
     case local  // UserDefaults
@@ -233,6 +237,14 @@ private extension Zephyr {
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
                                                name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
+        #endif
+        
+        #if os(watchOS)
+        if #available(watchOS 9.0, *) {
+            NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
+                                                   name: WKExtension.applicationWillEnterForegroundNotification,
+                                                   object: nil)
+        }
         #endif
     }
 
