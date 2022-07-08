@@ -9,9 +9,7 @@
 import Foundation
 #if os(iOS) || os(tvOS)
 import UIKit
-#endif
-
-#if os(watchOS)
+#elseif os(watchOS)
 import WatchKit
 #endif
 
