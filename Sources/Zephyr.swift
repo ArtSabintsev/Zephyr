@@ -551,6 +551,6 @@ private extension Zephyr {
 
     // Notify any observers that we have finished synchronizing an update from iCloud.
     static func postNotificationAfterSyncFromCloud() {
-        NotificationCenter.default.post(name: Zephyr.keysDidChangeOnCloudNotification, object: nil)
+        NotificationCenter.default.post(name: keysDidChangeOnCloudNotification, object: nil)
     }
 }
