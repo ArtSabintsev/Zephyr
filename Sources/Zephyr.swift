@@ -368,16 +368,12 @@ private extension Zephyr {
         }
 
         unregisterObserver(key: key)
-
-        if let value = value {
-            DispatchQueue.main.async { defaults.set(value, forKey: key) }
-            Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
-        } else {
-            DispatchQueue.main.async { defaults.set(nil, forKey: key) }
-            Zephyr.printKeySyncStatus(key: key, value: nil, destination: .local)
-        }
-
-        Zephyr.postNotificationAfterSyncFromCloud()
+		
+		DispatchQueue.main.async {
+			defaults.set(value, forKey: key)
+			Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
+			Zephyr.postNotificationAfterSyncFromCloud()
+		}
 
         registerObserver(key: key)
     }
@@ -472,9 +468,9 @@ extension Zephyr {
                 for key in monitoredKeys where cloudKeys.contains(key) {
                     syncSpecificKeys(keys: [key], dataStore: .remote)
                 }
+				
+				Zephyr.postNotificationAfterSyncFromCloud()
             }
-
-            Zephyr.postNotificationAfterSyncFromCloud()
         }
     }
 
