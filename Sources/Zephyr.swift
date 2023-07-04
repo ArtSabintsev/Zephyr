@@ -51,7 +51,16 @@ public final class Zephyr: NSObject {
 
     /// A session-persisted variable to directly access all of the `UserDefaults` elements.
     private var zephyrLocalStoreDictionary: [String: Any] {
-        return userDefaults.dictionaryRepresentation()
+        let allDictionaries = allUserDefaults.map {
+            $0.dictionaryRepresentation()
+        }
+
+        return allDictionaries.compactMap { $0 }.reduce([:]) { $0.merging($1) { (current, _) in current } }
+    }
+
+    /// A `Set` containing all of the `UserDefaults` stores used.
+    private var allUserDefaults: Set<UserDefaults> {
+        Set(userDefaultsStore.map { $0.value })
     }
 
     /// A session-persisted variable to directly access all of the `NSUbiquitousKeyValueStore` elements.
@@ -59,8 +68,9 @@ public final class Zephyr: NSObject {
         return NSUbiquitousKeyValueStore.default.dictionaryRepresentation
     }
 
-    // The `UserDefaults` object to sync with `NSUbiquitousKeyValueStore` (e.g., iCloud).
-    private var userDefaults: UserDefaults = UserDefaults.standard
+    /// A dictionary containing the `UserDefaults` store to use for each key.
+    private var userDefaultsStore: [String: UserDefaults] = [:]
+
 
     /// Zephyr's initialization method.
     ///
@@ -75,8 +85,40 @@ public final class Zephyr: NSObject {
     deinit {
         zephyrQueue.sync {
             for key in registeredObservationKeys {
+                let userDefaults = userDefaultsStore[key, default: .standard]
                 userDefaults.removeObserver(self, forKeyPath: key)
             }
+        }
+    }
+
+    /// Configures the `UserDefaults` store to use for each specified key.
+    ///
+    /// - Parameter storeForKey: A dictionary containing the `UserDefaults` store to use for each of the specified keys.
+    public static func configureStores(with storeForKey: [String: UserDefaults]) {
+        for key in storeForKey.keys {
+            shared.userDefaultsStore[key] = storeForKey[key, default: .standard]
+        }
+    }
+
+    /// Configures the `UserDefaults` store to use for each specified key.
+    ///
+    /// - Parameters:
+    ///   - keys: The keys to sync with the specified `UserDefaults` store.
+    ///   - userDefaults: The `UserDefaults` store to use for the specified keys.
+    public static func configureStore(for keys: [String], with userDefaults: UserDefaults) {
+        for key in keys {
+            shared.userDefaultsStore[key] = userDefaults
+        }
+    }
+
+    /// Configures the `UserDefaults` store to use for each specified key.
+    ///
+    /// - Parameters:
+    ///   - keys: The keys to sync with the specified `UserDefaults` store.
+    ///   - userDefaults: The `UserDefaults` store to use for the specified keys.
+    public static func configureStore(for keys: String..., with userDefaults: UserDefaults) {
+        for key in keys {
+            shared.userDefaultsStore[key] = userDefaults
         }
     }
 
@@ -141,10 +183,13 @@ public final class Zephyr: NSObject {
     ///
     /// - Parameters:
     ///     - userDefaults: The `UserDefaults` object that should be synchronized with `UbiquitousKeyValueStore.default`.
-    ///       default value is `UserDefaults.standard`.
+    ///       default value is `nil`. If not specified, `UserDefaults.standard` will be used unless configured otherwise.
     ///     - keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all `UserDefaults` will be synchronized with `NSUbiquitousKeyValueStore`.
-    public static func sync(keys: String..., userDefaults: UserDefaults = UserDefaults.standard) {
-        shared.userDefaults = userDefaults
+    public static func sync(keys: String..., userDefaults: UserDefaults? = nil) {
+        if let userDefaults {
+            configureStore(for: keys, with: userDefaults)
+        }
+
         sync(keys: keys)
     }
 
@@ -154,10 +199,13 @@ public final class Zephyr: NSObject {
     ///
     /// - Parameters:
     ///     - userDefaults: The `UserDefaults` object that should be synchronized with `UbiquitousKeyValueStore.default`
-    ///       default value is `UserDefaults.standard`
+    ///       default value is `nil`. If not specified, `UserDefaults.standard` will be used unless configured otherwise.
     ///     - keys: An array of keys that should be synchronized between `UserDefaults` and `NSUbiquitousKeyValueStore`.
-    public static func sync(keys: [String], userDefaults: UserDefaults = UserDefaults.standard) {
-        shared.userDefaults = userDefaults
+    public static func sync(keys: [String], userDefaults: UserDefaults? = nil) {
+        if let userDefaults {
+            configureStore(for: keys, with: userDefaults)
+        }
+
         sync(keys: keys)
     }
 
@@ -352,14 +400,18 @@ private extension Zephyr {
     ///     - key: If you pass a key, only that key will updated in `UserDefaults`.
     ///     - value: The value that will be synchronized. Must be passed with a key, otherwise, nothing will happen.
     func syncFromCloud(key: String? = nil, value: Any? = nil) {
-        let defaults = userDefaults
-        defaults.set(Date(), forKey: ZephyrSyncKey)
+        UserDefaults.standard.set(Date(), forKey: ZephyrSyncKey)
 
         // Sync all defaults from iCloud if key is nil, otherwise sync only the specific key/value pair.
         guard let key = key else {
             for (key, value) in zephyrRemoteStoreDictionary {
                 unregisterObserver(key: key)
-                DispatchQueue.main.async { defaults.set(value, forKey: key) }
+
+                DispatchQueue.main.async {
+                    let userDefaults = self.userDefaultsStore[key, default: .standard]
+                    userDefaults.set(value, forKey: key)
+                }
+
                 Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
                 registerObserver(key: key)
             }
@@ -370,10 +422,19 @@ private extension Zephyr {
         unregisterObserver(key: key)
 
         if let value = value {
-            DispatchQueue.main.async { defaults.set(value, forKey: key) }
+            DispatchQueue.main.async {
+                let userDefaults = self.userDefaultsStore[key, default: .standard]
+                userDefaults.set(value, forKey: key)
+            }
+
             Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
+
         } else {
-            DispatchQueue.main.async { defaults.set(nil, forKey: key) }
+            DispatchQueue.main.async {
+                let userDefaults = self.userDefaultsStore[key, default: .standard]
+                userDefaults.set(nil, forKey: key)
+            }
+
             Zephyr.printKeySyncStatus(key: key, value: nil, destination: .local)
         }
 
@@ -381,7 +442,6 @@ private extension Zephyr {
 
         registerObserver(key: key)
     }
-
 }
 
 // MARK: - Observers
@@ -398,7 +458,7 @@ extension Zephyr {
         }
 
         if !registeredObservationKeys.contains(key) {
-
+            let userDefaults = userDefaultsStore[key, default: .standard]
             userDefaults.addObserver(self, forKeyPath: key, options: .new, context: nil)
             registeredObservationKeys.append(key)
 
@@ -417,7 +477,7 @@ extension Zephyr {
         }
 
         if let index = registeredObservationKeys.firstIndex(of: key) {
-
+            let userDefaults = userDefaultsStore[key, default: .standard]
             userDefaults.removeObserver(self, forKeyPath: key, context: nil)
             registeredObservationKeys.remove(at: index)
 
@@ -435,7 +495,7 @@ extension Zephyr {
         zephyrQueue.async {
             if self.registeredObservationKeys.contains(keyPath) {
                 if object is UserDefaults {
-                    self.userDefaults.set(Date(), forKey: self.ZephyrSyncKey)
+                    UserDefaults.standard.set(Date(), forKey: self.ZephyrSyncKey)
                 }
 
                 self.syncSpecificKeys(keys: [keyPath], dataStore: .local)
