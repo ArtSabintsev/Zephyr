@@ -106,6 +106,13 @@ Zephyr.debugEnabled = true // Must be called before sync(_:)
 Zephyr.sync()
 ```
 
+**Use a specific `UserDefaults` suite**
+```swift
+if let suite = UserDefaults(suiteName: "group.com.example.app-name") {
+  Zephyr.setUserDefaultsSuite(to: suite)
+}
+```
+
 ### Sample App
 
 Please ignore the Sample App as I did not add any demo code in the Sample App. It's only in this repo to add support for Carthage.
