@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(iOS) || os(tvOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 import UIKit
 #elseif os(watchOS)
 import WatchKit
@@ -225,8 +225,8 @@ private extension Zephyr {
                                                name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
                                                object: nil)
 
-        #if os(iOS) || os(tvOS)
-        if #available(iOS 13.0, tvOS 13.0, *) {
+        #if os(iOS) || os(tvOS) || os(visionOS)
+        if #available(iOS 13.0, tvOS 13.0, visionOS 1.0, *) {
             NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
                                                    name: UIScene.willEnterForegroundNotification,
                                                    object: nil)
