@@ -278,6 +278,15 @@ private extension Zephyr {
 
     }
 
+  /// Set Zephyr to use a different UserDefaults suite than `.standard`.
+  ///
+  /// - Parameters:
+  ///     - to: A `UserDefaults` suite.
+  public static func setUserDefaultsSuite(to suite: UserDefaults) {
+      shared.userDefaults = suite
+      printStatus(status: "Updated UserDefaults suite.")
+  }
+
 }
 
 // MARK: - Synchronizers
