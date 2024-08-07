@@ -364,11 +364,21 @@ private extension Zephyr {
         let defaults = userDefaults
         defaults.set(Date(), forKey: ZephyrSyncKey)
 
+        let semaphore = DispatchSemaphore(value: 0)
+        
         // Sync all defaults from iCloud if key is nil, otherwise sync only the specific key/value pair.
         guard let key = key else {
             for (key, value) in zephyrRemoteStoreDictionary {
                 unregisterObserver(key: key)
-                DispatchQueue.main.async { defaults.set(value, forKey: key) }
+                if Thread.isMainThread {
+                    defaults.set(value, forKey: key)
+                } else {
+                    DispatchQueue.main.async {
+                        defaults.set(value, forKey: key)
+                        semaphore.signal()
+                    }
+                    _ = semaphore.wait(timeout: .distantFuture)
+                }
                 Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
                 registerObserver(key: key)
             }
@@ -378,14 +388,17 @@ private extension Zephyr {
 
         unregisterObserver(key: key)
 
-        if let value = value {
-            DispatchQueue.main.async { defaults.set(value, forKey: key) }
-            Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
+        if Thread.isMainThread {
+            defaults.set(value, forKey: key)
         } else {
-            DispatchQueue.main.async { defaults.set(nil, forKey: key) }
-            Zephyr.printKeySyncStatus(key: key, value: nil, destination: .local)
-        }
+            DispatchQueue.main.async {
+                defaults.set(value, forKey: key)
+                semaphore.signal()
+            }
 
+            _ = semaphore.wait(timeout: .distantFuture)
+        }
+        Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
         Zephyr.postNotificationAfterSyncFromCloud()
 
         registerObserver(key: key)
