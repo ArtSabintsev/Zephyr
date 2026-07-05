@@ -118,6 +118,10 @@ public final class Zephyr: NSObject {
     /// - Parameters:
     ///     - keys: An array of keys that should be synchronized between `UserDefaults` and `NSUbiquitousKeyValueStore`.
     public static func sync(keys: [String]) {
+        if keys.isEmpty {
+            sync()
+            return
+        }
 
         switch shared.dataStoreWithLatestData() {
         case .local:
@@ -144,8 +148,13 @@ public final class Zephyr: NSObject {
     ///       default value is `UserDefaults.standard`.
     ///     - keys: If you pass a one or more keys, only those key will be synchronized. If no keys are passed, than all `UserDefaults` will be synchronized with `NSUbiquitousKeyValueStore`.
     public static func sync(keys: String..., userDefaults: UserDefaults = UserDefaults.standard) {
-        shared.userDefaults = userDefaults
-        sync(keys: keys)
+        setUserDefaultsSuite(to: userDefaults)
+
+        if keys.isEmpty {
+            sync()
+        } else {
+            sync(keys: keys)
+        }
     }
 
     /// Overloaded version of Zephyr's synchronization method, `sync(keys:)`.
@@ -157,8 +166,13 @@ public final class Zephyr: NSObject {
     ///       default value is `UserDefaults.standard`
     ///     - keys: An array of keys that should be synchronized between `UserDefaults` and `NSUbiquitousKeyValueStore`.
     public static func sync(keys: [String], userDefaults: UserDefaults = UserDefaults.standard) {
-        shared.userDefaults = userDefaults
-        sync(keys: keys)
+        setUserDefaultsSuite(to: userDefaults)
+
+        if keys.isEmpty {
+            sync()
+        } else {
+            sync(keys: keys)
+        }
     }
 
     /// Add specific keys to be monitored in the background. Monitored keys will automatically
@@ -213,6 +227,20 @@ public final class Zephyr: NSObject {
         removeKeysFromBeingMonitored(keys: keys)
     }
 
+    /// Set Zephyr to use a different `UserDefaults` suite than `.standard`.
+    ///
+    /// - Parameters:
+    ///     - to: A `UserDefaults` suite.
+    public static func setUserDefaultsSuite(to suite: UserDefaults) {
+        let didUpdateSuite = shared.zephyrQueue.sync {
+            shared.updateUserDefaultsSuite(to: suite)
+        }
+
+        if didUpdateSuite {
+            printStatus(status: "Updated UserDefaults suite.")
+        }
+    }
+
 }
 
 // MARK: - Helpers
@@ -226,11 +254,9 @@ private extension Zephyr {
                                                object: nil)
 
         #if os(iOS) || os(tvOS)
-        if #available(iOS 13.0, tvOS 13.0, *) {
-            NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-                                                   name: UIScene.willEnterForegroundNotification,
-                                                   object: nil)
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
+                                               name: UIScene.willEnterForegroundNotification,
+                                               object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
                                                name: UIApplication.willEnterForegroundNotification,
@@ -238,11 +264,9 @@ private extension Zephyr {
         #endif
         
         #if os(watchOS)
-        if #available(watchOS 9.0, *) {
-            NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
-                                                   name: WKExtension.applicationWillEnterForegroundNotification,
-                                                   object: nil)
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground(notification:)),
+                                               name: WKExtension.applicationWillEnterForegroundNotification,
+                                               object: nil)
         #endif
     }
 
@@ -278,14 +302,27 @@ private extension Zephyr {
 
     }
 
-  /// Set Zephyr to use a different UserDefaults suite than `.standard`.
-  ///
-  /// - Parameters:
-  ///     - to: A `UserDefaults` suite.
-  public static func setUserDefaultsSuite(to suite: UserDefaults) {
-      shared.userDefaults = suite
-      printStatus(status: "Updated UserDefaults suite.")
-  }
+    /// Updates the active `UserDefaults` suite while preserving monitored KVO registrations.
+    func updateUserDefaultsSuite(to suite: UserDefaults) -> Bool {
+        guard userDefaults !== suite else {
+            return false
+        }
+
+        let observationKeys = registeredObservationKeys
+
+        for key in observationKeys {
+            userDefaults.removeObserver(self, forKeyPath: key, context: nil)
+        }
+
+        registeredObservationKeys.removeAll()
+        userDefaults = suite
+
+        for key in observationKeys {
+            registerObserver(key: key)
+        }
+
+        return true
+    }
 
 }
 
@@ -366,11 +403,23 @@ private extension Zephyr {
 
         // Sync all defaults from iCloud if key is nil, otherwise sync only the specific key/value pair.
         guard let key = key else {
-            for (key, value) in zephyrRemoteStoreDictionary {
+            let remoteStoreDictionary = zephyrRemoteStoreDictionary
+
+            for key in remoteStoreDictionary.keys {
                 unregisterObserver(key: key)
-                DispatchQueue.main.async { defaults.set(value, forKey: key) }
-                Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
-                registerObserver(key: key)
+            }
+
+            DispatchQueue.main.async {
+                for (key, value) in remoteStoreDictionary {
+                    defaults.set(value, forKey: key)
+                    Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
+                }
+
+                self.zephyrQueue.async {
+                    for key in remoteStoreDictionary.keys {
+                        self.registerObserver(key: key)
+                    }
+                }
             }
 
             return
@@ -378,17 +427,20 @@ private extension Zephyr {
 
         unregisterObserver(key: key)
 
-        if let value = value {
-            DispatchQueue.main.async { defaults.set(value, forKey: key) }
-            Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
-        } else {
-            DispatchQueue.main.async { defaults.set(nil, forKey: key) }
-            Zephyr.printKeySyncStatus(key: key, value: nil, destination: .local)
+        DispatchQueue.main.async {
+            if let value = value {
+                defaults.set(value, forKey: key)
+                Zephyr.printKeySyncStatus(key: key, value: value, destination: .local)
+            } else {
+                defaults.set(nil, forKey: key)
+                Zephyr.printKeySyncStatus(key: key, value: nil, destination: .local)
+            }
+
+            self.zephyrQueue.async {
+                self.registerObserver(key: key)
+                Zephyr.postNotificationAfterSyncFromCloud()
+            }
         }
-
-        Zephyr.postNotificationAfterSyncFromCloud()
-
-        registerObserver(key: key)
     }
 
 }
@@ -402,7 +454,7 @@ extension Zephyr {
     /// - Parameters:
     ///     - key: The key that should be added and monitored.
     private func registerObserver(key: String) {
-        if key == ZephyrSyncKey {
+        if key == ZephyrSyncKey || !monitoredKeys.contains(key) {
             return
         }
 
@@ -436,19 +488,21 @@ extension Zephyr {
     }
 
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        guard let keyPath = keyPath, let object = object, monitoredKeys.contains(keyPath) else {
+        guard let keyPath = keyPath, let object = object else {
             return
         }
 
         // Synchronize changes if key is monitored and if key is currently registered to respond to changes
         zephyrQueue.async {
-            if self.registeredObservationKeys.contains(keyPath) {
-                if object is UserDefaults {
-                    self.userDefaults.set(Date(), forKey: self.ZephyrSyncKey)
-                }
-
-                self.syncSpecificKeys(keys: [keyPath], dataStore: .local)
+            guard self.monitoredKeys.contains(keyPath), self.registeredObservationKeys.contains(keyPath) else {
+                return
             }
+
+            if object is UserDefaults {
+                self.userDefaults.set(Date(), forKey: self.ZephyrSyncKey)
+            }
+
+            self.syncSpecificKeys(keys: [keyPath], dataStore: .local)
         }
     }
 }
@@ -483,7 +537,6 @@ extension Zephyr {
                 }
             }
 
-            Zephyr.postNotificationAfterSyncFromCloud()
         }
     }
 
