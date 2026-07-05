@@ -2,7 +2,7 @@
 
 ### Effortlessly sync UserDefaults over iCloud
 
-![Swift Support](https://img.shields.io/badge/Swift-5.9-orange.svg) ![Platforms](https://img.shields.io/badge/Platforms-iOS%2017%20%7C%20tvOS%2017%20%7C%20watchOS%2010-lightgray.svg?style=flat) [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/)
+[![CI](https://github.com/ArtSabintsev/Zephyr/actions/workflows/ci.yml/badge.svg)](https://github.com/ArtSabintsev/Zephyr/actions/workflows/ci.yml) ![Swift Support](https://img.shields.io/badge/Swift-5.9-orange.svg) ![Platforms](https://img.shields.io/badge/Platforms-iOS%2017%20%7C%20tvOS%2017%20%7C%20watchOS%2010-lightgray.svg?style=flat) [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/)
 
 ---
 ### About
