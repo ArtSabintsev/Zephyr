@@ -182,6 +182,21 @@ enum ZephyrReconciler {
         )
     }
 
+    /// Keys an inbound iCloud event may touch. Empty means do nothing.
+    ///
+    /// No monitored keys is "not watching", not "watch the whole domain".
+    /// A missing changed-keys list (initial sync) still stays inside `monitoredKeys`.
+    static func inboundLimit(cloudKeys: Set<String>, monitoredKeys: Set<String>) -> Set<String> {
+        if monitoredKeys.isEmpty {
+            return []
+        }
+        let interesting = cloudKeys.subtracting(metadataKeys)
+        if interesting.isEmpty {
+            return monitoredKeys.subtracting(metadataKeys)
+        }
+        return interesting.intersection(monitoredKeys)
+    }
+
     static func universe(local: ZephyrSnapshot, remote: ZephyrSnapshot, limitedTo keys: Set<String>?) -> Set<String> {
         let all = Set(local.values.keys)
             .union(remote.values.keys)

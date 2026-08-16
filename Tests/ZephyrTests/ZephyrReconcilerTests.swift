@@ -241,6 +241,40 @@ final class ZephyrReconcilerTests: XCTestCase {
         XCTAssertEqual(sides.remote.tombstones["sound"], 5)
     }
 
+    func testInboundLimitDoesNothingWhenNothingIsMonitored() {
+        XCTAssertTrue(ZephyrReconciler.inboundLimit(cloudKeys: [], monitoredKeys: []).isEmpty)
+        XCTAssertTrue(
+            ZephyrReconciler.inboundLimit(
+                cloudKeys: ["Theme", "Sound"],
+                monitoredKeys: []
+            ).isEmpty
+        )
+    }
+
+    func testInboundLimitWithoutChangedKeysStaysInsideMonitoredSet() {
+        let limited = ZephyrReconciler.inboundLimit(
+            cloudKeys: [],
+            monitoredKeys: ["Theme", ZephyrReconciler.versionsKey]
+        )
+        XCTAssertEqual(limited, ["Theme"])
+    }
+
+    func testInboundLimitIntersectsChangedKeysWithMonitoredSet() {
+        let limited = ZephyrReconciler.inboundLimit(
+            cloudKeys: ["Theme", "Sound", ZephyrReconciler.versionsKey],
+            monitoredKeys: ["Theme"]
+        )
+        XCTAssertEqual(limited, ["Theme"])
+    }
+
+    func testInboundLimitIgnoresUnmonitoredChangedKeys() {
+        let limited = ZephyrReconciler.inboundLimit(
+            cloudKeys: ["Sound"],
+            monitoredKeys: ["Theme"]
+        )
+        XCTAssertTrue(limited.isEmpty)
+    }
+
     func testUniverseIncludesExplicitNewKey() {
         let local = ZephyrSnapshot()
         let remote = ZephyrSnapshot()

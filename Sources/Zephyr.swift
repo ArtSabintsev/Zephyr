@@ -577,15 +577,15 @@ extension Zephyr {
         }
 
         let pulled = onQueue {
-            let interesting = Set(cloudKeys).subtracting(ZephyrReconciler.metadataKeys)
-            let limited: Set<String>?
-            if interesting.isEmpty {
-                limited = self.monitoredKeys.isEmpty ? nil : self.monitoredKeys
-            } else {
-                limited = interesting
+            let limited = ZephyrReconciler.inboundLimit(
+                cloudKeys: Set(cloudKeys),
+                monitoredKeys: self.monitoredKeys
+            )
+            if limited.isEmpty {
+                return [] as [String]
             }
             if self.isApplyingRemote {
-                self.pendingCloudKeys = (self.pendingCloudKeys ?? []).union(limited ?? [])
+                self.pendingCloudKeys = (self.pendingCloudKeys ?? []).union(limited)
                 return [] as [String]
             }
             return self.drainReconcile(limitedTo: limited, mismatch: .preferRemote)

@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.1
+
+- Inbound iCloud events only touch **monitored** keys. An empty monitored set is a no-op, not a whole-domain reconcile. A missing changed-keys list (initial sync) still stays inside the monitored set.
+
 ## 5.0.0
 
 Breaking rewrite of the sync algorithm. The 4.x store-level date stamp could pin `Zephyr.sync()` to iCloud after the second call and silently revert local edits.

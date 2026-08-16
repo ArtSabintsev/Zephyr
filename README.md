@@ -22,7 +22,7 @@ Requires Swift 5.9+, iOS 17, tvOS 17, watchOS 10, or macOS 14.
 ### Installation
 
 ```swift
-.package(url: "https://github.com/ArtSabintsev/Zephyr.git", from: "5.0.0")
+.package(url: "https://github.com/ArtSabintsev/Zephyr.git", from: "5.0.1")
 ```
 
 #### Manual
@@ -60,6 +60,8 @@ Zephyr.sync(keys: ["MyFirstKey", "MySecondKey"])
 Zephyr.addKeysToBeMonitored(keys: "MyFirstKey", "com.example.theme")
 Zephyr.removeKeysFromBeingMonitored(keys: "MyFirstKey")
 ```
+
+Inbound iCloud events apply **only** to monitored keys. `removeKeysFromBeingMonitored` stops inbound writes for those keys. An empty monitored set does not fall through to the whole persistent domain.
 
 **iCloud change notification** (posted on the main queue)
 ```swift
